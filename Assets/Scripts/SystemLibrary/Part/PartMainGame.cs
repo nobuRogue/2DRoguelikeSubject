@@ -11,16 +11,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PartMainGame : PartBase {
-	public override async UniTask Execute() {
-
-	}
+	[SerializeField]
+	private MapSquareManager _squareManager = null;
 
 	public override async UniTask Initialize() {
-
+		TerrainSpriteAssignor.Initialize();
+		TerrainSpriteAssignor.SetFloorSpriteTypeIndex(0);
 	}
 
 	public override async UniTask Setup() {
 
+	}
+
+	public override async UniTask Execute() {
+		_squareManager.Initialize();
 	}
 
 	public override async UniTask Teardown() {

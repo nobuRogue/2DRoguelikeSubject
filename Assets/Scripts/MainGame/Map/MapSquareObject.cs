@@ -13,16 +13,17 @@ public class MapSquareObject : MonoBehaviour {
 	[SerializeField]
 	private SpriteRenderer _terrainSprite = null;
 
-	public void Setup(Vector2Int setSquarePosition) {
+	public void Setup(int setX, int setY) {
 		Vector3 position = transform.position;
-		position.x = setSquarePosition.x;
-		position.y = setSquarePosition.y;
-		position.z = setSquarePosition.y;
+		position.x = setX * 0.32f;
+		position.y = setY * 0.32f;
+		position.z = setY;
+		transform.position = position;
 	}
 
 	public void SetTerrain(eTerrain setTerrain) {
 		// 地形に応じたスプライトの設定
-
+		_terrainSprite.sprite = TerrainSpriteAssignor.GetTerrainSprite(setTerrain);
 	}
 
 }

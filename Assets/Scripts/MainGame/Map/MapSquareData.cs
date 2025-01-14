@@ -17,13 +17,15 @@ public class MapSquareData {
 	}
 
 	public int ID { get; private set; } = -1;
-	public Vector2Int squarePosition { get; private set; } = new Vector2Int(-1, -1);
+	public int squarePositionX { get; private set; } = -1;
+	public int squarePositionY { get; private set; } = -1;
 	public eTerrain terrain { get; private set; } = eTerrain.Invalid;
 
-	public void Setup(int setID, Vector2Int setSquarePosition) {
+	public void Setup(int setID, int setX, int setY) {
 		ID = setID;
-		squarePosition = setSquarePosition;
-		_GetObject(ID)?.Setup(squarePosition);
+		squarePositionX = setX;
+		squarePositionY = setY;
+		_GetObject(ID)?.Setup(squarePositionX, squarePositionY);
 	}
 
 	public void SetTerrain(eTerrain setTerrain) {

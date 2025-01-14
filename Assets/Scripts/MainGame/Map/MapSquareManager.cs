@@ -6,6 +6,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 using static CommonModule;
@@ -38,7 +39,9 @@ public class MapSquareManager : MonoBehaviour {
 			_squareObjectList.Add(createObject);
 			// ÉfÅ[É^ê∂ê¨
 			MapSquareData createSquare = new MapSquareData();
-			createSquare.Setup(i, GetSquarePosition(i));
+			int x, y;
+			GetSquarePosition(i, out x, out y);
+			createSquare.Setup(i, x, y);
 			_squareDataList.Add(createSquare);
 			createSquare.SetTerrain(eTerrain.Wall);
 		}
@@ -55,12 +58,18 @@ public class MapSquareManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="ID"></param>
 	/// <returns></returns>
-	public Vector2Int GetSquarePosition(int ID) {
-		Vector2Int result = new Vector2Int();
-		result.x = ID % GameConst.MAP_SQUARE_WIDTH_COUNT;
-		result.y = ID / GameConst.MAP_SQUARE_WIDTH_COUNT;
-		return result;
+	public void GetSquarePosition(int ID, out int x, out int y) {
+		x = ID % GameConst.MAP_SQUARE_WIDTH_COUNT;
+		y = ID / GameConst.MAP_SQUARE_WIDTH_COUNT;
 	}
 
+
+	public void ExecuteAllSquare(System.Action<MapSquareData> action) {
+		if (action == null || IsEmpty(_squareDataList)) return;
+
+		for (int i = 0, max = _squareDataList.Count; i < max; i++) {
+			action(_squareDataList[i]);
+		}
+	}
 
 }
