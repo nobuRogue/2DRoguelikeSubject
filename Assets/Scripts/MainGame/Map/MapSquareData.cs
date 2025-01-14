@@ -28,9 +28,9 @@ public class MapSquareData {
 		_GetObject(ID)?.Setup(squarePositionX, squarePositionY);
 	}
 
-	public void SetTerrain(eTerrain setTerrain) {
+	public void SetTerrain(eTerrain setTerrain, int spriteIndex) {
 		terrain = setTerrain;
-		_GetObject(ID)?.SetTerrain(terrain);
+		_GetObject(ID)?.SetTerrain(terrain, spriteIndex);
 	}
 
 }

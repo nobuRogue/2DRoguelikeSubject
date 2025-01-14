@@ -25,6 +25,7 @@ public class PartMainGame : PartBase {
 
 	public override async UniTask Execute() {
 		_squareManager.Initialize();
+		MapCreater.CreateMap();
 	}
 
 	public override async UniTask Teardown() {

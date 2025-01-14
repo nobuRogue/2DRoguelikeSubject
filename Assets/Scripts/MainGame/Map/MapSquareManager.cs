@@ -10,6 +10,7 @@ using Unity.Mathematics;
 using UnityEngine;
 
 using static CommonModule;
+using static GameConst;
 
 public class MapSquareManager : MonoBehaviour {
 	[SerializeField]
@@ -29,7 +30,7 @@ public class MapSquareManager : MonoBehaviour {
 	public void Initialize() {
 		instance = this;
 		MapSquareData.SetGetObjectCallback(GetSquareObject);
-		int squareCount = GameConst.MAP_SQUARE_HEIGHT_COUNT * GameConst.MAP_SQUARE_WIDTH_COUNT;
+		int squareCount = MAP_SQUARE_HEIGHT_COUNT * MAP_SQUARE_WIDTH_COUNT;
 		_squareDataList = new List<MapSquareData>(squareCount);
 		_squareObjectList = new List<MapSquareObject>(squareCount);
 		// É}ÉXÇÃê∂ê¨
@@ -43,7 +44,7 @@ public class MapSquareManager : MonoBehaviour {
 			GetSquarePosition(i, out x, out y);
 			createSquare.Setup(i, x, y);
 			_squareDataList.Add(createSquare);
-			createSquare.SetTerrain(eTerrain.Wall);
+			createSquare.SetTerrain(eTerrain.Wall, 0);
 		}
 	}
 
@@ -59,10 +60,21 @@ public class MapSquareManager : MonoBehaviour {
 	/// <param name="ID"></param>
 	/// <returns></returns>
 	public void GetSquarePosition(int ID, out int x, out int y) {
-		x = ID % GameConst.MAP_SQUARE_WIDTH_COUNT;
-		y = ID / GameConst.MAP_SQUARE_WIDTH_COUNT;
+		x = ID % MAP_SQUARE_WIDTH_COUNT;
+		y = ID / MAP_SQUARE_WIDTH_COUNT;
 	}
 
+	/// <summary>
+	/// 2éüå≥ç¿ïWÇIDÇ…ïœä∑
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
+	public int GetID(int x, int y) {
+		if (x < 0 || x >= MAP_SQUARE_WIDTH_COUNT ||
+			y < 0 || y >= MAP_SQUARE_HEIGHT_COUNT) return -1;
+
+		return y * MAP_SQUARE_WIDTH_COUNT + x;
+	}
 
 	public void ExecuteAllSquare(System.Action<MapSquareData> action) {
 		if (action == null || IsEmpty(_squareDataList)) return;
@@ -70,6 +82,16 @@ public class MapSquareManager : MonoBehaviour {
 		for (int i = 0, max = _squareDataList.Count; i < max; i++) {
 			action(_squareDataList[i]);
 		}
+	}
+
+	public MapSquareData Get(int ID) {
+		if (!IsEnableIndex(_squareDataList, ID)) return null;
+
+		return _squareDataList[ID];
+	}
+
+	public MapSquareData Get(int x, int y) {
+		return Get(GetID(x, y));
 	}
 
 }

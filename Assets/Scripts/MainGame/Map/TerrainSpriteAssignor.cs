@@ -50,11 +50,12 @@ public class TerrainSpriteAssignor {
 	/// </summary>
 	/// <param name="terrain"></param>
 	/// <returns></returns>
-	public static Sprite GetTerrainSprite(eTerrain terrain) {
+	public static Sprite GetTerrainSprite(eTerrain terrain, int spriteIndex) {
 		if (!IsEnableIndex(_terrainSpriteList, _floorTypeIndex)) return null;
 
 		Sprite[] spriteList = _terrainSpriteList[_floorTypeIndex][GetSpriteIndex(terrain)];
-		return spriteList[Random.Range(0, spriteList.Length)];
+		return spriteList[spriteIndex];
+		//return spriteList[Random.Range(0, spriteList.Length)];
 	}
 
 	private static int GetSpriteIndex(eTerrain terrain) {
