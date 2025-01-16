@@ -13,6 +13,26 @@ using UnityEngine;
 public class CommonModule {
 
 	/// <summary>
+	/// ƒŠƒXƒg‚Ì‰Šú‰»
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="list"></param>
+	/// <param name="capacity"></param>
+	public static void InitializeList<T>(ref List<T> list, int capacity = -1) {
+		if (list == null) {
+			if (capacity < 0) {
+				list = new List<T>();
+			} else {
+				list = new List<T>(capacity);
+			}
+		} else {
+			if (list.Capacity < capacity) list.Capacity = capacity;
+
+			list.Clear();
+		}
+	}
+
+	/// <summary>
 	/// ”z—ñ‚ª‹ó‚©”Û‚©
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
