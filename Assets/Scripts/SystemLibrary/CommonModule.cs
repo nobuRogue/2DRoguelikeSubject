@@ -13,6 +13,29 @@ using UnityEngine;
 public class CommonModule {
 
 	/// <summary>
+	/// 配列が空か否か
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="array"></param>
+	/// <returns></returns>
+	public static bool IsEmpty<T>(T[] array) {
+		return array == null || array.Length == 0;
+	}
+
+	/// <summary>
+	/// 配列に対して有効なインデクスか否か
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="array"></param>
+	/// <param name="index"></param>
+	/// <returns></returns>
+	public static bool IsEnableIndex<T>(T[] array, int index) {
+		if (IsEmpty(array)) return false;
+
+		return array.Length > index && index >= 0;
+	}
+
+	/// <summary>
 	/// リストが空か否か
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
@@ -48,6 +71,23 @@ public class CommonModule {
 				taskList.RemoveAt(i);
 			}
 			await UniTask.DelayFrame(1);
+		}
+	}
+
+	public static void ToVectorPos(ref int x, ref int y, eDirectionFour dir) {
+		switch (dir) {
+			case eDirectionFour.Up:
+			y++;
+			break;
+			case eDirectionFour.Right:
+			x++;
+			break;
+			case eDirectionFour.Down:
+			y--;
+			break;
+			case eDirectionFour.Left:
+			x--;
+			break;
 		}
 	}
 

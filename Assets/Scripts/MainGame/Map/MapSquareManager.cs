@@ -94,4 +94,9 @@ public class MapSquareManager : MonoBehaviour {
 		return Get(GetID(x, y));
 	}
 
+	public MapSquareData GetToDirSquare(int x, int y, eDirectionFour dir) {
+		ToVectorPos(ref x, ref y, dir);
+		return Get(x, y);
+	}
+
 }

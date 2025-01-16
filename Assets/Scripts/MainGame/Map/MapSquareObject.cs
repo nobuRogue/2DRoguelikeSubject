@@ -21,7 +21,7 @@ public class MapSquareObject : MonoBehaviour {
 		transform.position = position;
 	}
 
-	public void SetTerrain(eTerrain setTerrain, int spriteIndex) {
+	public void SetTerrain(eTerrain setTerrain, int spriteIndex = -1) {
 		// 地形に応じたスプライトの設定
 		_terrainSprite.sprite = TerrainSpriteAssignor.GetTerrainSprite(setTerrain, spriteIndex);
 	}

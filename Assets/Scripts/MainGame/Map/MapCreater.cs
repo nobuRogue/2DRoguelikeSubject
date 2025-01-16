@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using static GameConst;
+using static CommonModule;
 
 public class MapCreater {
 
@@ -45,8 +46,9 @@ public class MapCreater {
 		// エリアを分割する
 		DevideArea();
 		// 部屋を置く
-
+		CreateRoom();
 		// 部屋を繋げる
+		ConnectRoom();
 
 		// 階段を置く
 
@@ -54,7 +56,7 @@ public class MapCreater {
 
 	private static void SetWall(MapSquareData square) {
 		square?.SetTerrain(eTerrain.Wall, 0);
-		int x = square.squarePositionX, y = square.squarePositionY;
+		int x = square.positionX, y = square.positionY;
 		if (x == 0 || x == MAP_SQUARE_WIDTH_COUNT - 1 ||
 			y == 0 || y == MAP_SQUARE_HEIGHT_COUNT - 1) return;
 
@@ -159,6 +161,102 @@ public class MapCreater {
 			square.SetTerrain(eTerrain.Wall, 2);
 			_devideLineList.Add(square.ID);
 		}
+	}
+
+	/// <summary>
+	/// 部屋の生成
+	/// </summary>
+	private static void CreateRoom() {
+		for (int i = 0, max = _areaList.Count; i < max; i++) {
+			CreateRoom(_areaList[i]);
+		}
+	}
+
+	/// <summary>
+	/// エリア指定の部屋配置
+	/// </summary>
+	/// <param name="area"></param>
+	private static void CreateRoom(AreaData area) {
+		if (area == null) return;
+		// 部屋のサイズ決定
+		int roomWidth = Random.Range(MIN_ROOM_SIZE, area.width - 1);
+		int roomHeight = Random.Range(MIN_ROOM_SIZE, area.height - 1);
+		// 部屋の生成位置決定
+		int xRandomRange = area.width - roomWidth - 1;
+		int yRandomRange = area.height - roomHeight - 1;
+		int startX = area.startX + Random.Range(0, xRandomRange) + 1;
+		int startY = area.startY + Random.Range(0, yRandomRange) + 1;
+		// 部屋の生成（地形の変更）
+		for (int y = 0; y < roomHeight; y++) {
+			for (int x = 0; x < roomWidth; x++) {
+				MapSquareData roomSquare = MapSquareManager.instance.Get(startX + x, startY + y);
+				if (roomSquare == null) continue;
+
+				roomSquare.SetTerrain(eTerrain.Room);
+			}
+		}
+
+	}
+
+	/// <summary>
+	/// 全部屋を通路で連結
+	/// </summary>
+	private static void ConnectRoom() {
+		// 掘削方向をランダムに決定
+		eDirectionFour dir = (eDirectionFour)Random.Range(0, (int)eDirectionFour.Max);
+		for (int i = 0, max = _areaList.Count - 1; i < max; i++) {
+			// エリア1を分割線まで掘る
+			AreaData area1 = _areaList[i];
+			MapSquareData startSquare = DigToDevideLine(area1, dir);
+			// エリア2を分割線まで掘る
+			dir = (eDirectionFour)Random.Range(0, (int)eDirectionFour.Max);
+			AreaData area2 = _areaList[i + 1];
+			MapSquareData goalSquare = DigToDevideLine(area2, dir);
+			// 分割線内で繋げる
+
+
+			int dirIndex = (int)dir + Random.Range(1, (int)eDirectionFour.Max);
+			if (dirIndex >= (int)eDirectionFour.Max) dirIndex -= (int)eDirectionFour.Max;
+
+			dir = (eDirectionFour)dirIndex;
+		}
+	}
+
+	/// <summary>
+	/// 部屋からエリア分割線まで掘る
+	/// </summary>
+	/// <param name="area"></param>
+	/// <param name="dir"></param>
+	/// <returns></returns>
+	private static MapSquareData DigToDevideLine(AreaData area, eDirectionFour dir) {
+		// 掘削開始マスの決定
+		eDirectionFour reverseDir = dir.ReverseDir();
+		List<MapSquareData> targetList = new List<MapSquareData>(16);
+		int startX = area.startX;
+		int startY = area.startY;
+		for (int y = 0, yMax = area.height; y < yMax; y++) {
+			for (int x = 0, xMax = area.width; x < xMax; x++) {
+				// 壁地形でかつ、掘削方向と反対のマスが部屋地形のマスを集約
+				MapSquareData square = MapSquareManager.instance.Get(startX + x, startY + y);
+				if (square == null || square.terrain != eTerrain.Wall) continue;
+
+				MapSquareData toDirSquare = MapSquareManager.instance.GetToDirSquare(square.positionX, square.positionY, reverseDir);
+				if (toDirSquare == null || toDirSquare.terrain != eTerrain.Room) continue;
+
+				targetList.Add(square);
+			}
+		}
+		if (IsEmpty(targetList)) return null;
+		// 分割線まで掘る
+		MapSquareData currentSquare = targetList[Random.Range(0, targetList.Count)];
+		while (true) {
+			currentSquare.SetTerrain(eTerrain.Passage);
+			// 分割線リストに現在のマスが含まれていたら終了
+			if (_devideLineList.Exists(squareID => squareID == currentSquare.ID)) break;
+
+			currentSquare = MapSquareManager.instance.GetToDirSquare(currentSquare.positionX, currentSquare.positionY, dir);
+		}
+		return currentSquare;
 	}
 
 }

@@ -17,10 +17,31 @@ public enum eGamePart {
 
 public enum eTerrain {
 	Invalid = -1,   // •s³’l
-	Passage,		// ’Ê˜H
-	Room,			// •”‰®
-	Wall,			// •Ç
-	Stair,			// ŠK’i
-	Max,			
+	Passage,        // ’Ê˜H
+	Room,           // •”‰®
+	Wall,           // •Ç
+	Stair,          // ŠK’i
+	Max,
 }
 
+public enum eDirectionFour {
+	Invalid = -1,
+	Up,
+	Right,
+	Down,
+	Left,
+	Max
+}
+
+public enum eDirectionEight {
+	Invalid = -1,
+	Up,
+	UpRight,
+	Right,
+	DownRight,
+	Down,
+	DownLeft,
+	Left,
+	UpLeft,
+	Max
+}

@@ -17,18 +17,18 @@ public class MapSquareData {
 	}
 
 	public int ID { get; private set; } = -1;
-	public int squarePositionX { get; private set; } = -1;
-	public int squarePositionY { get; private set; } = -1;
+	public int positionX { get; private set; } = -1;
+	public int positionY { get; private set; } = -1;
 	public eTerrain terrain { get; private set; } = eTerrain.Invalid;
 
 	public void Setup(int setID, int setX, int setY) {
 		ID = setID;
-		squarePositionX = setX;
-		squarePositionY = setY;
-		_GetObject(ID)?.Setup(squarePositionX, squarePositionY);
+		positionX = setX;
+		positionY = setY;
+		_GetObject(ID)?.Setup(positionX, positionY);
 	}
 
-	public void SetTerrain(eTerrain setTerrain, int spriteIndex) {
+	public void SetTerrain(eTerrain setTerrain, int spriteIndex = -1) {
 		terrain = setTerrain;
 		_GetObject(ID)?.SetTerrain(terrain, spriteIndex);
 	}
