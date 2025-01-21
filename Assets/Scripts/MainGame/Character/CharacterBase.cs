@@ -9,16 +9,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterBase {
+public abstract class CharacterBase {
+	protected static System.Func<int, CharacterObject> _GetObject = null;
+
+	public static void SetGetObjectCallback(System.Func<int, CharacterObject> setCallback) {
+		_GetObject = setCallback;
+	}
+
+	public int ID { get; protected set; } = -1;
 	public int positionX { get; protected set; } = -1;
 	public int positionY { get; protected set; } = -1;
 
-	public void Setup(MapSquareData squareData) {
+	public void Setup(int setID, MapSquareData squareData) {
+		ID = setID;
 		SetSquare(squareData);
+		_GetObject(ID).Setup();
 	}
 
 	public void Teardown() {
-
+		_GetObject(ID).Teardown();
+		ID = -1;
 	}
 
 	/// <summary>
@@ -35,7 +45,12 @@ public class CharacterBase {
 	/// </summary>
 	/// <param name="squareData"></param>
 	public void SetSquareData(MapSquareData squareData) {
+		MapSquareData prevSquare = MapSquareManager.instance.Get(positionX, positionY);
+		if (prevSquare != null) prevSquare.RemoveCharacter();
 
+		positionX = squareData.positionX;
+		positionY = squareData.positionY;
+		squareData.SetCharacter(ID);
 	}
 
 	/// <summary>
@@ -43,7 +58,7 @@ public class CharacterBase {
 	/// </summary>
 	/// <param name="position"></param>
 	public void SetPosition(Vector3 position) {
-
+		_GetObject(ID).SetPosition(position);
 	}
 
 }

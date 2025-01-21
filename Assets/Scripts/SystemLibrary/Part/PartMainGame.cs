@@ -14,6 +14,9 @@ public class PartMainGame : PartBase {
 	[SerializeField]
 	private MapSquareManager _squareManager = null;
 
+	[SerializeField]
+	private CharacterManager _characterManager = null;
+
 	private DungeonProcessor _dungeonProcessor = null;
 
 	public override async UniTask Initialize() {
@@ -22,6 +25,9 @@ public class PartMainGame : PartBase {
 
 		_dungeonProcessor = new DungeonProcessor();
 		_dungeonProcessor.Initialize();
+
+		_squareManager.Initialize();
+		_characterManager.Initialize();
 	}
 
 	public override async UniTask Setup() {
@@ -29,8 +35,8 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Execute() {
-		_squareManager.Initialize();
 		MapCreater.CreateMap();
+		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0));
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
 		// ダンジョン終了結果の処理

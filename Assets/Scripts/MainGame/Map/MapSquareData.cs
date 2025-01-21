@@ -21,6 +21,7 @@ public class MapSquareData {
 	public int positionY { get; private set; } = -1;
 	public eTerrain terrain { get; private set; } = eTerrain.Invalid;
 	public int roomID { get; private set; } = -1;
+	public int characterID { get; private set; } = -1;
 
 	public void Setup(int setID, int setX, int setY) {
 		ID = setID;
@@ -40,6 +41,14 @@ public class MapSquareData {
 
 	public Transform GetCharacterRoot() {
 		return _GetObject(ID)?.GetCharacterRoot();
+	}
+
+	public void SetCharacter(int setCharacterID) {
+		characterID = setCharacterID;
+	}
+
+	public void RemoveCharacter() {
+		characterID = -1;
 	}
 
 }

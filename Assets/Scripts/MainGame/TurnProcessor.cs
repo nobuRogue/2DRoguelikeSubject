@@ -15,6 +15,8 @@ public class TurnProcessor {
 	}
 
 	public async UniTask Execute() {
-
+		while (true) {
+			await UniTask.DelayFrame(1);
+		}
 	}
 }

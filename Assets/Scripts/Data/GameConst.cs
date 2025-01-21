@@ -16,5 +16,6 @@ public class GameConst {
 
 	// エリア分割回数
 	public static readonly int AREA_DEVIDE_COUNT = 8;
-
+	// エネミー最大数
+	public static readonly int FLOOR_ENEMY_MAX = 8;
 }
