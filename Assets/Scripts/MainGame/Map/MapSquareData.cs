@@ -20,6 +20,7 @@ public class MapSquareData {
 	public int positionX { get; private set; } = -1;
 	public int positionY { get; private set; } = -1;
 	public eTerrain terrain { get; private set; } = eTerrain.Invalid;
+	public int roomID { get; private set; } = -1;
 
 	public void Setup(int setID, int setX, int setY) {
 		ID = setID;
@@ -31,6 +32,14 @@ public class MapSquareData {
 	public void SetTerrain(eTerrain setTerrain, int spriteIndex = -1) {
 		terrain = setTerrain;
 		_GetObject(ID)?.SetTerrain(terrain, spriteIndex);
+	}
+
+	public void SetRoomID(int setID) {
+		roomID = setID;
+	}
+
+	public Transform GetCharacterRoot() {
+		return _GetObject(ID)?.GetCharacterRoot();
 	}
 
 }

@@ -45,3 +45,15 @@ public enum eDirectionEight {
 	UpLeft,
 	Max
 }
+
+public enum eDungeonEndReason {
+	Invalid = -1,   // 
+	Dead,           // プレイヤー死亡
+	Clear,          // ダンジョンクリア
+}
+
+public enum eFloorEndReason {
+	Invalid = -1,   // 
+	Dead,           // プレイヤー死亡
+	Stair,          // 階段で移動
+}

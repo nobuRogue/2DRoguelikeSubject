@@ -31,11 +31,6 @@ public class MapCreater {
 	private static List<AreaData> _areaList = null;
 	private static List<int> _devideLineList = null;
 
-	// エリア分割回数
-	private static readonly int AREA_DEVIDE_COUNT = 8;
-	// 最小部屋サイズ
-	private static readonly int MIN_ROOM_SIZE = 3;
-
 	public static void CreateMap() {
 		// 壁で埋める
 		_devideLineList = new List<int>(MAP_SQUARE_WIDTH_COUNT * MAP_SQUARE_HEIGHT_COUNT);
@@ -49,13 +44,12 @@ public class MapCreater {
 		CreateRoom();
 		// 部屋を繋げる
 		ConnectRoom();
-
 		// 階段を置く
-
+		CreateStair();
 	}
 
 	private static void SetWall(MapSquareData square) {
-		square?.SetTerrain(eTerrain.Wall, 0);
+		square?.SetTerrain(eTerrain.Wall);
 		int x = square.positionX, y = square.positionY;
 		if (x == 0 || x == MAP_SQUARE_WIDTH_COUNT - 1 ||
 			y == 0 || y == MAP_SQUARE_HEIGHT_COUNT - 1) return;
@@ -63,7 +57,7 @@ public class MapCreater {
 		if (x != 1 && x != MAP_SQUARE_WIDTH_COUNT - 2 &&
 			y != 1 && y != MAP_SQUARE_HEIGHT_COUNT - 2) return;
 
-		square.SetTerrain(eTerrain.Wall, 2);
+		square.SetTerrain(eTerrain.Wall);
 		_devideLineList.Add(square.ID);
 	}
 
@@ -136,7 +130,6 @@ public class MapCreater {
 		// 分割線マスの追加
 		for (int x = 0, max = devideArea.width; x < max; x++) {
 			MapSquareData square = MapSquareManager.instance.Get(devideArea.startX + x, devidePos);
-			square.SetTerrain(eTerrain.Wall, 2);
 			_devideLineList.Add(square.ID);
 		}
 	}
@@ -158,7 +151,6 @@ public class MapCreater {
 		// 分割線マスの追加
 		for (int y = 0, max = devideArea.height; y < max; y++) {
 			MapSquareData square = MapSquareManager.instance.Get(devidePos, devideArea.startY + y);
-			square.SetTerrain(eTerrain.Wall, 2);
 			_devideLineList.Add(square.ID);
 		}
 	}
@@ -187,15 +179,17 @@ public class MapCreater {
 		int startX = area.startX + Random.Range(0, xRandomRange) + 1;
 		int startY = area.startY + Random.Range(0, yRandomRange) + 1;
 		// 部屋の生成（地形の変更）
+		RoomData createRoom = new RoomData();
 		for (int y = 0; y < roomHeight; y++) {
 			for (int x = 0; x < roomWidth; x++) {
 				MapSquareData roomSquare = MapSquareManager.instance.Get(startX + x, startY + y);
 				if (roomSquare == null) continue;
 
 				roomSquare.SetTerrain(eTerrain.Room);
+				createRoom.AddSquare(roomSquare.ID);
 			}
 		}
-
+		MapSquareManager.instance.AddRoom(createRoom);
 	}
 
 	/// <summary>
@@ -213,13 +207,28 @@ public class MapCreater {
 			AreaData area2 = _areaList[i + 1];
 			MapSquareData goalSquare = DigToDevideLine(area2, dir);
 			// 分割線内で繋げる
-
+			List<ManhattanMoveData> route = RouteSearcher.RouteSearch(startSquare.ID, goalSquare.ID, IsDevideLine);
+			DigRoute(route);
 
 			int dirIndex = (int)dir + Random.Range(1, (int)eDirectionFour.Max);
 			if (dirIndex >= (int)eDirectionFour.Max) dirIndex -= (int)eDirectionFour.Max;
 
 			dir = (eDirectionFour)dirIndex;
 		}
+	}
+
+	/// <summary>
+	/// 経路の通りに通路として掘る
+	/// </summary>
+	/// <param name="route"></param>
+	private static void DigRoute(List<ManhattanMoveData> route) {
+		for (int i = 0, max = route.Count; i < max; i++) {
+			MapSquareManager.instance.Get(route[i].targetSquareID)?.SetTerrain(eTerrain.Passage);
+		}
+	}
+
+	private static bool IsDevideLine(MapSquareData square, eDirectionFour dir, int distance) {
+		return _devideLineList.Exists(squareID => square.ID == squareID);
 	}
 
 	/// <summary>
@@ -257,6 +266,16 @@ public class MapCreater {
 			currentSquare = MapSquareManager.instance.GetToDirSquare(currentSquare.positionX, currentSquare.positionY, dir);
 		}
 		return currentSquare;
+	}
+
+	private static void CreateStair() {
+		// ランダムな部屋の取得
+		RoomData targetRoom = MapSquareManager.instance.GetRandomRoom();
+		if (targetRoom == null) return;
+		// 部屋のランダムなマスを取得して階段にする
+		List<int> squareList = targetRoom.squareIDList;
+		int targetSquareID = squareList[Random.Range(0, squareList.Count)];
+		MapSquareManager.instance.Get(targetSquareID)?.SetTerrain(eTerrain.Stair);
 	}
 
 }

@@ -24,6 +24,9 @@ public class MapSquareManager : MonoBehaviour {
 	private List<MapSquareData> _squareDataList = null;
 	private List<MapSquareObject> _squareObjectList = null;
 
+	private List<RoomData> _roomList = null;
+
+
 	/// <summary>
 	/// èâä˙âª
 	/// </summary>
@@ -44,8 +47,9 @@ public class MapSquareManager : MonoBehaviour {
 			GetSquarePosition(i, out x, out y);
 			createSquare.Setup(i, x, y);
 			_squareDataList.Add(createSquare);
-			createSquare.SetTerrain(eTerrain.Wall, 0);
+			createSquare.SetTerrain(eTerrain.Wall);
 		}
+		_roomList = new List<RoomData>(AREA_DEVIDE_COUNT + 1);
 	}
 
 	private MapSquareObject GetSquareObject(int ID) {
@@ -97,6 +101,25 @@ public class MapSquareManager : MonoBehaviour {
 	public MapSquareData GetToDirSquare(int x, int y, eDirectionFour dir) {
 		ToVectorPos(ref x, ref y, dir);
 		return Get(x, y);
+	}
+
+	public void AddRoom(RoomData addRoom) {
+		int roomID = _roomList.Count;
+		addRoom.SetRoomID(roomID);
+		_roomList.Add(addRoom);
+	}
+
+	public void RemoveAllRoom() {
+		for (int i = 0, max = _roomList.Count; i < max; i++) {
+			_roomList[i]?.Teardown();
+		}
+		_roomList.Clear();
+	}
+
+	public RoomData GetRandomRoom() {
+		if (IsEmpty(_roomList)) return null;
+
+		return _roomList[UnityEngine.Random.Range(0, _roomList.Count)];
 	}
 
 }

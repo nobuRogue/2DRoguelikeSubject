@@ -70,6 +70,13 @@ public class RouteSearcher {
 	private static DistanceNodeTableManhattan _nodeTableManhattan = null;
 	private static List<DistanceNodeManhattan> _manhattanOpenList = null;
 
+	/// <summary>
+	/// 4方向の経路探索
+	/// </summary>
+	/// <param name="startSquareID"></param>
+	/// <param name="goalSquareID"></param>
+	/// <param name="CanPass"></param>
+	/// <returns></returns>
 	public static List<ManhattanMoveData> RouteSearch(int startSquareID, int goalSquareID,
 		System.Func<MapSquareData, eDirectionFour, int, bool> CanPass) {
 		// ゴールノードが見つかるまでノードを開いていく
@@ -97,8 +104,8 @@ public class RouteSearcher {
 			if (minScoreNode == null) break;
 			// スコア最小のノードの周囲をオープンする
 			OpenNodeAroundManhattan(minScoreNode, goalSquareID, CanPass);
+			_manhattanOpenList.Remove(minScoreNode);
 		}
-
 	}
 
 	/// <summary>
@@ -159,6 +166,10 @@ public class RouteSearcher {
 		}
 	}
 
+	/// <summary>
+	/// 経路生成
+	/// </summary>
+	/// <returns></returns>
 	private static List<ManhattanMoveData> CreateRouteManhattan() {
 		if (_nodeTableManhattan == null || _nodeTableManhattan.goalNode == null) return null;
 
@@ -169,7 +180,7 @@ public class RouteSearcher {
 		}
 		// ゴールから遡って経路生成
 		DistanceNodeManhattan currentNode = _nodeTableManhattan.goalNode;
-		for (int i = routeCount - 1; i >= 0; i++) {
+		for (int i = routeCount - 1; i >= 0; i--) {
 			var moveData = new ManhattanMoveData(currentNode.prevNode.squareID, currentNode.squareID, currentNode.dir);
 			result[i] = moveData;
 			currentNode = currentNode.prevNode;
