@@ -61,4 +61,6 @@ public abstract class CharacterBase {
 		_GetObject(ID).SetPosition(position);
 	}
 
+	public abstract bool IsPlayer();
+
 }

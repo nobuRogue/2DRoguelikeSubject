@@ -35,7 +35,6 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Execute() {
-		MapCreater.CreateMap();
 		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0));
 		// ƒ_ƒ“ƒWƒ‡ƒ“‚ÌÀs
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();

@@ -18,4 +18,6 @@ public class GameConst {
 	public static readonly int AREA_DEVIDE_COUNT = 8;
 	// エネミー最大数
 	public static readonly int FLOOR_ENEMY_MAX = 8;
+	// 1マスの移動にかかる秒数
+	public static readonly float MOVE_DURATION = 0.2f;
 }

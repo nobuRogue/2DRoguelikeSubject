@@ -24,4 +24,48 @@ public static class ExpansionMethod {
 		return (eDirectionFour)result;
 	}
 
+	/// <summary>
+	/// ŽÎ‚ß•ûŒü‚©”Û‚©
+	/// </summary>
+	/// <param name="dir"></param>
+	/// <returns></returns>
+	public static bool IsSlant(this eDirectionEight dir) {
+		switch (dir) {
+			case eDirectionEight.UpRight:
+			case eDirectionEight.DownRight:
+			case eDirectionEight.DownLeft:
+			case eDirectionEight.UpLeft:
+			return true;
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// ŽÎ‚ß•ûŒü‚ð2•ûŒü‚É•ªŠ„
+	/// </summary>
+	/// <param name="dir"></param>
+	/// <returns></returns>
+	public static eDirectionFour[] Separate(this eDirectionEight dir) {
+		eDirectionFour[] result = new eDirectionFour[2];
+		switch (dir) {
+			case eDirectionEight.UpRight:
+			result[0] = eDirectionFour.Up;
+			result[1] = eDirectionFour.Right;
+			break;
+			case eDirectionEight.DownRight:
+			result[0] = eDirectionFour.Down;
+			result[1] = eDirectionFour.Right;
+			break;
+			case eDirectionEight.DownLeft:
+			result[0] = eDirectionFour.Down;
+			result[1] = eDirectionFour.Left;
+			break;
+			case eDirectionEight.UpLeft:
+			result[0] = eDirectionFour.Up;
+			result[1] = eDirectionFour.Left;
+			break;
+		}
+		return result;
+	}
+
 }

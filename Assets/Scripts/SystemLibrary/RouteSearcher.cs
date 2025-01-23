@@ -147,7 +147,7 @@ public class RouteSearcher {
 		// 周囲4マスをオープンする
 		for (int i = (int)eDirectionFour.Up, max = (int)eDirectionFour.Max; i < max; i++) {
 			var dir = (eDirectionFour)i;
-			MapSquareData openSquare = MapSquareManager.instance.GetToDirSquare(baseX, baseY, dir);
+			MapSquareData openSquare = MapSquareUtility.GetToDirSquare(baseX, baseY, dir);
 			if (openSquare == null) continue;
 			// 既に1度オープンされたノードなら処理しない
 			if (_nodeTableManhattan.nodeList.Exists(node => node.squareID == openSquare.ID)) continue;

@@ -98,10 +98,7 @@ public class MapSquareManager : MonoBehaviour {
 		return Get(GetID(x, y));
 	}
 
-	public MapSquareData GetToDirSquare(int x, int y, eDirectionFour dir) {
-		ToVectorPos(ref x, ref y, dir);
-		return Get(x, y);
-	}
+
 
 	public void AddRoom(RoomData addRoom) {
 		int roomID = _roomList.Count;

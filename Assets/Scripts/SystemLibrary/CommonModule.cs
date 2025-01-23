@@ -111,4 +111,37 @@ public class CommonModule {
 		}
 	}
 
+	public static void ToVectorPos(ref int x, ref int y, eDirectionEight dir) {
+		switch (dir) {
+			case eDirectionEight.Up:
+			y++;
+			break;
+			case eDirectionEight.UpRight:
+			x++;
+			y++;
+			break;
+			case eDirectionEight.Right:
+			x++;
+			break;
+			case eDirectionEight.DownRight:
+			x++;
+			y--;
+			break;
+			case eDirectionEight.Down:
+			y--;
+			break;
+			case eDirectionEight.DownLeft:
+			x--;
+			y--;
+			break;
+			case eDirectionEight.Left:
+			x--;
+			break;
+			case eDirectionEight.UpLeft:
+			x--;
+			y++;
+			break;
+		}
+	}
+
 }

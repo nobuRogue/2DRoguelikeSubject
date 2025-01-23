@@ -11,6 +11,8 @@ using UnityEngine;
 
 using static GameConst;
 using static CommonModule;
+using Cysharp.Threading.Tasks;
+using UnityEditor.U2D.Animation;
 
 public class CharacterManager : MonoBehaviour {
 	[SerializeField]
@@ -100,6 +102,23 @@ public class CharacterManager : MonoBehaviour {
 		if (!IsEnableIndex(_useObjectList, ID)) return null;
 
 		return _useObjectList[ID];
+	}
+
+	public CharacterBase Get(int ID) {
+		if (!IsEnableIndex(_useList, ID)) return null;
+
+		return _useList[ID];
+	}
+
+	public PlayerCharacter GetPlayer() {
+		if (IsEmpty(_useList)) return null;
+
+		for (int i = 0, max = _useList.Count; i < max; i++) {
+			if (!_useList[i].IsPlayer()) continue;
+
+			return _useList[i] as PlayerCharacter;
+		}
+		return null;
 	}
 
 }

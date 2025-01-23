@@ -249,7 +249,7 @@ public class MapCreater {
 				MapSquareData square = MapSquareManager.instance.Get(startX + x, startY + y);
 				if (square == null || square.terrain != eTerrain.Wall) continue;
 
-				MapSquareData toDirSquare = MapSquareManager.instance.GetToDirSquare(square.positionX, square.positionY, reverseDir);
+				MapSquareData toDirSquare = MapSquareUtility.GetToDirSquare(square.positionX, square.positionY, reverseDir);
 				if (toDirSquare == null || toDirSquare.terrain != eTerrain.Room) continue;
 
 				targetList.Add(square);
@@ -263,7 +263,7 @@ public class MapCreater {
 			// 分割線リストに現在のマスが含まれていたら終了
 			if (_devideLineList.Exists(squareID => squareID == currentSquare.ID)) break;
 
-			currentSquare = MapSquareManager.instance.GetToDirSquare(currentSquare.positionX, currentSquare.positionY, dir);
+			currentSquare = MapSquareUtility.GetToDirSquare(currentSquare.positionX, currentSquare.positionY, dir);
 		}
 		return currentSquare;
 	}
