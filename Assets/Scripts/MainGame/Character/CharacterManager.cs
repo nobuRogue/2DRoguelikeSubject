@@ -71,16 +71,40 @@ public class CharacterManager : MonoBehaviour {
 			_unusePlayer.RemoveAt(0);
 		}
 		// 使用可能なIDを取得して使用リストに追加
+		int useID = UseCharacter(usePlayer);
+		usePlayer.Setup(useID, squareData);
+	}
+
+	/// <summary>
+	/// エネミーの生成
+	/// </summary>
+	/// <param name="squareData"></param>
+	public void UseEnemy(MapSquareData squareData) {
+		// インスタンスの取得
+		EnemyCharacter useEnemy = null;
+		if (IsEmpty(_unuseEnemyList)) {
+			useEnemy = new EnemyCharacter();
+		} else {
+			useEnemy = _unuseEnemyList[0];
+			_unuseEnemyList.RemoveAt(0);
+		}
+		// 使用可能なIDを取得して使用リストに追加
+		int useID = UseCharacter(useEnemy);
+		useEnemy.Setup(useID, squareData);
+	}
+
+	private int UseCharacter(CharacterBase useCharacter) {
+		// 使用可能なIDを取得して使用リストに追加
 		int useID = -1;
 		for (int i = 0, max = _useList.Count; i < max; i++) {
 			if (_useList[i] != null) continue;
 
 			useID = i;
-			_useList[i] = usePlayer;
+			_useList[i] = useCharacter;
 		}
 		if (useID < 0) {
 			useID = _useList.Count;
-			_useList.Add(usePlayer);
+			_useList.Add(useCharacter);
 		}
 		// オブジェクトの取得
 		CharacterObject useObject = null;
@@ -95,8 +119,9 @@ public class CharacterManager : MonoBehaviour {
 
 		_useObjectList[useID] = useObject;
 		useObject.transform.SetParent(_useObjectRoot);
-		usePlayer.Setup(useID, squareData);
+		return useID;
 	}
+
 
 	private CharacterObject GetCharacterObject(int ID) {
 		if (!IsEnableIndex(_useObjectList, ID)) return null;
@@ -119,6 +144,14 @@ public class CharacterManager : MonoBehaviour {
 			return _useList[i] as PlayerCharacter;
 		}
 		return null;
+	}
+
+	public void ExecuteAll(System.Action<CharacterBase> action) {
+		if (action == null || IsEmpty(_useList)) return;
+
+		for (int i = 0, max = _useList.Count; i < max; i++) {
+			action(_useList[i]);
+		}
 	}
 
 }

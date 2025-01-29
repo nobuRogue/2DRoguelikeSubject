@@ -20,7 +20,7 @@ public abstract class CharacterBase {
 	public int positionX { get; protected set; } = -1;
 	public int positionY { get; protected set; } = -1;
 
-	public void Setup(int setID, MapSquareData squareData) {
+	protected void Setup(int setID, MapSquareData squareData) {
 		ID = setID;
 		SetSquare(squareData);
 		_GetObject(ID).Setup();
@@ -57,10 +57,14 @@ public abstract class CharacterBase {
 	/// Œ©‚½–Ú‚ÌˆÚ“®
 	/// </summary>
 	/// <param name="position"></param>
-	public void SetPosition(Vector3 position) {
+	public virtual void SetPosition(Vector3 position) {
 		_GetObject(ID).SetPosition(position);
 	}
 
 	public abstract bool IsPlayer();
+
+	public virtual void ThinkAction() {
+
+	}
 
 }

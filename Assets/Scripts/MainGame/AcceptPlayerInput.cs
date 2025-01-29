@@ -49,7 +49,8 @@ public class AcceptPlayerInput {
 		if (!MapSquareUtility.CanMove(playerX, playerY, moveSquare, dir)) return false;
 		// Žó‚¯•t‚¯‚½“ü—Í‚É‰ž‚¶‚ÄˆÚ“®
 		MoveAction moveAction = new MoveAction();
-		moveAction.ProcessData(player, new ChebyshevMoveData(playerSquare.ID, moveSquare.ID, dir));
+		var moveData = new ChebyshevMoveData(playerSquare.ID, moveSquare.ID, dir);
+		moveAction.ProcessData(player, moveData);
 		_AddMove(moveAction);
 		return true;
 	}

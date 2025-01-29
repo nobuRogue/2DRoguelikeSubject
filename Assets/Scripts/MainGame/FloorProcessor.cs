@@ -9,8 +9,12 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEngine;
+
+using static CommonModule;
+using static GameConst;
 
 public class FloorProcessor {
 	private TurnProcessor _turnProcessor = null;
@@ -41,6 +45,8 @@ public class FloorProcessor {
 		MapCreater.CreateMap();
 		// プレイヤーの配置
 		SetPlayer();
+		// エネミーの配置
+		SetEnemy();
 	}
 
 	/// <summary>
@@ -57,6 +63,24 @@ public class FloorProcessor {
 		int playerSquareID = roomSquareList[Random.Range(0, roomSquareList.Count)];
 		MapSquareData playerSquare = MapSquareManager.instance.Get(playerSquareID);
 		player.SetSquare(playerSquare);
+	}
+
+	private void SetEnemy() {
+		List<MapSquareData> roomSquareList = new List<MapSquareData>(MAP_SQUARE_HEIGHT_COUNT * MAP_SQUARE_WIDTH_COUNT);
+		MapSquareManager.instance.ExecuteAllSquare(square => {
+			if (square.existCharacter ||
+				square.terrain != eTerrain.Room) return;
+
+			roomSquareList.Add(square);
+		});
+
+		if (IsEmpty(roomSquareList)) return;
+
+		MapSquareData enemySquare = roomSquareList[Random.Range(0, roomSquareList.Count)];
+		CharacterManager.instance.UseEnemy(enemySquare);
+
+		roomSquareList.Remove(enemySquare);
+
 	}
 
 }

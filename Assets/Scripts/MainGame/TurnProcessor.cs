@@ -25,6 +25,7 @@ public class TurnProcessor {
 	public void Initialize() {
 		_acceptPlayerInput = new AcceptPlayerInput();
 		_acceptPlayerInput.SetAddMoveActionCallback(moveAction => _moveActionList.Add(moveAction));
+		EnemyAIBase.SetAddMoveCallback(moveAction => _moveActionList.Add(moveAction));
 
 		_moveActionList = new List<MoveAction>(FLOOR_ENEMY_MAX + 1);
 		_moveTaskList = new List<UniTask>(FLOOR_ENEMY_MAX + 1);
@@ -32,7 +33,8 @@ public class TurnProcessor {
 
 	public async UniTask Execute() {
 		await _acceptPlayerInput.AcceptInput();
-
+		// 全てのエネミーに行動を思考させる
+		CharacterManager.instance.ExecuteAll(character => character?.ThinkAction());
 		for (int i = 0, max = _moveActionList.Count; i < max; i++) {
 			_moveTaskList.Add(_moveActionList[i].ProcessObject(MOVE_DURATION));
 		}

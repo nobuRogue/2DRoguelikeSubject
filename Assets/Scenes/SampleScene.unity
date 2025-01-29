@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _systemObjectList:
   - {fileID: 2894474083713148870, guid: b0673f443b705b748b7efb75ed1a9507, type: 3}
+  - {fileID: 5231712248846889871, guid: dbdc4a4b9b5b7db48a6aa3e70c4153e4, type: 3}
 --- !u!4 &1817916254
 Transform:
   m_ObjectHideFlags: 0

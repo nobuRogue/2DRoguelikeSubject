@@ -36,6 +36,7 @@ public class PartMainGame : PartBase {
 
 	public override async UniTask Execute() {
 		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0));
+		CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
 		// ダンジョン終了結果の処理

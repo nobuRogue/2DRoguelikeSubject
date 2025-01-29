@@ -22,6 +22,10 @@ public class MapSquareData {
 	public eTerrain terrain { get; private set; } = eTerrain.Invalid;
 	public int roomID { get; private set; } = -1;
 	public int characterID { get; private set; } = -1;
+	/// <summary>
+	/// マスにキャラクターが存在するか
+	/// </summary>
+	public bool existCharacter { get { return characterID >= 0; } }
 
 	public void Setup(int setID, int setX, int setY) {
 		ID = setID;

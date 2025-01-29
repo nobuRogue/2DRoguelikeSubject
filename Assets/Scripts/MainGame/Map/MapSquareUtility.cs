@@ -47,7 +47,8 @@ public class MapSquareUtility {
 	/// <returns></returns>
 	public static bool CanMove(int startX, int startY, MapSquareData moveSquare, eDirectionEight dir) {
 		if (moveSquare == null ||
-			moveSquare.terrain == eTerrain.Wall) return false;
+			moveSquare.terrain == eTerrain.Wall ||
+			moveSquare.existCharacter) return false;
 		// 斜め移動か否か
 		if (!dir.IsSlant()) return true;
 		// 斜め移動なら、方向を分割し各方向のマスをチェック
@@ -59,6 +60,21 @@ public class MapSquareUtility {
 
 		}
 		return true;
+	}
+
+	public static bool GetVisibleArea(ref List<int> visibleArea, MapSquareData sourceSquare) {
+		InitializeList(ref visibleArea);
+		if (sourceSquare == null) return false;
+		// 周囲8マスを取得
+
+		// 周囲8マスに部屋があればその部屋の全てのマスも追加
+		return false;
+	}
+
+	public static void GetChebyshevAroundSquare(ref List<int> result, MapSquareData sourceSquare, int distance = 1) {
+		InitializeList(ref result, distance * 8);
+		if (sourceSquare == null) return;
+
 	}
 
 }

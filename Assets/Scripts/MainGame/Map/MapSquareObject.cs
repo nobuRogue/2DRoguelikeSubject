@@ -23,7 +23,7 @@ public class MapSquareObject : MonoBehaviour {
 		Vector3 position = transform.position;
 		position.x = setX * 0.32f;
 		position.y = setY * 0.32f;
-		position.z = setY;
+		position.z = setY * 0.1f;
 		transform.position = position;
 	}
 
