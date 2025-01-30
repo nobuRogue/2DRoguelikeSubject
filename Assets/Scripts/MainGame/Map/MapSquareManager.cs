@@ -98,8 +98,6 @@ public class MapSquareManager : MonoBehaviour {
 		return Get(GetID(x, y));
 	}
 
-
-
 	public void AddRoom(RoomData addRoom) {
 		int roomID = _roomList.Count;
 		addRoom.SetRoomID(roomID);
@@ -117,6 +115,12 @@ public class MapSquareManager : MonoBehaviour {
 		if (IsEmpty(_roomList)) return null;
 
 		return _roomList[UnityEngine.Random.Range(0, _roomList.Count)];
+	}
+
+	public RoomData GetRoom(int ID) {
+		if (!IsEnableIndex(_roomList, ID)) return null;
+
+		return _roomList[ID];
 	}
 
 }

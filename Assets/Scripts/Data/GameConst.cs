@@ -19,5 +19,5 @@ public class GameConst {
 	// エネミー最大数
 	public static readonly int FLOOR_ENEMY_MAX = 8;
 	// 1マスの移動にかかる秒数
-	public static readonly float MOVE_DURATION = 0.2f;
+	public static readonly float MOVE_DURATION = 0.1f;
 }

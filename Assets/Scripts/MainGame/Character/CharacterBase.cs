@@ -44,7 +44,7 @@ public abstract class CharacterBase {
 	/// î•ñ‚Ì‚İ‚ÌˆÚ“®
 	/// </summary>
 	/// <param name="squareData"></param>
-	public void SetSquareData(MapSquareData squareData) {
+	public virtual void SetSquareData(MapSquareData squareData) {
 		MapSquareData prevSquare = MapSquareManager.instance.Get(positionX, positionY);
 		if (prevSquare != null) prevSquare.RemoveCharacter();
 

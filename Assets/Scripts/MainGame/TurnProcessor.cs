@@ -21,17 +21,23 @@ public class TurnProcessor {
 	private List<MoveAction> _moveActionList = null;
 	private List<UniTask> _moveTaskList = null;
 
+	private System.Action<eFloorEndReason> _EndFloor = null;
 
-	public void Initialize() {
+	public void Initialize(System.Action<eFloorEndReason> SetEndFloor) {
 		_acceptPlayerInput = new AcceptPlayerInput();
 		_acceptPlayerInput.SetAddMoveActionCallback(moveAction => _moveActionList.Add(moveAction));
 		EnemyAIBase.SetAddMoveCallback(moveAction => _moveActionList.Add(moveAction));
 
 		_moveActionList = new List<MoveAction>(FLOOR_ENEMY_MAX + 1);
 		_moveTaskList = new List<UniTask>(FLOOR_ENEMY_MAX + 1);
+
+		_EndFloor = SetEndFloor;
+		MoveAction.SetEndFloorCallback(EndFloor);
 	}
 
 	public async UniTask Execute() {
+		_isContinueTurn = true;
+
 		await _acceptPlayerInput.AcceptInput();
 		// 全てのエネミーに行動を思考させる
 		CharacterManager.instance.ExecuteAll(character => character?.ThinkAction());
@@ -41,7 +47,19 @@ public class TurnProcessor {
 		await WaitTask(_moveTaskList);
 		_moveActionList.Clear();
 		_moveTaskList.Clear();
+		if (!_isContinueTurn) return;
 
+		// 全てのエネミーが移動以外の行動をする
+
+	}
+
+	private void EndTurn() {
+		_isContinueTurn = false;
+	}
+
+	private void EndFloor(eFloorEndReason endReason) {
+		_EndFloor(endReason);
+		EndTurn();
 	}
 
 }

@@ -21,7 +21,8 @@ public class EnemyAI00_Normal : EnemyAIBase {
 		// 視界とプレイヤー有無の取得
 		CharacterBase sourceCharacter = _GetSourceCharacter();
 		MapSquareData sourceSquare = MapSquareManager.instance.Get(sourceCharacter.positionX, sourceCharacter.positionY);
-		bool visiblePlayer = false;
+		List<int> visibleArea = null;
+		bool visiblePlayer = MapSquareUtility.GetVisibleArea(ref visibleArea, sourceSquare);
 		if (visiblePlayer) {
 			// 可能な行動があれば実効
 
@@ -44,7 +45,7 @@ public class EnemyAI00_Normal : EnemyAIBase {
 		CharacterBase squareCharacter = CharacterManager.instance.Get(moveSquare.characterID);
 		if (squareCharacter == null) return MapSquareUtility.CanMove(sourceSquare.positionX, sourceSquare.positionY, moveSquare, dir);
 
-		return squareCharacter.IsPlayer();
+		return squareCharacter.IsPlayer() && MapSquareUtility.CanMoveTerrain(sourceSquare.positionX, sourceSquare.positionY, moveSquare, dir);
 	}
 
 	private void RandomMove(CharacterBase sourceCharacter, MapSquareData sourceSquare) {

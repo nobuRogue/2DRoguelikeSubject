@@ -46,9 +46,12 @@ public class MapSquareUtility {
 	/// <param name="dir"></param>
 	/// <returns></returns>
 	public static bool CanMove(int startX, int startY, MapSquareData moveSquare, eDirectionEight dir) {
+		return CanMoveTerrain(startX, startY, moveSquare, dir) && !moveSquare.existCharacter;
+	}
+
+	public static bool CanMoveTerrain(int startX, int startY, MapSquareData moveSquare, eDirectionEight dir) {
 		if (moveSquare == null ||
-			moveSquare.terrain == eTerrain.Wall ||
-			moveSquare.existCharacter) return false;
+			moveSquare.terrain == eTerrain.Wall) return false;
 		// 斜め移動か否か
 		if (!dir.IsSlant()) return true;
 		// 斜め移動なら、方向を分割し各方向のマスをチェック
@@ -66,14 +69,72 @@ public class MapSquareUtility {
 		InitializeList(ref visibleArea);
 		if (sourceSquare == null) return false;
 		// 周囲8マスを取得
+		GetChebyshevAroundSquare(ref visibleArea, sourceSquare);
+		visibleArea.Add(sourceSquare.ID);
+		// 周囲8マスか自身のマスに部屋があれば取得
+		List<int> aroundRoomList = new List<int>(visibleArea.Count);
+		bool existPlayer = false;
+		PlayerCharacter player = CharacterManager.instance.GetPlayer();
+		for (int i = 0, max = visibleArea.Count; i < max; i++) {
+			MapSquareData targetSquare = MapSquareManager.instance.Get(visibleArea[i]);
+			if (targetSquare == null) continue;
+			// プレイヤーが見つかるか判定
+			if (!existPlayer && player.ExistMoveTrail(targetSquare.ID)) existPlayer = true;
 
-		// 周囲8マスに部屋があればその部屋の全てのマスも追加
-		return false;
+			if (targetSquare.roomID < 0) continue;
+
+			if (aroundRoomList.Exists(roomID => roomID == targetSquare.roomID)) continue;
+
+			aroundRoomList.Add(targetSquare.roomID);
+		}
+		// 隣接している部屋の全マス取得
+		for (int i = 0, max = aroundRoomList.Count; i < max; i++) {
+			RoomData roomData = MapSquareManager.instance.GetRoom(aroundRoomList[i]);
+			List<int> roomSquareList = roomData.squareIDList;
+			for (int j = 0, roomSquareMax = roomSquareList.Count; j < roomSquareMax; j++) {
+				if (visibleArea.Exists(roomSquareID => roomSquareID == roomSquareList[j])) continue;
+				// プレイヤーが見つかるか判定
+				MapSquareData targetSquare = MapSquareManager.instance.Get(roomSquareList[j]);
+				if (!existPlayer && player.ExistMoveTrail(targetSquare.ID)) existPlayer = true;
+
+				visibleArea.Add(roomSquareList[j]);
+			}
+		}
+		return existPlayer;
 	}
 
+	/// <summary>
+	/// 等チェビシェフ距離のマスを全て取得
+	/// </summary>
+	/// <param name="result"></param>
+	/// <param name="sourceSquare"></param>
+	/// <param name="distance"></param>
 	public static void GetChebyshevAroundSquare(ref List<int> result, MapSquareData sourceSquare, int distance = 1) {
 		InitializeList(ref result, distance * 8);
 		if (sourceSquare == null) return;
+
+		if (distance == 0) {
+			result.Add(sourceSquare.ID);
+			return;
+		}
+
+		int countMax = distance * 2;
+		int sourceX = sourceSquare.positionX;
+		int sourceY = sourceSquare.positionY;
+		for (int count = 0; count < countMax; count++) {
+			MapSquareData targetSquare = MapSquareManager.instance.Get(sourceX - distance + count, sourceY - distance);
+			if (targetSquare != null) result.Add(targetSquare.ID);
+
+			targetSquare = MapSquareManager.instance.Get(sourceX + distance, sourceY - distance + count);
+			if (targetSquare != null) result.Add(targetSquare.ID);
+
+			targetSquare = MapSquareManager.instance.Get(sourceX + distance - count, sourceY + distance);
+			if (targetSquare != null) result.Add(targetSquare.ID);
+
+			targetSquare = MapSquareManager.instance.Get(sourceX - distance, sourceY + distance - count);
+			if (targetSquare != null) result.Add(targetSquare.ID);
+
+		}
 
 	}
 

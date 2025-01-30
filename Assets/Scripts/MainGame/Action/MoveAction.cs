@@ -12,6 +12,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveAction {
+	private static Action<eFloorEndReason> _EndFloor = null;
+
+	public static void SetEndFloorCallback(Action<eFloorEndReason> setProcess) {
+		_EndFloor = setProcess;
+	}
 
 	private int _moveCharacterID = -1;
 	private ChebyshevMoveData _moveData = null;
@@ -48,9 +53,14 @@ public class MoveAction {
 			await UniTask.DelayFrame(1);
 		}
 		moveCharacter.SetPosition(goalPos);
-
 		_moveCharacterID = -1;
 		_moveData = null;
+
+		if (!moveCharacter.IsPlayer()) return;
+
+		if (goalSquare.terrain != eTerrain.Stair) return;
+
+		_EndFloor(eFloorEndReason.Stair);
 	}
 
 }

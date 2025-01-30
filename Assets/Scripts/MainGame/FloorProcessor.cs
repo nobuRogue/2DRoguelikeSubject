@@ -23,7 +23,7 @@ public class FloorProcessor {
 
 	public void Initialize() {
 		_turnProcessor = new TurnProcessor();
-		_turnProcessor.Initialize();
+		_turnProcessor.Initialize(EndFloor);
 	}
 
 	public async UniTask<eFloorEndReason> Execute() {
@@ -33,7 +33,7 @@ public class FloorProcessor {
 			await _turnProcessor.Execute();
 		}
 		// フロアの破棄
-
+		TeardownFloor();
 		return _endReason;
 	}
 
@@ -47,6 +47,7 @@ public class FloorProcessor {
 		SetPlayer();
 		// エネミーの配置
 		SetEnemy();
+		_endReason = eFloorEndReason.Invalid;
 	}
 
 	/// <summary>
@@ -81,6 +82,19 @@ public class FloorProcessor {
 
 		roomSquareList.Remove(enemySquare);
 
+	}
+
+	private void TeardownFloor() {
+		// エネミーの全削除
+		CharacterManager.instance.ExecuteAll(character => {
+			if (character.IsPlayer()) return;
+
+			CharacterManager.instance.UnuseEnemy(character as EnemyCharacter);
+		});
+	}
+
+	private void EndFloor(eFloorEndReason endReason) {
+		_endReason = endReason;
 	}
 
 }

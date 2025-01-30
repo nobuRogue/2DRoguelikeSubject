@@ -32,6 +32,8 @@ public class MapCreater {
 	private static List<int> _devideLineList = null;
 
 	public static void CreateMap() {
+		// •”‰®î•ñƒNƒŠƒA
+		MapSquareManager.instance.RemoveAllRoom();
 		// •Ç‚Å–„‚ß‚é
 		_devideLineList = new List<int>(MAP_SQUARE_WIDTH_COUNT * MAP_SQUARE_HEIGHT_COUNT);
 		MapSquareManager.instance.ExecuteAllSquare(SetWall);

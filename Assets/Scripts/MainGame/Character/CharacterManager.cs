@@ -122,6 +122,30 @@ public class CharacterManager : MonoBehaviour {
 		return useID;
 	}
 
+	public void UnuseEnemy(EnemyCharacter unuseEnemy) {
+		if (unuseEnemy == null) return;
+
+		int unuseID = unuseEnemy.ID;
+		// マス情報から取り除く
+		MapSquareManager.instance.Get(unuseEnemy.positionX, unuseEnemy.positionY)?.RemoveCharacter();
+		// 使用リストから取り除く
+		if (IsEnableIndex(_useList, unuseID)) _useList[unuseID] = null;
+		// 片付け処理を読んで未使用リストに加える
+		unuseEnemy.Teardown();
+		_unuseEnemyList.Add(unuseEnemy);
+		// オブジェクトを未使用にする
+		UnuseObject(unuseID);
+	}
+
+	private void UnuseObject(int unuseID) {
+		CharacterObject unuseCharacterObject = GetCharacterObject(unuseID);
+		// 使用リストから取り除く
+		if (IsEnableIndex(_useObjectList, unuseID)) _useObjectList[unuseID] = null;
+		// 見えない場所に置く
+		unuseCharacterObject.transform.SetParent(_unuseObjectRoot);
+		// 未使用リストに追加
+		_unuseObjectList.Add(unuseCharacterObject);
+	}
 
 	private CharacterObject GetCharacterObject(int ID) {
 		if (!IsEnableIndex(_useObjectList, ID)) return null;
