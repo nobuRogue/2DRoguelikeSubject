@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapSquareData {
 	// マスオブジェクトを取得するコールバック
@@ -53,6 +54,14 @@ public class MapSquareData {
 
 	public void RemoveCharacter() {
 		characterID = -1;
+	}
+
+	public void ShowMark(Color color) {
+		_GetObject(ID).ShowMark(color);
+	}
+
+	public void HideMark() {
+		_GetObject(ID).HideMark();
 	}
 
 }

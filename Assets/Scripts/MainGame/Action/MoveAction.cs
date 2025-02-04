@@ -55,7 +55,7 @@ public class MoveAction {
 		moveCharacter.SetPosition(goalPos);
 		_moveCharacterID = -1;
 		_moveData = null;
-
+		// プレイヤーなら階段によるフロア終了判定
 		if (!moveCharacter.IsPlayer()) return;
 
 		if (goalSquare.terrain != eTerrain.Stair) return;

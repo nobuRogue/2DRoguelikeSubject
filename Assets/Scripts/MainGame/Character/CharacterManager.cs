@@ -174,6 +174,8 @@ public class CharacterManager : MonoBehaviour {
 		if (action == null || IsEmpty(_useList)) return;
 
 		for (int i = 0, max = _useList.Count; i < max; i++) {
+			if (_useList[i] == null) continue;
+
 			action(_useList[i]);
 		}
 	}

@@ -65,23 +65,19 @@ public class MapSquareUtility {
 		return true;
 	}
 
-	public static bool GetVisibleArea(ref List<int> visibleArea, MapSquareData sourceSquare) {
+	public static void GetVisibleArea(ref List<int> visibleArea, MapSquareData sourceSquare) {
 		InitializeList(ref visibleArea);
-		if (sourceSquare == null) return false;
+		if (sourceSquare == null) return;
 		// 周囲8マスを取得
 		GetChebyshevAroundSquare(ref visibleArea, sourceSquare);
 		visibleArea.Add(sourceSquare.ID);
 		// 周囲8マスか自身のマスに部屋があれば取得
 		List<int> aroundRoomList = new List<int>(visibleArea.Count);
-		bool existPlayer = false;
 		PlayerCharacter player = CharacterManager.instance.GetPlayer();
 		for (int i = 0, max = visibleArea.Count; i < max; i++) {
 			MapSquareData targetSquare = MapSquareManager.instance.Get(visibleArea[i]);
-			if (targetSquare == null) continue;
-			// プレイヤーが見つかるか判定
-			if (!existPlayer && player.ExistMoveTrail(targetSquare.ID)) existPlayer = true;
-
-			if (targetSquare.roomID < 0) continue;
+			if (targetSquare == null ||
+				targetSquare.roomID < 0) continue;
 
 			if (aroundRoomList.Exists(roomID => roomID == targetSquare.roomID)) continue;
 
@@ -90,17 +86,10 @@ public class MapSquareUtility {
 		// 隣接している部屋の全マス取得
 		for (int i = 0, max = aroundRoomList.Count; i < max; i++) {
 			RoomData roomData = MapSquareManager.instance.GetRoom(aroundRoomList[i]);
-			List<int> roomSquareList = roomData.squareIDList;
-			for (int j = 0, roomSquareMax = roomSquareList.Count; j < roomSquareMax; j++) {
-				if (visibleArea.Exists(roomSquareID => roomSquareID == roomSquareList[j])) continue;
-				// プレイヤーが見つかるか判定
-				MapSquareData targetSquare = MapSquareManager.instance.Get(roomSquareList[j]);
-				if (!existPlayer && player.ExistMoveTrail(targetSquare.ID)) existPlayer = true;
+			if (roomData == null) continue;
 
-				visibleArea.Add(roomSquareList[j]);
-			}
+			MeargeList(ref visibleArea, roomData.squareIDList);
 		}
-		return existPlayer;
 	}
 
 	/// <summary>

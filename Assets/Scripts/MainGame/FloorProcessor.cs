@@ -28,19 +28,19 @@ public class FloorProcessor {
 
 	public async UniTask<eFloorEndReason> Execute() {
 		// フロアの生成
-		SetupFloor();
+		await SetupFloor();
 		while (_endReason == eFloorEndReason.Invalid) {
 			await _turnProcessor.Execute();
 		}
 		// フロアの破棄
-		TeardownFloor();
+		await TeardownFloor();
 		return _endReason;
 	}
 
 	/// <summary>
 	/// フロア準備
 	/// </summary>
-	private void SetupFloor() {
+	private async UniTask SetupFloor() {
 		// フロアの生成
 		MapCreater.CreateMap();
 		// プレイヤーの配置
@@ -48,6 +48,8 @@ public class FloorProcessor {
 		// エネミーの配置
 		SetEnemy();
 		_endReason = eFloorEndReason.Invalid;
+
+		await FadeManager.instance.FadeIn();
 	}
 
 	/// <summary>
@@ -84,13 +86,16 @@ public class FloorProcessor {
 
 	}
 
-	private void TeardownFloor() {
+	private async UniTask TeardownFloor() {
+		await FadeManager.instance.FadeOut();
 		// エネミーの全削除
 		CharacterManager.instance.ExecuteAll(character => {
 			if (character.IsPlayer()) return;
 
 			CharacterManager.instance.UnuseEnemy(character as EnemyCharacter);
 		});
+		// キャラクターのフロア終了時処理
+		CharacterManager.instance.ExecuteAll(character => character.OnEndFloor());
 	}
 
 	private void EndFloor(eFloorEndReason endReason) {

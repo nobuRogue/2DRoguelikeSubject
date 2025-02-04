@@ -67,4 +67,11 @@ public abstract class CharacterBase {
 
 	}
 
+	/// <summary>
+	/// ƒtƒƒAI—¹ˆ—
+	/// </summary>
+	public virtual void OnEndFloor() {
+
+	}
+
 }

@@ -22,12 +22,14 @@ public class EnemyAI00_Normal : EnemyAIBase {
 		CharacterBase sourceCharacter = _GetSourceCharacter();
 		MapSquareData sourceSquare = MapSquareManager.instance.Get(sourceCharacter.positionX, sourceCharacter.positionY);
 		List<int> visibleArea = null;
-		bool visiblePlayer = MapSquareUtility.GetVisibleArea(ref visibleArea, sourceSquare);
+		MapSquareUtility.GetVisibleArea(ref visibleArea, sourceSquare);
+		// 視界にプレイヤーが居るか
+		PlayerCharacter player = CharacterManager.instance.GetPlayer();
+		bool visiblePlayer = visibleArea.Exists(player.ExistMoveTrail);
 		if (visiblePlayer) {
 			// 可能な行動があれば実効
 
 			// 可能な行動が無ければプレイヤーに近づく
-			PlayerCharacter player = CharacterManager.instance.GetPlayer();
 			MapSquareData playerSquare = MapSquareManager.instance.Get(player.positionX, player.positionY);
 			List<ChebyshevMoveData> toPlayerRoute = RouteSearcher.RouteSearch(sourceSquare.ID, playerSquare.ID, CanPassCharacter);
 			if (IsEnableIndex(toPlayerRoute, 1)) {

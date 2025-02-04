@@ -7,6 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using static CommonModule;
@@ -40,6 +41,12 @@ public class PlayerCharacter : CharacterBase {
 		AddMoveTrail(squareData);
 	}
 
+	public override void OnEndFloor() {
+		base.OnEndFloor();
+		// 移動軌跡をクリア
+		ClearMoveTrail();
+	}
+
 	/// <summary>
 	/// 移動軌跡マスリストにマスを追加
 	/// </summary>
@@ -47,9 +54,24 @@ public class PlayerCharacter : CharacterBase {
 	private void AddMoveTrail(MapSquareData addSquare) {
 		if (_moveTrailSquareList.Exists(trailSquareID => trailSquareID == addSquare.ID)) return;
 
-		while (_moveTrailSquareList.Count >= PLAYER_MOVE_TRAIL_COUNT) _moveTrailSquareList.RemoveAt(0);
-
+		while (_moveTrailSquareList.Count >= PLAYER_MOVE_TRAIL_COUNT) {
+			MapSquareManager.instance.Get(_moveTrailSquareList[0])?.HideMark();
+			_moveTrailSquareList.RemoveAt(0);
+		}
+		addSquare.ShowMark(Color.blue);
 		_moveTrailSquareList.Add(addSquare.ID);
+	}
+
+	/// <summary>
+	/// 移動軌跡マスをクリア
+	/// </summary>
+	private void ClearMoveTrail() {
+		if (IsEmpty(_moveTrailSquareList)) return;
+
+		for (int i = 0, max = _moveTrailSquareList.Count; i < max; i++) {
+			MapSquareManager.instance.Get(_moveTrailSquareList[i])?.HideMark();
+		}
+		_moveTrailSquareList.Clear();
 	}
 
 	/// <summary>

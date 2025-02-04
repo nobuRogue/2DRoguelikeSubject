@@ -19,12 +19,16 @@ public class MapSquareObject : MonoBehaviour {
 	[SerializeField]
 	private Transform _characterRoot = null;
 
+	[SerializeField]
+	private SpriteRenderer _mark = null;
+
 	public void Setup(int setX, int setY) {
 		Vector3 position = transform.position;
 		position.x = setX * 0.32f;
 		position.y = setY * 0.32f;
 		position.z = setY * 0.1f;
 		transform.position = position;
+		HideMark();
 	}
 
 	public void SetTerrain(eTerrain setTerrain, int spriteIndex = -1) {
@@ -34,6 +38,15 @@ public class MapSquareObject : MonoBehaviour {
 
 	public Transform GetCharacterRoot() {
 		return _characterRoot;
+	}
+
+	public void ShowMark(Color color) {
+		_mark.color = color;
+		_mark.enabled = true;
+	}
+
+	public void HideMark() {
+		_mark.enabled = false;
 	}
 
 }

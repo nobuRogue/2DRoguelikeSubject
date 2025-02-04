@@ -13,6 +13,8 @@ public class CharacterObject : MonoBehaviour {
 	[SerializeField]
 	private SpriteRenderer _characterSprite = null;
 
+
+
 	public void Setup() {
 
 	}

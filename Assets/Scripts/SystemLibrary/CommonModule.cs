@@ -6,6 +6,7 @@
  */
 
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,6 +80,24 @@ public class CommonModule {
 	}
 
 	/// <summary>
+	/// リストを重複なしでマージ
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="main"></param>
+	/// <param name="sub"></param>
+	public static void MeargeList<T>(ref List<T> main, List<T> sub) {
+		if (IsEmpty(sub)) return;
+
+		if (main == null) main = new List<T>();
+
+		for (int i = 0, max = sub.Count; i < max; i++) {
+			if (main.Exists(mainElem => mainElem.Equals(sub[i]))) continue;
+
+			main.Add(sub[i]);
+		}
+	}
+
+	/// <summary>
 	/// 複数のタスクの終了待ち
 	/// </summary>
 	/// <param name="taskList"></param>
@@ -143,5 +162,7 @@ public class CommonModule {
 			break;
 		}
 	}
+
+
 
 }
