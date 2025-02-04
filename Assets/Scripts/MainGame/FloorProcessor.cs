@@ -34,6 +34,7 @@ public class FloorProcessor {
 		}
 		// フロアの破棄
 		await TeardownFloor();
+		OnEndFloor();
 		return _endReason;
 	}
 
@@ -41,6 +42,10 @@ public class FloorProcessor {
 	/// フロア準備
 	/// </summary>
 	private async UniTask SetupFloor() {
+		// 現在のフロアマスターデータからマップチップインデックス取得
+		Entity_FloorData.Param floorMaster = FloorMasterUtility.GetFloorMaster(UserDataHolder.currentData.floorCount);
+		int floorTypeIndex = floorMaster == null ? 0 : floorMaster.spriteIndex;
+		TerrainSpriteAssignor.SetFloorSpriteTypeIndex(floorTypeIndex);
 		// フロアの生成
 		MapCreater.CreateMap();
 		// プレイヤーの配置
@@ -100,6 +105,19 @@ public class FloorProcessor {
 
 	private void EndFloor(eFloorEndReason endReason) {
 		_endReason = endReason;
+	}
+
+	/// <summary>
+	/// フロア終了時処理
+	/// </summary>
+	private void OnEndFloor() {
+		switch (_endReason) {
+			case eFloorEndReason.Dead:
+			break;
+			case eFloorEndReason.Stair:
+			UserDataHolder.currentData.floorCount++;
+			break;
+		}
 	}
 
 }

@@ -20,6 +20,11 @@ public abstract class CharacterBase {
 	public int positionX { get; protected set; } = -1;
 	public int positionY { get; protected set; } = -1;
 
+	public int maxHP { get; protected set; } = -1;
+	public int HP { get; private set; } = -1;
+	public int attack { get; private set; } = -1;
+	public int defense { get; private set; } = -1;
+
 	protected void Setup(int setID, MapSquareData squareData) {
 		ID = setID;
 		SetSquare(squareData);

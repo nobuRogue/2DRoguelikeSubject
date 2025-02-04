@@ -12,6 +12,7 @@ using UnityEngine;
 
 public class PartTitle : PartBase {
 	public override async UniTask Execute() {
+		UserDataHolder.SetCurrentData(new UserData());
 		UniTask task = PartManager.instance.TransitionPart(eGamePart.MainGame);
 	}
 
