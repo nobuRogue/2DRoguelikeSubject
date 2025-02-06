@@ -113,7 +113,8 @@ public class FloorProcessor {
 			case eFloorEndReason.Dead:
 			break;
 			case eFloorEndReason.Stair:
-			UserDataHolder.currentData.floorCount++;
+			UserData userData = UserDataHolder.currentData;
+			userData.SetFloorCount(userData.floorCount + 1);
 			break;
 		}
 	}

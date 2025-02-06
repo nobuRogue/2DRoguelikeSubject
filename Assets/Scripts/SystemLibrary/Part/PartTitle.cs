@@ -11,13 +11,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PartTitle : PartBase {
+	public override async UniTask Initialize() {
+
+	}
+
 	public override async UniTask Execute() {
 		UserDataHolder.SetCurrentData(new UserData());
 		UniTask task = PartManager.instance.TransitionPart(eGamePart.MainGame);
-	}
-
-	public override async UniTask Initialize() {
-
 	}
 
 	public override async UniTask Setup() {

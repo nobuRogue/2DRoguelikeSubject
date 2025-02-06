@@ -28,6 +28,8 @@ public class PartMainGame : PartBase {
 
 		_squareManager.Initialize();
 		_characterManager.Initialize();
+
+		await MenuManager.instance.Get<MenuPlayerStatus>("Prefabs/Menu/CanvasPlayerStatus").Initialize();
 	}
 
 	public override async UniTask Setup() {
@@ -35,10 +37,15 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Execute() {
+		var menuPlayerStatus = MenuManager.instance.Get<MenuPlayerStatus>();
+		await menuPlayerStatus.Open();
+
 		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0), 0);
 		CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
+
+		await menuPlayerStatus.Close();
 		// ダンジョン終了結果の処理
 		UniTask task;
 		switch (endReason) {

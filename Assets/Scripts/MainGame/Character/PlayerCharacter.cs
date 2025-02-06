@@ -24,6 +24,26 @@ public class PlayerCharacter : CharacterBase {
 		base.Setup(setID, squareData, masterID);
 	}
 
+	public override void SetMaxHP(int setValue) {
+		base.SetMaxHP(setValue);
+		MenuManager.instance.Get<MenuPlayerStatus>().SetHP(HP, maxHP);
+	}
+
+	public override void SetHP(int setValue) {
+		base.SetHP(setValue);
+		MenuManager.instance.Get<MenuPlayerStatus>().SetHP(HP, maxHP);
+	}
+
+	public override void SetAttack(int setValue) {
+		base.SetAttack(setValue);
+		MenuManager.instance.Get<MenuPlayerStatus>().SetAttack(attack);
+	}
+
+	public override void SetDefense(int setValue) {
+		base.SetDefense(setValue);
+		MenuManager.instance.Get<MenuPlayerStatus>().SetDefense(defense);
+	}
+
 	public void SetMoveObserver(PlayerMoveObserver setObserver) {
 		_moveObserver = setObserver;
 	}
