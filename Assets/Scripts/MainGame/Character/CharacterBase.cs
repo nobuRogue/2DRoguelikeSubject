@@ -25,15 +25,38 @@ public abstract class CharacterBase {
 	public int attack { get; private set; } = -1;
 	public int defense { get; private set; } = -1;
 
-	protected void Setup(int setID, MapSquareData squareData) {
+	public virtual void Setup(int setID, MapSquareData squareData, int masterID) {
 		ID = setID;
 		SetSquare(squareData);
+		var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
+		if (characterMaster != null) {
+			SetMaxHP(characterMaster.HP);
+			SetHP(characterMaster.HP);
+			SetAttack(characterMaster.Attack);
+			SetDefense(characterMaster.Defense);
+		}
 		_GetObject(ID).Setup();
 	}
 
 	public void Teardown() {
 		_GetObject(ID).Teardown();
 		ID = -1;
+	}
+
+	public virtual void SetMaxHP(int setValue) {
+		maxHP = setValue;
+	}
+
+	public virtual void SetHP(int setValue) {
+		HP = setValue;
+	}
+
+	public virtual void SetAttack(int setValue) {
+		attack = setValue;
+	}
+
+	public virtual void SetDefense(int setValue) {
+		defense = setValue;
 	}
 
 	/// <summary>

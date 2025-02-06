@@ -61,7 +61,7 @@ public class CharacterManager : MonoBehaviour {
 	/// プレイヤーキャラの生成
 	/// </summary>
 	/// <param name="squareData"></param>
-	public void UsePlayer(MapSquareData squareData) {
+	public void UsePlayer(MapSquareData squareData, int masterID) {
 		// インスタンスの取得
 		PlayerCharacter usePlayer = null;
 		if (IsEmpty(_unusePlayer)) {
@@ -72,14 +72,14 @@ public class CharacterManager : MonoBehaviour {
 		}
 		// 使用可能なIDを取得して使用リストに追加
 		int useID = UseCharacter(usePlayer);
-		usePlayer.Setup(useID, squareData);
+		usePlayer.Setup(useID, squareData, masterID);
 	}
 
 	/// <summary>
 	/// エネミーの生成
 	/// </summary>
 	/// <param name="squareData"></param>
-	public void UseEnemy(MapSquareData squareData) {
+	public void UseEnemy(MapSquareData squareData, int masterID) {
 		// インスタンスの取得
 		EnemyCharacter useEnemy = null;
 		if (IsEmpty(_unuseEnemyList)) {
@@ -90,7 +90,7 @@ public class CharacterManager : MonoBehaviour {
 		}
 		// 使用可能なIDを取得して使用リストに追加
 		int useID = UseCharacter(useEnemy);
-		useEnemy.Setup(useID, squareData);
+		useEnemy.Setup(useID, squareData, masterID);
 	}
 
 	private int UseCharacter(CharacterBase useCharacter) {

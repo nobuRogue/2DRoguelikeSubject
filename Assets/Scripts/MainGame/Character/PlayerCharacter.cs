@@ -19,9 +19,9 @@ public class PlayerCharacter : CharacterBase {
 	private List<int> _moveTrailSquareList = null;
 	private readonly int PLAYER_MOVE_TRAIL_COUNT = 3;
 
-	public void Setup(int setID, MapSquareData squareData) {
+	public override void Setup(int setID, MapSquareData squareData, int masterID) {
 		_moveTrailSquareList = new List<int>(PLAYER_MOVE_TRAIL_COUNT);
-		base.Setup(setID, squareData);
+		base.Setup(setID, squareData, masterID);
 	}
 
 	public void SetMoveObserver(PlayerMoveObserver setObserver) {

@@ -13,8 +13,8 @@ public class EnemyCharacter : CharacterBase {
 
 	private EnemyAIBase _currentAI = null;
 
-	public void Setup(int setID, MapSquareData squareData) {
-		base.Setup(setID, squareData);
+	public override void Setup(int setID, MapSquareData squareData, int masterID) {
+		base.Setup(setID, squareData, masterID);
 		_currentAI = new EnemyAI00_Normal(() => this);
 	}
 

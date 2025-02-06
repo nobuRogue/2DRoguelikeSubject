@@ -81,14 +81,12 @@ public class FloorProcessor {
 
 			roomSquareList.Add(square);
 		});
-
 		if (IsEmpty(roomSquareList)) return;
 
 		MapSquareData enemySquare = roomSquareList[Random.Range(0, roomSquareList.Count)];
-		CharacterManager.instance.UseEnemy(enemySquare);
+		CharacterManager.instance.UseEnemy(enemySquare, 1);
 
 		roomSquareList.Remove(enemySquare);
-
 	}
 
 	private async UniTask TeardownFloor() {

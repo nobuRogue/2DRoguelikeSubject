@@ -35,7 +35,7 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Execute() {
-		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0));
+		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0), 0);
 		CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
 		// ƒ_ƒ“ƒWƒ‡ƒ“‚ÌÀs
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
