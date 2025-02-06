@@ -11,17 +11,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PartStandby : PartBase {
-	public override async UniTask Execute() {
-		MasterDataManager.LoadAllData();
-		UniTask task = PartManager.instance.TransitionPart(eGamePart.Title);
-	}
-
 	public override async UniTask Initialize() {
 
 	}
 
 	public override async UniTask Setup() {
 
+	}
+
+	public override async UniTask Execute() {
+		MasterDataManager.LoadAllData();
+		UniTask task = PartManager.instance.TransitionPart(eGamePart.Title);
 	}
 
 	public override async UniTask Teardown() {

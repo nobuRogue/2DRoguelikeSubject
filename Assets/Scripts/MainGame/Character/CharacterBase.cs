@@ -35,7 +35,7 @@ public abstract class CharacterBase {
 			SetAttack(characterMaster.Attack);
 			SetDefense(characterMaster.Defense);
 		}
-		_GetObject(ID).Setup();
+		_GetObject(ID).Setup(characterMaster);
 	}
 
 	public void Teardown() {

@@ -17,16 +17,19 @@ MonoBehaviour:
     list:
     - ID: 0
       nameID: 0
+      spriteName: rogue_player_
       HP: 15
       Attack: 5
       Defense: 0
     - ID: 1
       nameID: 1
+      spriteName: rogue_sand_enemy1_
       HP: 5
       Attack: 3
       Defense: 1
     - ID: 2
       nameID: 2
+      spriteName: rogue_sand_enemy2_
       HP: 8
       Attack: 2
       Defense: 2

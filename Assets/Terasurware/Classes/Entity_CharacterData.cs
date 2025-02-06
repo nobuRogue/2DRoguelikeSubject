@@ -19,6 +19,7 @@ public class Entity_CharacterData : ScriptableObject
 		
 		public int ID;
 		public int nameID;
+		public string spriteName;
 		public int HP;
 		public int Attack;
 		public int Defense;

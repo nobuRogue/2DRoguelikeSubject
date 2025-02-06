@@ -52,9 +52,10 @@ public class CharacterData_importer : AssetPostprocessor {
 						
 					cell = row.GetCell(0); p.ID = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(1); p.nameID = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(2); p.HP = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(3); p.Attack = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(4); p.Defense = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(2); p.spriteName = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(3); p.HP = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(4); p.Attack = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(5); p.Defense = (int)(cell == null ? 0 : cell.NumericCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

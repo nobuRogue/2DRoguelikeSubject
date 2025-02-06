@@ -57,3 +57,15 @@ public enum eFloorEndReason {
 	Dead,           // プレイヤー死亡
 	Stair,          // 階段で移動
 }
+
+/// <summary>
+/// キャラクターのアニメーションインデクスを表す
+/// </summary>
+public enum eCharacterAnimation {
+	Invalid = -1,
+	Wait,
+	Walk,
+	Attack,
+	Damage,
+	Max,
+}
