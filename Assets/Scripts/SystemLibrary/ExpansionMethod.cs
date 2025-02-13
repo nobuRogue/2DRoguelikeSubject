@@ -68,4 +68,14 @@ public static class ExpansionMethod {
 		return result;
 	}
 
+	public static eFloorEndReason GetFloorEndReaosn(this eDungeonEndReason reaosn) {
+		switch (reaosn) {
+			case eDungeonEndReason.Dead:
+			return eFloorEndReason.Dead;
+			case eDungeonEndReason.Clear:
+			return eFloorEndReason.Stair;
+		}
+		return eFloorEndReason.Invalid;
+	}
+
 }

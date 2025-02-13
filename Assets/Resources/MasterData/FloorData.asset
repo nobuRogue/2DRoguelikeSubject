@@ -18,20 +18,6 @@ MonoBehaviour:
     - floorCount: 1
       spriteIndex: 0
     - floorCount: 2
-      spriteIndex: 0
+      spriteIndex: 1
     - floorCount: 3
-      spriteIndex: 0
-    - floorCount: 4
-      spriteIndex: 1
-    - floorCount: 5
-      spriteIndex: 1
-    - floorCount: 6
-      spriteIndex: 1
-    - floorCount: 7
-      spriteIndex: 2
-    - floorCount: 8
-      spriteIndex: 2
-    - floorCount: 9
-      spriteIndex: 2
-    - floorCount: 10
       spriteIndex: 2

@@ -60,7 +60,11 @@ public class CharacterObject : MonoBehaviour {
 	}
 
 	public void SetAnimation(eCharacterAnimation setAnim) {
+		// Œ»İ‚Æ“¯‚¶ƒAƒjƒ‚È‚ç‘–‚ç‚¹‚È‚¢
+		if (setAnim == _currentAnim) return;
+
 		_currentAnim = setAnim;
+		_animIndex = 0;
 	}
 
 	/// <summary>

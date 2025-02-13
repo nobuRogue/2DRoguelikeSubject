@@ -35,7 +35,7 @@ public class AcceptPlayerInput {
 	/// ˆÚ“®‚ÌŽó•t
 	/// </summary>
 	/// <returns>ˆÚ“®‚µ‚½‚©”Û‚©</returns>
-	private bool AcceptMove() {
+	public bool AcceptMove() {
 		// 8•ûŒü‚Ì“ü—Í‚ðŽó‚¯•t‚¯‚é
 		eDirectionEight dir = AcceptDirInput();
 		if (dir == eDirectionEight.Invalid) return false;

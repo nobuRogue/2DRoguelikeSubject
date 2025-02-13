@@ -6,21 +6,21 @@
  */
 
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PartEnding : PartBase {
-	public override async UniTask Execute() {
-
-	}
-
 	public override async UniTask Initialize() {
-
+		await MenuManager.instance.Get<MenuEnding>("Prefabs/Menu/CanvasEnding").Initialize();
 	}
 
 	public override async UniTask Setup() {
 
+	}
+
+	public override async UniTask Execute() {
+		MenuEnding endMenu = MenuManager.instance.Get<MenuEnding>();
+		await endMenu.Open();
+		await endMenu.Close();
+		UniTask task = PartManager.instance.TransitionPart(eGamePart.Title);
 	}
 
 	public override async UniTask Teardown() {

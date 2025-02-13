@@ -33,18 +33,18 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Setup() {
-
+		// 階層数を1に設定
+		UserDataHolder.currentData.SetFloorCount(1);
+		// プレイヤーが居なければ生成
+		SetupPlayer();
 	}
 
 	public override async UniTask Execute() {
+		// メインUI表示
 		var menuPlayerStatus = MenuManager.instance.Get<MenuPlayerStatus>();
 		await menuPlayerStatus.Open();
-
-		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0), 0);
-		CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
-
 		await menuPlayerStatus.Close();
 		// ダンジョン終了結果の処理
 		UniTask task;
@@ -58,6 +58,14 @@ public class PartMainGame : PartBase {
 			task = PartManager.instance.TransitionPart(eGamePart.Ending);
 			break;
 		}
+	}
+
+	private void SetupPlayer() {
+		PlayerCharacter player = CharacterManager.instance.GetPlayer();
+		if (player != null) return;
+
+		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0), 0);
+		CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
 	}
 
 	public override async UniTask Teardown() {

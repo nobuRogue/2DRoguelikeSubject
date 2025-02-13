@@ -13,9 +13,11 @@ using UnityEngine;
 
 public class MoveAction {
 	private static Action<eFloorEndReason> _EndFloor = null;
+	private static Action<eDungeonEndReason> _EndDungeon = null;
 
-	public static void SetEndFloorCallback(Action<eFloorEndReason> setProcess) {
-		_EndFloor = setProcess;
+	public static void SetEndCallback(Action<eFloorEndReason> setFloorProcess, Action<eDungeonEndReason> setDungeonProcess) {
+		_EndFloor = setFloorProcess;
+		_EndDungeon = setDungeonProcess;
 	}
 
 	private int _moveCharacterID = -1;
@@ -43,7 +45,8 @@ public class MoveAction {
 
 		MapSquareData goalSquare = MapSquareManager.instance.Get(_moveData.targetSquareID);
 		Vector3 goalPos = goalSquare.GetCharacterRoot().position;
-
+		// 歩行アニメーションの再生
+		moveCharacter.SetAnimation(eCharacterAnimation.Walk);
 		float elapsedTime = 0.0f;
 		while (elapsedTime < duration) {
 			elapsedTime += Time.deltaTime;
@@ -55,12 +58,29 @@ public class MoveAction {
 		moveCharacter.SetPosition(goalPos);
 		_moveCharacterID = -1;
 		_moveData = null;
+		// 移動後の処理
+		AfterMoveProcess(moveCharacter, goalSquare);
+	}
+
+	/// <summary>
+	/// 移動後の処理
+	/// </summary>
+	/// <param name="moveCharacter"></param>
+	/// <param name="goalSquare"></param>
+	private void AfterMoveProcess(CharacterBase moveCharacter, MapSquareData goalSquare) {
 		// プレイヤーなら階段によるフロア終了判定
 		if (!moveCharacter.IsPlayer()) return;
 
 		if (goalSquare.terrain != eTerrain.Stair) return;
-
-		_EndFloor(eFloorEndReason.Stair);
+		// 次のフロアがあるならフロア移動
+		var floorMaster = FloorMasterUtility.GetFloorMaster(UserDataHolder.currentData.floorCount + 1);
+		if (floorMaster == null) {
+			// ゲームクリア
+			_EndDungeon(eDungeonEndReason.Clear);
+		} else {
+			// 次の階層へ移動
+			_EndFloor(eFloorEndReason.Stair);
+		}
 	}
 
 }

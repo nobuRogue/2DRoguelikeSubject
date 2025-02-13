@@ -21,9 +21,9 @@ public class FloorProcessor {
 
 	private eFloorEndReason _endReason = eFloorEndReason.Invalid;
 
-	public void Initialize() {
+	public void Initialize(System.Action<eDungeonEndReason> SetEndDungeon) {
 		_turnProcessor = new TurnProcessor();
-		_turnProcessor.Initialize(EndFloor);
+		_turnProcessor.Initialize(EndFloor, SetEndDungeon);
 	}
 
 	public async UniTask<eFloorEndReason> Execute() {
@@ -53,7 +53,6 @@ public class FloorProcessor {
 		// エネミーの配置
 		SetEnemy();
 		_endReason = eFloorEndReason.Invalid;
-
 		await FadeManager.instance.FadeIn();
 	}
 
@@ -101,6 +100,10 @@ public class FloorProcessor {
 		CharacterManager.instance.ExecuteAll(character => character.OnEndFloor());
 	}
 
+	/// <summary>
+	/// フロアを終了させる
+	/// </summary>
+	/// <param name="endReason"></param>
 	private void EndFloor(eFloorEndReason endReason) {
 		_endReason = endReason;
 	}

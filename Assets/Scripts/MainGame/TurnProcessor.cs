@@ -22,8 +22,11 @@ public class TurnProcessor {
 	private List<UniTask> _moveTaskList = null;
 
 	private System.Action<eFloorEndReason> _EndFloor = null;
+	private System.Action<eDungeonEndReason> _EndDungeon = null;
 
-	public void Initialize(System.Action<eFloorEndReason> SetEndFloor) {
+	public void Initialize(
+		System.Action<eFloorEndReason> SetEndFloor,
+		System.Action<eDungeonEndReason> SetEndDungeon) {
 		_acceptPlayerInput = new AcceptPlayerInput();
 		_acceptPlayerInput.SetAddMoveActionCallback(moveAction => _moveActionList.Add(moveAction));
 		EnemyAIBase.SetAddMoveCallback(moveAction => _moveActionList.Add(moveAction));
@@ -32,13 +35,14 @@ public class TurnProcessor {
 		_moveTaskList = new List<UniTask>(FLOOR_ENEMY_MAX + 1);
 
 		_EndFloor = SetEndFloor;
-		MoveAction.SetEndFloorCallback(EndFloor);
+		_EndDungeon = SetEndDungeon;
+		MoveAction.SetEndCallback(EndFloor, EndDungeon);
 	}
 
 	public async UniTask Execute() {
 		_isContinueTurn = true;
-
-		await _acceptPlayerInput.AcceptInput();
+		// プレイヤーの入力受付
+		await AcceptPlayerInput();
 		// 全てのエネミーに行動を思考させる
 		CharacterManager.instance.ExecuteAll(character => character?.ThinkAction());
 		for (int i = 0, max = _moveActionList.Count; i < max; i++) {
@@ -48,9 +52,20 @@ public class TurnProcessor {
 		_moveActionList.Clear();
 		_moveTaskList.Clear();
 		if (!_isContinueTurn) return;
-
 		// 全てのエネミーが移動以外の行動をする
 
+	}
+
+	/// <summary>
+	/// プレイヤーの入力受付
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask AcceptPlayerInput() {
+		// 継続移動があるか確認
+		if (_acceptPlayerInput.AcceptMove()) return;
+		// 全てのキャラクターを待機アニメーションにする
+		CharacterManager.instance.ExecuteAll(character => character.SetAnimation(eCharacterAnimation.Wait));
+		await _acceptPlayerInput.AcceptInput();
 	}
 
 	private void EndTurn() {
@@ -60,6 +75,11 @@ public class TurnProcessor {
 	private void EndFloor(eFloorEndReason endReason) {
 		_EndFloor(endReason);
 		EndTurn();
+	}
+
+	private void EndDungeon(eDungeonEndReason endReason) {
+		_EndDungeon(endReason);
+		EndFloor(endReason.GetFloorEndReaosn());
 	}
 
 }

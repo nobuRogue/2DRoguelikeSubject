@@ -102,4 +102,12 @@ public abstract class CharacterBase {
 
 	}
 
+	/// <summary>
+	/// アニメーション再生
+	/// </summary>
+	/// <param name="setAnim"></param>
+	public void SetAnimation(eCharacterAnimation setAnim) {
+		_GetObject(ID).SetAnimation(setAnim);
+	}
+
 }

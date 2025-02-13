@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UserData {
+	/// <summary>
+	/// Œ»İ‚ÌŠK”
+	/// </summary>
 	public int floorCount { get; private set; } = -1;
 
 	public UserData() {
