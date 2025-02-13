@@ -55,6 +55,25 @@ public class CharacterObject : MonoBehaviour {
 
 	}
 
+	public void SetDirection(eDirectionEight dir) {
+		switch (dir) {
+			case eDirectionEight.UpRight:
+			case eDirectionEight.Right:
+			case eDirectionEight.DownRight:
+			Vector3 scale = _characterSprite.transform.localScale;
+			scale.x = 1.0f;
+			_characterSprite.transform.localScale = scale;
+			break;
+			case eDirectionEight.DownLeft:
+			case eDirectionEight.Left:
+			case eDirectionEight.UpLeft:
+			scale = _characterSprite.transform.localScale;
+			scale.x = -1.0f;
+			_characterSprite.transform.localScale = scale;
+			break;
+		}
+	}
+
 	public void SetPosition(Vector3 position) {
 		transform.position = position;
 	}

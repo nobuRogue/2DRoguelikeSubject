@@ -124,7 +124,36 @@ public class MapSquareUtility {
 			if (targetSquare != null) result.Add(targetSquare.ID);
 
 		}
+	}
 
+	/// <summary>
+	/// ID指定のマスの取得
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
+	public static MapSquareData GetSquare(int ID) {
+		return MapSquareManager.instance.Get(ID);
+	}
+
+	/// <summary>
+	/// 座標指定のマス取得
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <returns></returns>
+	public static MapSquareData GetSquare(int x, int y) {
+		return MapSquareManager.instance.Get(x, y);
+	}
+
+	/// <summary>
+	/// キャラの居るマス取得
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	public static MapSquareData GetCharacterSquare(CharacterBase character) {
+		if (character == null) return null;
+
+		return GetSquare(character.positionX, character.positionY);
 	}
 
 }

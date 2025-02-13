@@ -30,6 +30,8 @@ public class PartMainGame : PartBase {
 		_characterManager.Initialize();
 
 		await MenuManager.instance.Get<MenuPlayerStatus>("Prefabs/Menu/CanvasPlayerStatus").Initialize();
+		await MenuManager.instance.Get<MenuGameOver>("Prefabs/Menu/CanvasGameOver").Initialize();
+
 	}
 
 	public override async UniTask Setup() {
@@ -50,8 +52,11 @@ public class PartMainGame : PartBase {
 		UniTask task;
 		switch (endReason) {
 			case eDungeonEndReason.Dead:
-			// 1階から始まる
-			task = PartManager.instance.TransitionPart(eGamePart.MainGame);
+			MenuGameOver menuGameOver = MenuManager.instance.Get<MenuGameOver>();
+			await menuGameOver.Open();
+			await menuGameOver.Close();
+			// タイトルへ戻る
+			task = PartManager.instance.TransitionPart(eGamePart.Title);
 			break;
 			case eDungeonEndReason.Clear:
 			// エンディングパートへ移行

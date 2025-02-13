@@ -33,8 +33,11 @@ public class EnemyAI00_Normal : EnemyAIBase {
 			MapSquareData playerSquare = MapSquareManager.instance.Get(player.positionX, player.positionY);
 			List<ChebyshevMoveData> toPlayerRoute = RouteSearcher.RouteSearch(sourceSquare.ID, playerSquare.ID, CanPassCharacter);
 			if (IsEnableIndex(toPlayerRoute, 1)) {
+				// 移動アクションの生成、内部処理実行
 				MoveAction toPlayerMove = new MoveAction();
-				toPlayerMove.ProcessData(sourceCharacter, toPlayerRoute[0]);
+				ChebyshevMoveData currentMove = toPlayerRoute[0];
+				sourceCharacter.SetDirection(currentMove.dir);
+				toPlayerMove.ProcessData(sourceCharacter, currentMove);
 				_AddMove(toPlayerMove);
 			}
 		} else {
@@ -68,6 +71,7 @@ public class EnemyAI00_Normal : EnemyAIBase {
 		MoveAction moveAction = new MoveAction();
 		MapSquareData moveSquare = MapSquareUtility.GetToDirSquare(sourceX, sourceY, moveDir);
 		var moveData = new ChebyshevMoveData(sourceSquare.ID, moveSquare.ID, moveDir);
+		sourceCharacter.SetDirection(moveData.dir);
 		moveAction.ProcessData(sourceCharacter, moveData);
 		_AddMove(moveAction);
 	}

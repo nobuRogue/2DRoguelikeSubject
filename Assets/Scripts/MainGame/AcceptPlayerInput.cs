@@ -37,19 +37,20 @@ public class AcceptPlayerInput {
 	/// <returns>ˆÚ“®‚µ‚½‚©”Û‚©</returns>
 	public bool AcceptMove() {
 		// 8•ûŒü‚Ì“ü—Í‚ðŽó‚¯•t‚¯‚é
-		eDirectionEight dir = AcceptDirInput();
-		if (dir == eDirectionEight.Invalid) return false;
+		eDirectionEight inputDir = AcceptDirInput();
+		if (inputDir == eDirectionEight.Invalid) return false;
 		// ˆÚ“®‰Â”Û‚Ì”»’è
 		PlayerCharacter player = CharacterManager.instance.GetPlayer();
 		if (player == null) return false;
 
+		player.SetDirection(inputDir);
 		int playerX = player.positionX, playerY = player.positionY;
 		MapSquareData playerSquare = MapSquareManager.instance.Get(playerX, playerY);
-		MapSquareData moveSquare = MapSquareUtility.GetToDirSquare(playerX, playerY, dir);
-		if (!MapSquareUtility.CanMove(playerX, playerY, moveSquare, dir)) return false;
+		MapSquareData moveSquare = MapSquareUtility.GetToDirSquare(playerX, playerY, inputDir);
+		if (!MapSquareUtility.CanMove(playerX, playerY, moveSquare, inputDir)) return false;
 		// Žó‚¯•t‚¯‚½“ü—Í‚É‰ž‚¶‚ÄˆÚ“®
 		MoveAction moveAction = new MoveAction();
-		var moveData = new ChebyshevMoveData(playerSquare.ID, moveSquare.ID, dir);
+		var moveData = new ChebyshevMoveData(playerSquare.ID, moveSquare.ID, inputDir);
 		moveAction.ProcessData(player, moveData);
 		_AddMove(moveAction);
 		return true;

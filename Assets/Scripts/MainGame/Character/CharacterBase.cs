@@ -19,7 +19,10 @@ public abstract class CharacterBase {
 	public int ID { get; protected set; } = -1;
 	public int positionX { get; protected set; } = -1;
 	public int positionY { get; protected set; } = -1;
-
+	/// <summary>
+	/// ƒLƒƒƒ‰‚ÌŒü‚«
+	/// </summary>
+	public eDirectionEight direction { get; protected set; } = eDirectionEight.Invalid;
 	public int maxHP { get; protected set; } = -1;
 	public int HP { get; private set; } = -1;
 	public int attack { get; private set; } = -1;
@@ -36,11 +39,23 @@ public abstract class CharacterBase {
 			SetDefense(characterMaster.Defense);
 		}
 		_GetObject(ID).Setup(characterMaster);
+		SetDirection(eDirectionEight.Down);
 	}
 
 	public void Teardown() {
 		_GetObject(ID).Teardown();
 		ID = -1;
+	}
+
+	/// <summary>
+	/// ƒLƒƒƒ‰‚ÌŒü‚«İ’è
+	/// </summary>
+	/// <param name="dir"></param>
+	public void SetDirection(eDirectionEight dir) {
+		if (direction == dir) return;
+
+		direction = dir;
+		_GetObject(ID).SetDirection(direction);
 	}
 
 	public virtual void SetMaxHP(int setValue) {
