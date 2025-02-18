@@ -28,7 +28,7 @@ public class CharacterObject : MonoBehaviour {
 	private Sprite[][] _characterSpriteList = null;
 
 	private UniTask _animTask;
-	private eCharacterAnimation _currentAnim = eCharacterAnimation.Invalid;
+	public eCharacterAnimation currentAnim { get; private set; } = eCharacterAnimation.Invalid;
 	private int _animIndex = -1;
 
 	public void Setup(Entity_CharacterData.Param characterMaster) {
@@ -80,9 +80,9 @@ public class CharacterObject : MonoBehaviour {
 
 	public void SetAnimation(eCharacterAnimation setAnim) {
 		// 現在と同じアニメなら走らせない
-		if (setAnim == _currentAnim) return;
+		if (setAnim == currentAnim) return;
 
-		_currentAnim = setAnim;
+		currentAnim = setAnim;
 		_animIndex = 0;
 	}
 
@@ -92,15 +92,29 @@ public class CharacterObject : MonoBehaviour {
 	/// <returns></returns>
 	private async UniTask PlayAnimationTask() {
 		while (true) {
-			int currentAnimIndex = (int)_currentAnim;
+			int currentAnimIndex = (int)currentAnim;
 			if (IsEnableIndex(_characterSpriteList, currentAnimIndex)) {
 				Sprite[] animSpriteList = _characterSpriteList[currentAnimIndex];
-				if (!IsEnableIndex(animSpriteList, _animIndex)) _animIndex = 0;
+				// アニメーションのループ処理
+				if (!IsEnableIndex(animSpriteList, _animIndex)) AnimationLoopProcess();
 
 				_characterSprite.sprite = animSpriteList[_animIndex];
 			}
 			_animIndex++;
 			await UniTask.Delay(_ANIMATION_DELAY_MILLI_SEC);
+		}
+	}
+
+	/// <summary>
+	/// アニメーションがループする際の処理
+	/// </summary>
+	private void AnimationLoopProcess() {
+		// 攻撃か被ダメージなら1ループで待機に戻す
+		if (currentAnim == eCharacterAnimation.Attack ||
+			currentAnim == eCharacterAnimation.Damage) {
+			SetAnimation(eCharacterAnimation.Wait);
+		} else {
+			_animIndex = 0;
 		}
 	}
 

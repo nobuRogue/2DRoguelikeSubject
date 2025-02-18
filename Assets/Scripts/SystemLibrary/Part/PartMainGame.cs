@@ -32,6 +32,8 @@ public class PartMainGame : PartBase {
 		await MenuManager.instance.Get<MenuPlayerStatus>("Prefabs/Menu/CanvasPlayerStatus").Initialize();
 		await MenuManager.instance.Get<MenuGameOver>("Prefabs/Menu/CanvasGameOver").Initialize();
 
+		ActionRangeManager.Initialize();
+		ActionManager.Initialize();
 	}
 
 	public override async UniTask Setup() {

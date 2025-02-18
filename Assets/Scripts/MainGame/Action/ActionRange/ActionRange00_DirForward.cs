@@ -30,6 +30,7 @@ public class ActionRange00_DirForward : ActionRangeBase {
 			if (targetCharacter.IsPlayer()) targetList.Add(targetCharacter.ID);
 
 		}
+
 	}
 
 }

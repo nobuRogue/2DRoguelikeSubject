@@ -1,0 +1,53 @@
+/**
+ * @file ActionEffect000_Attack.cs
+ * @brief 通常攻撃の効果処理
+ * @author yao
+ * @date 2025/2/18
+ */
+
+using Cysharp.Threading.Tasks;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ActionEffect000_Attack : ActionEffectBase {
+
+	public override async UniTask Execute(CharacterBase sourceCharacter, ActionRangeBase range) {
+		// 行動者の攻撃アニメーション再生
+		sourceCharacter.SetAnimation(eCharacterAnimation.Attack);
+		// 対象ごとに攻撃の処理
+		int sourceAttack = sourceCharacter.attack;
+		List<int> targetList = range.targetList;
+		for (int i = 0, max = targetList.Count; i < max; i++) {
+			CharacterBase target = CharacterManager.instance.Get(targetList[i]);
+			if (target == null) continue;
+
+			ExecuteAttack(sourceAttack, target);
+		}
+		// 攻撃アニメーションの終了待ち
+		while (sourceCharacter.GetCurrentAnimation() == eCharacterAnimation.Attack) await UniTask.DelayFrame(1);
+
+	}
+
+	private void ExecuteAttack(int sourceAttack, CharacterBase targetCharacter) {
+		// 対象の被ダメージアニメーション
+		targetCharacter.SetAnimation(eCharacterAnimation.Damage);
+		// ダメージ計算
+		int defense = targetCharacter.defense;
+		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
+		// HPを減らす
+		targetCharacter.RemoveHP(damage);
+		// 死亡判定、処理
+		if (!targetCharacter.IsDead()) return;
+
+		if (targetCharacter.IsPlayer()) {
+			// プレイヤー死亡の処理
+			_EndDungeon(eDungeonEndReason.Dead);
+		} else {
+			// エネミー死亡の処理
+			CharacterManager.instance.UnuseEnemy(targetCharacter as EnemyCharacter);
+		}
+	}
+
+}

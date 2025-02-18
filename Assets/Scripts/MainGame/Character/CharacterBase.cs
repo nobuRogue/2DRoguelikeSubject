@@ -5,6 +5,7 @@
  * @date 2025/1/21
  */
 
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,8 +63,16 @@ public abstract class CharacterBase {
 		maxHP = setValue;
 	}
 
+	public bool IsDead() {
+		return HP <= 0;
+	}
+
 	public virtual void SetHP(int setValue) {
-		HP = setValue;
+		HP = Mathf.Clamp(setValue, 0, maxHP);
+	}
+
+	public void RemoveHP(int removeValue) {
+		SetHP(HP - removeValue);
 	}
 
 	public virtual void SetAttack(int setValue) {
@@ -123,6 +132,10 @@ public abstract class CharacterBase {
 	/// <param name="setAnim"></param>
 	public void SetAnimation(eCharacterAnimation setAnim) {
 		_GetObject(ID).SetAnimation(setAnim);
+	}
+
+	public eCharacterAnimation GetCurrentAnimation() {
+		return _GetObject(ID).currentAnim;
 	}
 
 }

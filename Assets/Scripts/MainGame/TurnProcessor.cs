@@ -37,6 +37,7 @@ public class TurnProcessor {
 		_EndFloor = SetEndFloor;
 		_EndDungeon = SetEndDungeon;
 		MoveAction.SetEndCallback(EndFloor, EndDungeon);
+		ActionEffectBase.SetEndCallback(EndDungeon);
 	}
 
 	public async UniTask Execute() {
