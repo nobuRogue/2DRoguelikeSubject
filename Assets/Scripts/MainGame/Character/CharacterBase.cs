@@ -115,7 +115,25 @@ public abstract class CharacterBase {
 
 	public abstract bool IsPlayer();
 
+	/// <summary>
+	/// 行動の思考
+	/// </summary>
 	public virtual void ThinkAction() {
+
+	}
+
+	/// <summary>
+	/// 予定行動の実行
+	/// </summary>
+	/// <returns></returns>
+	public virtual async UniTask ExecuteScheduleAction() {
+		await UniTask.CompletedTask;
+	}
+
+	/// <summary>
+	/// 予定行動のクリア
+	/// </summary>
+	public virtual void ResetScheduleAction() {
 
 	}
 

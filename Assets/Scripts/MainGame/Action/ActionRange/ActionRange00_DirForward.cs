@@ -30,7 +30,16 @@ public class ActionRange00_DirForward : ActionRangeBase {
 			if (targetCharacter.IsPlayer()) targetList.Add(targetCharacter.ID);
 
 		}
+	}
 
+	public override bool CanUse(CharacterBase sourceCharacter, ref eDirectionEight dir) {
+		MapSquareData sourceSquare = MapSquareUtility.GetCharacterSquare(sourceCharacter);
+		// 8方向の前方1マスを確認
+		for (int i = 0, max = (int)eDirectionEight.Max; i < max; i++) {
+
+
+		}
+		return true;
 	}
 
 }

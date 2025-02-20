@@ -20,4 +20,7 @@ public class GameConst {
 	public static readonly int FLOOR_ENEMY_MAX = 8;
 	// 1ƒ}ƒX‚ÌˆÚ“®‚É‚©‚©‚é•b”
 	public static readonly float MOVE_DURATION = 0.1f;
+
+	// ’ÊíUŒ‚‚Ìs“®ID
+	public static readonly int NORMAL_ATTACK_ACTION_ID = 0;
 }

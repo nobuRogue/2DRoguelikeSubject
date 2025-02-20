@@ -5,6 +5,7 @@
  * @date 2025/1/21
  */
 
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,8 +23,27 @@ public class EnemyCharacter : CharacterBase {
 		return false;
 	}
 
+	/// <summary>
+	/// 行動を思考する、移動の内部処理を行う
+	/// </summary>
 	public override void ThinkAction() {
 		_currentAI.ThinkAction();
+	}
+
+	/// <summary>
+	/// 予定行動の実行
+	/// </summary>
+	/// <returns></returns>
+	public override async UniTask ExecuteScheduleAction() {
+		await _currentAI.ExecuteScheduleAction();
+		ResetScheduleAction();
+	}
+
+	/// <summary>
+	/// 予定行動のクリア
+	/// </summary>
+	public override void ResetScheduleAction() {
+		_currentAI.ResetScheduleAction();
 	}
 
 }

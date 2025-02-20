@@ -11,6 +11,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static CommonModule;
+
 public class ActionEffect000_Attack : ActionEffectBase {
 
 	public override async UniTask Execute(CharacterBase sourceCharacter, ActionRangeBase range) {
@@ -19,18 +21,21 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		// 対象ごとに攻撃の処理
 		int sourceAttack = sourceCharacter.attack;
 		List<int> targetList = range.targetList;
-		for (int i = 0, max = targetList.Count; i < max; i++) {
+		int targetCount = targetList.Count;
+		List<UniTask> taskList = new List<UniTask>(targetCount);
+		for (int i = 0; i < targetCount; i++) {
 			CharacterBase target = CharacterManager.instance.Get(targetList[i]);
 			if (target == null) continue;
 
-			ExecuteAttack(sourceAttack, target);
+			taskList.Add(ExecuteAttack(sourceAttack, target));
 		}
 		// 攻撃アニメーションの終了待ち
 		while (sourceCharacter.GetCurrentAnimation() == eCharacterAnimation.Attack) await UniTask.DelayFrame(1);
 
+		await WaitTask(taskList);
 	}
 
-	private void ExecuteAttack(int sourceAttack, CharacterBase targetCharacter) {
+	private async UniTask ExecuteAttack(int sourceAttack, CharacterBase targetCharacter) {
 		// 対象の被ダメージアニメーション
 		targetCharacter.SetAnimation(eCharacterAnimation.Damage);
 		// ダメージ計算
@@ -38,6 +43,9 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
 		// HPを減らす
 		targetCharacter.RemoveHP(damage);
+		// アニメーションの終了待ち
+		while (targetCharacter.GetCurrentAnimation() == eCharacterAnimation.Damage) await UniTask.DelayFrame(1);
+
 		// 死亡判定、処理
 		if (!targetCharacter.IsDead()) return;
 

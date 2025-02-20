@@ -180,4 +180,14 @@ public class CharacterManager : MonoBehaviour {
 		}
 	}
 
+	public async UniTask ExecuteAllTask(System.Func<CharacterBase, UniTask> task) {
+		if (task == null || IsEmpty(_useList)) return;
+
+		for (int i = 0, max = _useList.Count; i < max; i++) {
+			if (_useList[i] == null) continue;
+
+			await task(_useList[i]);
+		}
+	}
+
 }

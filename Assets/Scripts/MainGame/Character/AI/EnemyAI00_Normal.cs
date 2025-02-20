@@ -10,6 +10,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+
+using static ActionRangeManager;
+using static ActionMasterUtility;
+using static GameConst;
 using static CommonModule;
 
 public class EnemyAI00_Normal : EnemyAIBase {
@@ -17,17 +21,22 @@ public class EnemyAI00_Normal : EnemyAIBase {
 
 	}
 
+	/// <summary>
+	/// 行動を思考させる
+	/// </summary>
 	public override void ThinkAction() {
 		// 視界とプレイヤー有無の取得
 		CharacterBase sourceCharacter = _GetSourceCharacter();
 		MapSquareData sourceSquare = MapSquareManager.instance.Get(sourceCharacter.positionX, sourceCharacter.positionY);
 		List<int> visibleArea = null;
 		MapSquareUtility.GetVisibleArea(ref visibleArea, sourceSquare);
-		// 視界にプレイヤーが居るか
+		// 視界にプレイヤーが居るか取得
 		PlayerCharacter player = CharacterManager.instance.GetPlayer();
 		bool visiblePlayer = visibleArea.Exists(player.ExistMoveTrail);
 		if (visiblePlayer) {
-			// 可能な行動があれば実効
+			// プレイヤーが見えているので可能な行動があれば予定する
+			CheckCanUseAction();
+			if (_scheduleActionID >= 0) return;
 
 			// 可能な行動が無ければプレイヤーに近づく
 			MapSquareData playerSquare = MapSquareManager.instance.Get(player.positionX, player.positionY);
@@ -46,6 +55,29 @@ public class EnemyAI00_Normal : EnemyAIBase {
 		}
 	}
 
+	/// <summary>
+	/// 使用可能な行動があれば予定する
+	/// </summary>
+	private void CheckCanUseAction() {
+		// 通常攻撃の使用可否判定
+		var actionMaster = GetActionMaster(NORMAL_ATTACK_ACTION_ID);
+		if (actionMaster == null) return;
+
+		ActionRangeBase range = GetRange(actionMaster.rangeType);
+		eDirectionEight dir = eDirectionEight.Invalid;
+		if (!range.CanUse(_GetSourceCharacter(), ref dir)) return;
+		// 使用可能なので予定する
+		SetScheduleAction(NORMAL_ATTACK_ACTION_ID);
+	}
+
+	/// <summary>
+	/// 通行可否判定
+	/// </summary>
+	/// <param name="sourceSquare"></param>
+	/// <param name="moveSquare"></param>
+	/// <param name="dir"></param>
+	/// <param name="distance"></param>
+	/// <returns></returns>
 	private bool CanPassCharacter(MapSquareData sourceSquare, MapSquareData moveSquare, eDirectionEight dir, int distance) {
 		CharacterBase squareCharacter = CharacterManager.instance.Get(moveSquare.characterID);
 		if (squareCharacter == null) return MapSquareUtility.CanMove(sourceSquare.positionX, sourceSquare.positionY, moveSquare, dir);

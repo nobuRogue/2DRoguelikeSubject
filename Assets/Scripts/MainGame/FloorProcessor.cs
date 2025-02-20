@@ -91,13 +91,13 @@ public class FloorProcessor {
 	private async UniTask TeardownFloor() {
 		await FadeManager.instance.FadeOut();
 		// エネミーの全削除
-		CharacterManager.instance.ExecuteAll(character => {
+		CharacterUtility.ExecuteAllCharacter(character => {
 			if (character.IsPlayer()) return;
 
 			CharacterManager.instance.UnuseEnemy(character as EnemyCharacter);
 		});
 		// キャラクターのフロア終了時処理
-		CharacterManager.instance.ExecuteAll(character => character.OnEndFloor());
+		CharacterUtility.ExecuteAllCharacter(character => character.OnEndFloor());
 	}
 
 	/// <summary>

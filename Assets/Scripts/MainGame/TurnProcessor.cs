@@ -44,17 +44,33 @@ public class TurnProcessor {
 		_isContinueTurn = true;
 		// プレイヤーの入力受付
 		await AcceptPlayerInput();
-		// 全てのエネミーに行動を思考させる
-		CharacterManager.instance.ExecuteAll(character => character?.ThinkAction());
+		// 全てのエネミーに行動を思考、移動の内部処理をさせる
+		CharacterUtility.ExecuteAllCharacter(character => character?.ThinkAction());
 		for (int i = 0, max = _moveActionList.Count; i < max; i++) {
 			_moveTaskList.Add(_moveActionList[i].ProcessObject(MOVE_DURATION));
 		}
 		await WaitTask(_moveTaskList);
 		_moveActionList.Clear();
 		_moveTaskList.Clear();
+		// 行動をするエネミーを順番に行動させる
+		await CharacterUtility.ExecuteTaskAllCharacter(ExecuteScheduleAction);
 		if (!_isContinueTurn) return;
-		// 全てのエネミーが移動以外の行動をする
 
+	}
+
+	/// <summary>
+	/// キャラクターが予定している行動を実行させる
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	private async UniTask ExecuteScheduleAction(CharacterBase character) {
+		if (_isContinueTurn) {
+			// 予定されている行動を行う
+			await character.ExecuteScheduleAction();
+		} else {
+			// ターン終了なら予定行動をクリアする
+			character.ResetScheduleAction();
+		}
 	}
 
 	/// <summary>
@@ -65,7 +81,7 @@ public class TurnProcessor {
 		// 継続移動があるか確認
 		if (_acceptPlayerInput.AcceptMove()) return;
 		// 全てのキャラクターを待機アニメーションにする
-		CharacterManager.instance.ExecuteAll(character => character.SetAnimation(eCharacterAnimation.Wait));
+		CharacterUtility.ExecuteAllCharacter(character => character.SetAnimation(eCharacterAnimation.Wait));
 		await _acceptPlayerInput.AcceptInput();
 	}
 

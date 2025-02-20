@@ -22,7 +22,7 @@ public abstract class ActionRangeBase {
 	/// ŽË’ö‚ªŽg—p‰Â”\‚©”Û‚©
 	/// </summary>
 	/// <returns></returns>
-	public virtual bool CanUse() {
+	public virtual bool CanUse(CharacterBase sourceCharacter, ref eDirectionEight dir) {
 		return true;
 	}
 

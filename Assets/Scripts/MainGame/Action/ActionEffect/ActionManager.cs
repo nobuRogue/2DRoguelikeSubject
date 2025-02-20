@@ -23,14 +23,32 @@ public class ActionManager {
 	/// <summary>
 	/// アクション実行
 	/// </summary>
+	/// <param name="sourceCharacter"></param>
+	/// <param name="actionID"></param>
+	/// <returns></returns>
+	public static async UniTask ExecuteAction(CharacterBase sourceCharacter, int actionID) {
+		Entity_ActionData.Param actionMaster = ActionMasterUtility.GetActionMaster(actionID);
+		if (actionMaster == null) return;
+
+		ActionRangeBase range = ActionRangeManager.GetRange(actionMaster.rangeType);
+		if (range == null) return;
+
+		range.Setup(sourceCharacter);
+		await ExecuteActionEffect(actionMaster.effectType, sourceCharacter, range);
+	}
+
+	/// <summary>
+	/// アクション効果実行
+	/// </summary>
 	/// <param name="effectType"></param>
 	/// <param name="sourceCharacter"></param>
 	/// <param name="range"></param>
 	/// <returns></returns>
-	public static async UniTask ExecuteAction(int effectType, CharacterBase sourceCharacter, ActionRangeBase range) {
+	private static async UniTask ExecuteActionEffect(int effectType, CharacterBase sourceCharacter, ActionRangeBase range) {
 		if (!IsEnableIndex(_actionEffectList, effectType)) return;
 
 		await _actionEffectList[effectType].Execute(sourceCharacter, range);
+		_actionEffectList[effectType].TearDown();
 	}
 
 }

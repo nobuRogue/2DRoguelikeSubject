@@ -27,6 +27,8 @@ public class AcceptPlayerInput {
 		while (true) {
 			if (AcceptMove()) break;
 
+			if (await AcceptAttack()) break;
+
 			await UniTask.DelayFrame(1);
 		}
 	}
@@ -81,6 +83,17 @@ public class AcceptPlayerInput {
 			}
 		}
 		return eDirectionEight.Invalid;
+	}
+
+	/// <summary>
+	/// ’ÊíUŒ‚“ü—Íó•tAŒø‰Êˆ—
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask<bool> AcceptAttack() {
+		if (!GetKeyDown(KeyCode.Z)) return false;
+
+		await ActionManager.ExecuteAction(CharacterManager.instance.GetPlayer(), GameConst.NORMAL_ATTACK_ACTION_ID);
+		return true;
 	}
 
 }
