@@ -305,17 +305,16 @@ public class RouteSearcher {
 		if (baseNode == null) return;
 
 		MapSquareData baseSquare = MapSquareManager.instance.Get(baseNode.squareID);
-		int baseX = baseSquare.positionX, baseY = baseSquare.positionY;
 		// 周囲4マスをオープンする
 		for (int i = (int)eDirectionEight.Up, max = (int)eDirectionEight.Max; i < max; i++) {
 			var dir = (eDirectionEight)i;
-			MapSquareData openSquare = MapSquareUtility.GetToDirSquare(baseX, baseY, dir);
+			MapSquareData openSquare = MapSquareUtility.GetToDirSquare(baseSquare, dir);
 			if (openSquare == null) continue;
 			// 既に1度オープンされたノードなら処理しない
 			if (_nodeTableChebyshev.nodeList.Exists(node => node.squareID == openSquare.ID)) continue;
 			// 通行可否判定
 			int distance = baseNode.distance + 1;
-			if (!CanPass(baseSquare,openSquare, dir, distance)) continue;
+			if (!CanPass(baseSquare, openSquare, dir, distance)) continue;
 
 			DistanceNodeChebyshev addNode = new DistanceNodeChebyshev(dir, baseNode, distance, openSquare.ID);
 			_nodeTableChebyshev.nodeList.Add(addNode);

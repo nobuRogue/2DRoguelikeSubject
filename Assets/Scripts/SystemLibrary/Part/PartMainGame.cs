@@ -69,10 +69,14 @@ public class PartMainGame : PartBase {
 
 	private void SetupPlayer() {
 		PlayerCharacter player = CharacterManager.instance.GetPlayer();
-		if (player != null) return;
-
-		CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0), 0);
-		CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
+		if (player == null) {
+			// プレイヤーの生成
+			CharacterManager.instance.UsePlayer(MapSquareManager.instance.Get(0, 0), 0);
+			CharacterManager.instance.GetPlayer().SetMoveObserver(CameraManager.instance);
+		} else {
+			// プレイヤーの初期化
+			player.ResetStatus();
+		}
 	}
 
 	public override async UniTask Teardown() {

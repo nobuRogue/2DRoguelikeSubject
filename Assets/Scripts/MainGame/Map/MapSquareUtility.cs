@@ -26,7 +26,7 @@ public class MapSquareUtility {
 	}
 
 	/// <summary>
-	/// 指定方向のマス取得
+	/// 指定座標マスからの指定方向のマス取得
 	/// </summary>
 	/// <param name="x"></param>
 	/// <param name="y"></param>
@@ -35,6 +35,18 @@ public class MapSquareUtility {
 	public static MapSquareData GetToDirSquare(int x, int y, eDirectionEight dir) {
 		ToVectorPos(ref x, ref y, dir);
 		return MapSquareManager.instance.Get(x, y);
+	}
+
+	/// <summary>
+	/// 指定マスからの指定方向のマス取得
+	/// </summary>
+	/// <param name="baseSquare"></param>
+	/// <param name="dir"></param>
+	/// <returns></returns>
+	public static MapSquareData GetToDirSquare(MapSquareData baseSquare, eDirectionEight dir) {
+		if (baseSquare == null) return null;
+
+		return GetToDirSquare(baseSquare.positionX, baseSquare.positionY, dir);
 	}
 
 	/// <summary>
@@ -63,6 +75,24 @@ public class MapSquareUtility {
 
 		}
 		return true;
+	}
+
+	/// <summary>
+	/// 攻撃可能なマスか
+	/// </summary>
+	/// <param name="startX"></param>
+	/// <param name="startY"></param>
+	/// <param name="attackSquare"></param>
+	/// <param name="dir"></param>
+	/// <returns></returns>
+	public static bool CanAttack(int startX, int startY, MapSquareData attackSquare, eDirectionEight dir) {
+		if (attackSquare == null ||
+			attackSquare.terrain == eTerrain.Wall) return false;
+
+		if (!dir.IsSlant()) return true;
+		// 斜め方向なので角抜け判定
+
+		return false;
 	}
 
 	public static void GetVisibleArea(ref List<int> visibleArea, MapSquareData sourceSquare) {

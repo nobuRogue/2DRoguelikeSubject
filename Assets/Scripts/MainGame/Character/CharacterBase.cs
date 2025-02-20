@@ -18,6 +18,7 @@ public abstract class CharacterBase {
 	}
 
 	public int ID { get; protected set; } = -1;
+	private int _masterID = -1;
 	public int positionX { get; protected set; } = -1;
 	public int positionY { get; protected set; } = -1;
 	/// <summary>
@@ -32,15 +33,23 @@ public abstract class CharacterBase {
 	public virtual void Setup(int setID, MapSquareData squareData, int masterID) {
 		ID = setID;
 		SetSquare(squareData);
-		var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
-		if (characterMaster != null) {
-			SetMaxHP(characterMaster.HP);
-			SetHP(characterMaster.HP);
-			SetAttack(characterMaster.Attack);
-			SetDefense(characterMaster.Defense);
-		}
-		_GetObject(ID).Setup(characterMaster);
+		_masterID = masterID;
+		ResetStatus();
+		_GetObject(ID).Setup(CharacterMasterUtility.GetCharacterMaster(_masterID));
 		SetDirection(eDirectionEight.Down);
+	}
+
+	/// <summary>
+	/// ステータス初期化
+	/// </summary>
+	public void ResetStatus() {
+		var characterMaster = CharacterMasterUtility.GetCharacterMaster(_masterID);
+		if (characterMaster == null) return;
+
+		SetMaxHP(characterMaster.HP);
+		SetHP(characterMaster.HP);
+		SetAttack(characterMaster.Attack);
+		SetDefense(characterMaster.Defense);
 	}
 
 	public void Teardown() {

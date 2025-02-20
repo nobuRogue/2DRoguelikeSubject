@@ -13,6 +13,15 @@ using UnityEngine;
 public class CharacterUtility {
 
 	/// <summary>
+	/// キャラクターデータ取得
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
+	public static CharacterBase GetCharacter(int ID) {
+		return CharacterManager.instance.Get(ID);
+	}
+
+	/// <summary>
 	/// 全てのキャラクターに処理実行
 	/// </summary>
 	/// <param name="action"></param>
