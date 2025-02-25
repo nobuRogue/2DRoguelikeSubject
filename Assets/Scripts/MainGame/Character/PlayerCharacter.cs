@@ -5,9 +5,7 @@
  * @date 2025/1/21
  */
 
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 using static CommonModule;
@@ -19,9 +17,19 @@ public class PlayerCharacter : CharacterBase {
 	private List<int> _moveTrailSquareList = null;
 	private readonly int PLAYER_MOVE_TRAIL_COUNT = 3;
 
+	// èâä˙ñûï†ìx
+	private const int _DEFAULT_STAMINA = 10000;
+	// åªç›ÇÃñûï†ìx
+	private int _stamina = 0;
+
 	public override void Setup(int setID, MapSquareData squareData, int masterID) {
 		_moveTrailSquareList = new List<int>(PLAYER_MOVE_TRAIL_COUNT);
 		base.Setup(setID, squareData, masterID);
+	}
+
+	public override void ResetStatus() {
+		base.ResetStatus();
+		SetStamina(_DEFAULT_STAMINA);
 	}
 
 	public override void SetMaxHP(int setValue) {
@@ -42,6 +50,12 @@ public class PlayerCharacter : CharacterBase {
 	public override void SetDefense(int setValue) {
 		base.SetDefense(setValue);
 		MenuManager.instance.Get<MenuPlayerStatus>().SetDefense(defense);
+	}
+
+	public void SetStamina(int setValue) {
+		_stamina = setValue;
+		// UIÇ÷ÇÃîΩâf
+
 	}
 
 	public void SetMoveObserver(PlayerMoveObserver setObserver) {

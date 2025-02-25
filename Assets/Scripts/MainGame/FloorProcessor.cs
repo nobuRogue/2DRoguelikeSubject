@@ -51,7 +51,7 @@ public class FloorProcessor {
 		// プレイヤーの配置
 		SetPlayer();
 		// エネミーの配置
-		SetEnemy();
+		SpawnEnemy(3);
 		_endReason = eFloorEndReason.Invalid;
 		await FadeManager.instance.FadeIn();
 	}
@@ -72,7 +72,12 @@ public class FloorProcessor {
 		player.SetSquare(playerSquare);
 	}
 
-	private void SetEnemy() {
+	/// <summary>
+	/// エネミーの生成
+	/// </summary>
+	/// <param name="spawnCount"></param>
+	private void SpawnEnemy(int spawnCount) {
+		// エネミーの生成候補マスを取得
 		List<MapSquareData> roomSquareList = new List<MapSquareData>(MAP_SQUARE_HEIGHT_COUNT * MAP_SQUARE_WIDTH_COUNT);
 		MapSquareManager.instance.ExecuteAllSquare(square => {
 			if (square.existCharacter ||
@@ -80,12 +85,14 @@ public class FloorProcessor {
 
 			roomSquareList.Add(square);
 		});
-		if (IsEmpty(roomSquareList)) return;
+		// エネミーの生成
+		for (int i = 0; i < spawnCount; i++) {
+			if (IsEmpty(roomSquareList)) return;
 
-		MapSquareData enemySquare = roomSquareList[Random.Range(0, roomSquareList.Count)];
-		CharacterManager.instance.UseEnemy(enemySquare, 1);
-
-		roomSquareList.Remove(enemySquare);
+			MapSquareData enemySquare = roomSquareList[Random.Range(0, roomSquareList.Count)];
+			CharacterManager.instance.UseEnemy(enemySquare, 1);
+			roomSquareList.Remove(enemySquare);
+		}
 	}
 
 	private async UniTask TeardownFloor() {
@@ -102,7 +109,7 @@ public class FloorProcessor {
 
 	/// <summary>
 	/// フロアを終了させる
-	/// </summary>
+	/// </summary
 	/// <param name="endReason"></param>
 	private void EndFloor(eFloorEndReason endReason) {
 		_endReason = endReason;

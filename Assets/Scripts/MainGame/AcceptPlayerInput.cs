@@ -11,6 +11,7 @@ using UnityEngine;
 using static MapSquareUtility;
 using static CharacterUtility;
 using static UnityEngine.Input;
+using UnityEngine.UIElements;
 
 public class AcceptPlayerInput {
 	private System.Action<MoveAction> _AddMove = null;
@@ -41,6 +42,8 @@ public class AcceptPlayerInput {
 	public bool AcceptMove() {
 		// 8方向の入力を受け付ける
 		eDirectionEight inputDir = AcceptDirInput();
+		if (!inputDir.IsSlant() && GetKey(KeyCode.LeftAlt)) inputDir = eDirectionEight.Invalid;
+
 		if (inputDir == eDirectionEight.Invalid) return false;
 		// 移動可否の判定
 		PlayerCharacter player = GetPlayer();
@@ -102,9 +105,9 @@ public class AcceptPlayerInput {
 	/// </summary>
 	/// <returns></returns>
 	private async UniTask AcceptDirChange() {
-
-
 		MapSquareData forwardSquare = null;
+		if (GetKeyDown(KeyCode.LeftShift)) ChangeDirToEnemy(ref forwardSquare);
+
 		while (GetKey(KeyCode.LeftShift)) {
 			// 8方向の入力を受け付ける
 			eDirectionEight inputDir = AcceptDirInput();
@@ -132,6 +135,30 @@ public class AcceptPlayerInput {
 		MapSquareData playerSquare = GetCharacterSquare(player);
 		forwardSquare = GetToDirSquare(playerSquare, player.direction);
 		forwardSquare?.ShowMark(Color.red);
+	}
+
+	/// <summary>
+	/// 周囲の敵にプレイヤーの向きを変更
+	/// </summary>
+	private void ChangeDirToEnemy(ref MapSquareData forwardSquare) {
+		PlayerCharacter player = GetPlayer();
+		MapSquareData playerSquare = GetCharacterSquare(player);
+		int startIndex = (int)player.direction + 1;
+		for (int i = 0, max = (int)eDirectionEight.Max; i < max; i++) {
+			var dir = (startIndex + i).ToDirEight();
+			MapSquareData square = GetToDirSquare(playerSquare, dir);
+			if (square == null ||
+				!square.existCharacter) continue;
+
+			ChangePlayerDir(dir, ref forwardSquare);
+			return;
+		}
+		// 敵が見つからなかったのでプレイヤーの向きのマスを色変え
+		MapSquareData playerDirSquare = GetToDirSquare(playerSquare, player.direction);
+		if (playerDirSquare == null) return;
+
+		playerDirSquare.ShowMark(Color.red);
+		forwardSquare = playerDirSquare;
 	}
 
 }

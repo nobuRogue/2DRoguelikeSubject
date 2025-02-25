@@ -78,4 +78,18 @@ public static class ExpansionMethod {
 		return eFloorEndReason.Invalid;
 	}
 
+	/// <summary>
+	/// ®”‚ğ8•ûŒü‚ÌŒü‚«‚É•ÏŠ·
+	/// </summary>
+	/// <param name="index"></param>
+	/// <returns></returns>
+	public static eDirectionEight ToDirEight(this int index) {
+		int maxIndex = (int)eDirectionEight.Max;
+		while (index < 0) index += maxIndex;
+
+		while (index >= maxIndex) index -= maxIndex;
+
+		return (eDirectionEight)index;
+	}
+
 }

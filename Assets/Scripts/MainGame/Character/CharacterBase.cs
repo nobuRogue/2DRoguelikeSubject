@@ -42,7 +42,7 @@ public abstract class CharacterBase {
 	/// <summary>
 	/// ステータス初期化
 	/// </summary>
-	public void ResetStatus() {
+	public virtual void ResetStatus() {
 		var characterMaster = CharacterMasterUtility.GetCharacterMaster(_masterID);
 		if (characterMaster == null) return;
 
