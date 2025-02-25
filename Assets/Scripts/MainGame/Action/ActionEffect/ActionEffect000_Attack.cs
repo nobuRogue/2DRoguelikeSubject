@@ -15,18 +15,21 @@ using static CommonModule;
 
 public class ActionEffect000_Attack : ActionEffectBase {
 
+	private const int _ATTACK_HIT_SE_ID = 0;
+
 	public override async UniTask Execute(CharacterBase sourceCharacter, ActionRangeBase range) {
 		// 行動者の攻撃アニメーション再生
 		sourceCharacter.SetAnimation(eCharacterAnimation.Attack);
-		// 対象ごとに攻撃の処理
 		int sourceAttack = sourceCharacter.attack;
 		List<int> targetList = range.targetList;
 		int targetCount = targetList.Count;
 		List<UniTask> taskList = new List<UniTask>(targetCount);
+		// 対象ごとに攻撃の処理
 		for (int i = 0; i < targetCount; i++) {
 			CharacterBase target = CharacterManager.instance.Get(targetList[i]);
 			if (target == null) continue;
 
+			SoundManager.instance.PlaySE(_ATTACK_HIT_SE_ID);
 			taskList.Add(ExecuteAttack(sourceAttack, target));
 		}
 		// 攻撃アニメーションの終了待ち

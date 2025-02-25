@@ -19,6 +19,8 @@ public class PartMainGame : PartBase {
 
 	private DungeonProcessor _dungeonProcessor = null;
 
+	private const int _MAIN_BGM_ID = 0;
+
 	public override async UniTask Initialize() {
 		TerrainSpriteAssignor.Initialize();
 		TerrainSpriteAssignor.SetFloorSpriteTypeIndex(0);
@@ -44,12 +46,16 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Execute() {
+		// BGM再生
+		SoundManager.instance.PlayBGM(_MAIN_BGM_ID);
 		// メインUI表示
 		var menuPlayerStatus = MenuManager.instance.Get<MenuPlayerStatus>();
 		await menuPlayerStatus.Open();
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
 		await menuPlayerStatus.Close();
+		// BGM止める
+		SoundManager.instance.StopBGM();
 		// ダンジョン終了結果の処理
 		UniTask task;
 		switch (endReason) {
@@ -65,6 +71,7 @@ public class PartMainGame : PartBase {
 			task = PartManager.instance.TransitionPart(eGamePart.Ending);
 			break;
 		}
+
 	}
 
 	private void SetupPlayer() {

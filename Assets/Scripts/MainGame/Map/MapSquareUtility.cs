@@ -88,11 +88,18 @@ public class MapSquareUtility {
 	public static bool CanAttack(int startX, int startY, MapSquareData attackSquare, eDirectionEight dir) {
 		if (attackSquare == null ||
 			attackSquare.terrain == eTerrain.Wall) return false;
-
+		// 攻撃方向が斜めではないので攻撃先が壁でない時点で攻撃可能
 		if (!dir.IsSlant()) return true;
-		// 斜め方向なので角抜け判定
+		// 斜め方向なら、方向を分割し各方向のマスをチェック
+		eDirectionFour[] separateDir = dir.Separate();
+		for (int i = 0, max = separateDir.Length; i < max; i++) {
+			MapSquareData checkSquare = GetToDirSquare(startX, startY, separateDir[i]);
+			if (checkSquare == null ||
+				checkSquare.terrain == eTerrain.Wall) return false;
 
-		return false;
+		}
+		// 斜め方向で分割したマスがどちらも壁ではないので攻撃可能
+		return true;
 	}
 
 	public static void GetVisibleArea(ref List<int> visibleArea, MapSquareData sourceSquare) {

@@ -20,7 +20,10 @@ public class ActionRange00_DirForward : ActionRangeBase {
 		int sourceX = sourceCharacter.positionX, sourceY = sourceCharacter.positionY;
 		MapSquareData sourceSquare = GetCharacterSquare(sourceCharacter);
 		MapSquareData targetSquare = GetToDirSquare(sourceX, sourceY, sourceCharacter.direction);
+		// 攻撃するマスにキャラが居るか判定
 		if (!targetSquare.existCharacter) return;
+		// 攻撃可能なマスか判定
+		if (!CanAttack(sourceX, sourceY, targetSquare, sourceCharacter.direction)) return;
 
 		CharacterBase targetCharacter = CharacterManager.instance.Get(targetSquare.characterID);
 		if (IsRelativeEnemy(sourceCharacter, targetCharacter)) targetList.Add(targetCharacter.ID);
@@ -35,16 +38,20 @@ public class ActionRange00_DirForward : ActionRangeBase {
 	/// <returns></returns>
 	public override bool CanUse(CharacterBase sourceCharacter, ref eDirectionEight dir) {
 		MapSquareData sourceSquare = GetCharacterSquare(sourceCharacter);
+		int sourceX = sourceSquare.positionX, sourceY = sourceSquare.positionY;
 		// 8方向の前方1マスを確認
 		for (int i = 0, max = (int)eDirectionEight.Max; i < max; i++) {
-			MapSquareData targetSquare = GetToDirSquare(sourceSquare, (eDirectionEight)i);
+			var checkDir = (eDirectionEight)i;
+			MapSquareData targetSquare = GetToDirSquare(sourceSquare, checkDir);
 			if (targetSquare == null ||
 				!targetSquare.existCharacter) continue;
+
+			if (!CanAttack(sourceX, sourceY, targetSquare, checkDir)) continue;
 			// マスにいるキャラクターを対象に取るか判定
 			CharacterBase targetCharacter = GetCharacter(targetSquare.characterID);
 			if (!IsRelativeEnemy(sourceCharacter, targetCharacter)) continue;
 			// 対象が居る
-			dir = (eDirectionEight)i;
+			dir = checkDir;
 			return true;
 		}
 		return false;
