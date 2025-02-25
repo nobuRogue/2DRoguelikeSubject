@@ -13,6 +13,14 @@ using UnityEngine;
 public class CharacterUtility {
 
 	/// <summary>
+	/// プレイヤー取得
+	/// </summary>
+	/// <returns></returns>
+	public static PlayerCharacter GetPlayer() {
+		return CharacterManager.instance.GetPlayer();
+	}
+
+	/// <summary>
 	/// キャラクターデータ取得
 	/// </summary>
 	/// <param name="ID"></param>

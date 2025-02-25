@@ -29,7 +29,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 			CharacterBase target = CharacterManager.instance.Get(targetList[i]);
 			if (target == null) continue;
 
-			SoundManager.instance.PlaySE(_ATTACK_HIT_SE_ID);
+			UniTask task = SoundManager.instance.PlaySE(_ATTACK_HIT_SE_ID);
 			taskList.Add(ExecuteAttack(sourceAttack, target));
 		}
 		// 攻撃アニメーションの終了待ち

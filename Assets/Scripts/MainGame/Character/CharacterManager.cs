@@ -159,6 +159,10 @@ public class CharacterManager : MonoBehaviour {
 		return _useList[ID];
 	}
 
+	/// <summary>
+	/// ƒvƒŒƒCƒ„[æ“¾
+	/// </summary>
+	/// <returns></returns>
 	public PlayerCharacter GetPlayer() {
 		if (IsEmpty(_useList)) return null;
 

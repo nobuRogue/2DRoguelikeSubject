@@ -17,7 +17,7 @@ public class SoundManager : SystemObject {
 	[SerializeField]
 	private AudioSource _bgmAudioSource = null;
 	[SerializeField]
-	private AudioSource _seAudioSource = null;
+	private AudioSource[] _seAudioSourceArray = null;
 
 	[SerializeField]
 	private BGMAssign _bgmAssign = null;
@@ -52,17 +52,32 @@ public class SoundManager : SystemObject {
 	/// SE再生
 	/// </summary>
 	/// <param name="seID"></param>
-	public void PlaySE(int seID) {
-		if (!IsEnableIndex(_seAssign.seArray, seID)) return;
+	/// <returns>再生したオーディオソースのインデクス</returns>
+	public async UniTask<int> PlaySE(int seID, bool isLoop = false) {
+		if (!IsEnableIndex(_seAssign.seArray, seID)) return -1;
+		// 再生中でないオーディオソースを探してそれで再生
+		for (int i = 0, max = _seAudioSourceArray.Length; i < max; i++) {
+			AudioSource seAudioSource = _seAudioSourceArray[i];
+			if (seAudioSource.isPlaying) continue;
+			// 再生中でないオーディソースが見つかったので再生
+			seAudioSource.clip = _seAssign.seArray[seID];
+			seAudioSource.loop = isLoop;
+			seAudioSource.Play();
+			// 再生の終了待ちをする
+			while (seAudioSource.isPlaying) await UniTask.DelayFrame(1);
 
-		_seAudioSource.clip = _seAssign.seArray[seID];
-		_seAudioSource.Play();
+			return i;
+		}
+		return -1;
 	}
 
 	/// <summary>
 	/// SEを止める
 	/// </summary>
-	public void StopSE() {
-		_seAudioSource.Stop();
+	/// <param name="audioSourceIndex">止めるオーディオソースのインデクス</param>
+	public void StopSE(int audioSourceIndex) {
+		if (!IsEnableIndex(_seAudioSourceArray, audioSourceIndex)) return;
+
+		_seAudioSourceArray[audioSourceIndex].Stop();
 	}
 }
