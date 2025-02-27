@@ -43,6 +43,7 @@ public class PartMainGame : PartBase {
 		UserDataHolder.currentData.SetFloorCount(1);
 		// ƒvƒŒƒCƒ„[‚ª‹‚È‚¯‚ê‚Î¶¬
 		SetupPlayer();
+		await UniTask.CompletedTask;
 	}
 
 	public override async UniTask Execute() {
@@ -87,6 +88,6 @@ public class PartMainGame : PartBase {
 	}
 
 	public override async UniTask Teardown() {
-
+		await UniTask.CompletedTask;
 	}
 }

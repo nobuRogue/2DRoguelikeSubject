@@ -6,9 +6,6 @@
  */
 
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 using static CommonModule;
@@ -28,6 +25,7 @@ public class SoundManager : SystemObject {
 
 	public override async UniTask Initialize() {
 		instance = this;
+		await UniTask.CompletedTask;
 	}
 
 	/// <summary>

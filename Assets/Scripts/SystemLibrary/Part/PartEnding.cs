@@ -13,7 +13,7 @@ public class PartEnding : PartBase {
 	}
 
 	public override async UniTask Setup() {
-
+		await UniTask.CompletedTask;
 	}
 
 	public override async UniTask Execute() {
@@ -24,6 +24,6 @@ public class PartEnding : PartBase {
 	}
 
 	public override async UniTask Teardown() {
-
+		await UniTask.CompletedTask;
 	}
 }

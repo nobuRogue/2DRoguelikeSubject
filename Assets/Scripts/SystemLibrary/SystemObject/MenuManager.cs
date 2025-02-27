@@ -17,6 +17,7 @@ public class MenuManager : SystemObject {
 	public override async UniTask Initialize() {
 		instance = this;
 		_menuObjectList = new List<GameObject>(256);
+		await UniTask.CompletedTask;
 	}
 
 	/// <summary>

@@ -20,6 +20,7 @@ public class FadeManager : SystemObject {
 
 	public override async UniTask Initialize() {
 		instance = this;
+		await UniTask.CompletedTask;
 	}
 
 	/// <summary>

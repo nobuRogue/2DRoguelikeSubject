@@ -15,14 +15,16 @@ public abstract class MenuBase : MonoBehaviour {
 	private GameObject _menuRoot = null;
 
 	public virtual async UniTask Initialize() {
-
+		await UniTask.CompletedTask;
 	}
 
 	public virtual async UniTask Open() {
 		_menuRoot.SetActive(true);
+		await UniTask.CompletedTask;
 	}
 
 	public virtual async UniTask Close() {
 		_menuRoot.SetActive(false);
+		await UniTask.CompletedTask;
 	}
 }

@@ -6,9 +6,6 @@
  */
 
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PartTitle : PartBase {
 	public override async UniTask Initialize() {
@@ -25,10 +22,10 @@ public class PartTitle : PartBase {
 	}
 
 	public override async UniTask Setup() {
-
+		await UniTask.CompletedTask;
 	}
 
 	public override async UniTask Teardown() {
-
+		await UniTask.CompletedTask;
 	}
 }

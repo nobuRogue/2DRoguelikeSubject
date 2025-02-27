@@ -19,6 +19,7 @@ public class PlayerCharacter : CharacterBase {
 
 	// 初期満腹度
 	private const int _DEFAULT_STAMINA = 10000;
+	private const int _SHOW_STAMINA_RATIO = 100;
 	// 現在の満腹度
 	private int _stamina = 0;
 
@@ -34,28 +35,36 @@ public class PlayerCharacter : CharacterBase {
 
 	public override void SetMaxHP(int setValue) {
 		base.SetMaxHP(setValue);
-		MenuManager.instance.Get<MenuPlayerStatus>().SetHP(HP, maxHP);
+		MenuPlayerStatus.instance.SetHP(HP, maxHP);
 	}
 
 	public override void SetHP(int setValue) {
 		base.SetHP(setValue);
-		MenuManager.instance.Get<MenuPlayerStatus>().SetHP(HP, maxHP);
+		MenuPlayerStatus.instance.SetHP(HP, maxHP);
 	}
 
 	public override void SetAttack(int setValue) {
 		base.SetAttack(setValue);
-		MenuManager.instance.Get<MenuPlayerStatus>().SetAttack(attack);
+		MenuPlayerStatus.instance.SetAttack(attack);
 	}
 
 	public override void SetDefense(int setValue) {
 		base.SetDefense(setValue);
-		MenuManager.instance.Get<MenuPlayerStatus>().SetDefense(defense);
+		MenuPlayerStatus.instance.SetDefense(defense);
 	}
 
 	public void SetStamina(int setValue) {
 		_stamina = setValue;
 		// UIへの反映
+		MenuPlayerStatus.instance.SetStamina(GetShowStamina());
+	}
 
+	/// <summary>
+	/// 満腹度を%表記に変換
+	/// </summary>
+	/// <returns></returns>
+	private int GetShowStamina() {
+		return (_stamina + _SHOW_STAMINA_RATIO - 1) / _SHOW_STAMINA_RATIO;
 	}
 
 	public void SetMoveObserver(PlayerMoveObserver setObserver) {

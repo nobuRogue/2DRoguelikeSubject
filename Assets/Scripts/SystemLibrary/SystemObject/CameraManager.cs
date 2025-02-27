@@ -18,6 +18,7 @@ public class CameraManager : SystemObject, PlayerMoveObserver {
 	public override async UniTask Initialize() {
 		instance = this;
 		_camera = GameObject.Find(_CAMERA_NAME).GetComponent<Camera>();
+		await UniTask.CompletedTask;
 	}
 
 	public void OnPlayerMove(Vector3 playerPosition) {
