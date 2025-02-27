@@ -6,8 +6,6 @@
  */
 
 using Cysharp.Threading.Tasks;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,7 +43,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		int defense = targetCharacter.defense;
 		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
 		// HPを減らす
-		//targetCharacter.RemoveHP(damage);
+		targetCharacter.RemoveHP(damage);
 		// アニメーションの終了待ち
 		while (targetCharacter.GetCurrentAnimation() == eCharacterAnimation.Damage) await UniTask.DelayFrame(1);
 

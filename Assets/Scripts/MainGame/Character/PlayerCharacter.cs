@@ -5,6 +5,7 @@
  * @date 2025/1/21
  */
 
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ public class PlayerCharacter : CharacterBase {
 	// 初期満腹度
 	private const int _DEFAULT_STAMINA = 10000;
 	private const int _SHOW_STAMINA_RATIO = 100;
+	private const int _TURN_DECREASE_STAMINA = 10;
 	// 現在の満腹度
 	private int _stamina = 0;
 
@@ -54,9 +56,13 @@ public class PlayerCharacter : CharacterBase {
 	}
 
 	public void SetStamina(int setValue) {
-		_stamina = setValue;
+		_stamina = Mathf.Max(0, setValue);
 		// UIへの反映
 		MenuPlayerStatus.instance.SetStamina(GetShowStamina());
+	}
+
+	public void RemoveStamina(int removeValue) {
+		SetStamina(_stamina - removeValue);
 	}
 
 	/// <summary>
@@ -84,6 +90,26 @@ public class PlayerCharacter : CharacterBase {
 		AddMoveTrail(squareData);
 	}
 
+	/// <summary>
+	/// ターン終了時処理
+	/// </summary>
+	/// <returns></returns>
+	public override async UniTask OnEndTurn() {
+		await base.OnEndTurn();
+		if (_stamina <= 0) {
+			// HPが減る
+			RemoveHP(1);
+			//if (IsDead())
+
+		} else {
+			// 満腹度が減る
+			RemoveStamina(_TURN_DECREASE_STAMINA);
+		}
+	}
+
+	/// <summary>
+	/// フロア終了時処理
+	/// </summary>
 	public override void OnEndFloor() {
 		base.OnEndFloor();
 		// 移動軌跡をクリア

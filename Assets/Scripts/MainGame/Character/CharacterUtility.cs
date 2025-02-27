@@ -6,11 +6,15 @@
  */
 
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public class CharacterUtility {
+
+	private static Action<eDungeonEndReason> _EndDungeon = null;
+
+	public static void SetEndDungeonCallback(Action<eDungeonEndReason> setDungeonProcess) {
+		_EndDungeon = setDungeonProcess;
+	}
 
 	/// <summary>
 	/// プレイヤー取得
@@ -44,6 +48,17 @@ public class CharacterUtility {
 	/// <returns></returns>
 	public static async UniTask ExecuteTaskAllCharacter(System.Func<CharacterBase, UniTask> task) {
 		await CharacterManager.instance.ExecuteAllTask(task);
+	}
+
+	public static async UniTask DeadCharacter(CharacterBase deadCharacter) {
+		if (deadCharacter.IsPlayer()) {
+			// プレイヤー死亡の処理
+			_EndDungeon(eDungeonEndReason.Dead);
+		} else {
+			// エネミー死亡の処理
+			CharacterManager.instance.UnuseEnemy(deadCharacter as EnemyCharacter);
+		}
+		await UniTask.CompletedTask;
 	}
 
 }

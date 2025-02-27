@@ -5,9 +5,7 @@
  * @date 2025/1/21
  */
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 using static CommonModule;
 using static GameConst;
@@ -44,18 +42,54 @@ public class TurnProcessor {
 		_isContinueTurn = true;
 		// プレイヤーの入力受付
 		await AcceptPlayerInput();
+		// 全キャラクターの移動
+		await MoveAllCharacter();
+		// 全エネミーの行動
+		await ActionAllEnemy();
+		// ターン終了時処理
+		await OnEndTurn();
+	}
+
+	/// <summary>
+	/// 全キャラクターの移動
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask MoveAllCharacter() {
 		// 全てのエネミーに行動を思考、移動の内部処理をさせる
 		CharacterUtility.ExecuteAllCharacter(character => character?.ThinkAction());
+		// 見た目の移動処理
 		for (int i = 0, max = _moveActionList.Count; i < max; i++) {
 			_moveTaskList.Add(_moveActionList[i].ProcessObject(MOVE_DURATION));
 		}
 		await WaitTask(_moveTaskList);
-		_moveActionList.Clear();
 		_moveTaskList.Clear();
+		_moveActionList.Clear();
+	}
+
+	/// <summary>
+	/// 全エネミーの行動
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask ActionAllEnemy() {
 		// 行動をするエネミーを順番に行動させる
 		await CharacterUtility.ExecuteTaskAllCharacter(ExecuteScheduleAction);
-		if (!_isContinueTurn) return;
+	}
 
+	/// <summary>
+	/// 全キャラクターのターン終了時処理を行う
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask OnEndTurn() {
+		await CharacterUtility.ExecuteTaskAllCharacter(OnEndTurnCharacter);
+	}
+
+	/// <summary>
+	/// キャラクターのターン終了時処理を行う
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	private async UniTask OnEndTurnCharacter(CharacterBase character) {
+		await character.OnEndTurn();
 	}
 
 	/// <summary>

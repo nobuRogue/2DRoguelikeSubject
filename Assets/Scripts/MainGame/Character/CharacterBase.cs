@@ -147,6 +147,14 @@ public abstract class CharacterBase {
 	}
 
 	/// <summary>
+	/// ターン終了時処理
+	/// </summary>
+	/// <returns></returns>
+	public virtual async UniTask OnEndTurn() {
+		await UniTask.CompletedTask;
+	}
+
+	/// <summary>
 	/// フロア終了時処理
 	/// </summary>
 	public virtual void OnEndFloor() {
