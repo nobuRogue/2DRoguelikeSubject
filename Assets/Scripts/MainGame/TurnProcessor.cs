@@ -34,8 +34,10 @@ public class TurnProcessor {
 
 		_EndFloor = SetEndFloor;
 		_EndDungeon = SetEndDungeon;
+		// フロア終了、ダンジョン終了処理を必要なクラスに渡す
 		MoveAction.SetEndCallback(EndFloor, EndDungeon);
 		ActionEffectBase.SetEndCallback(EndDungeon);
+		CharacterUtility.SetEndDungeonCallback(EndDungeon);
 	}
 
 	public async UniTask Execute() {

@@ -50,13 +50,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		// 死亡判定、処理
 		if (!targetCharacter.IsDead()) return;
 
-		if (targetCharacter.IsPlayer()) {
-			// プレイヤー死亡の処理
-			_EndDungeon(eDungeonEndReason.Dead);
-		} else {
-			// エネミー死亡の処理
-			CharacterManager.instance.UnuseEnemy(targetCharacter as EnemyCharacter);
-		}
+		await CharacterUtility.DeadCharacter(targetCharacter);
 	}
 
 }

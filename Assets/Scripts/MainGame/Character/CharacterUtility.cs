@@ -50,6 +50,11 @@ public class CharacterUtility {
 		await CharacterManager.instance.ExecuteAllTask(task);
 	}
 
+	/// <summary>
+	/// キャラクターの死亡処理
+	/// </summary>
+	/// <param name="deadCharacter"></param>
+	/// <returns></returns>
 	public static async UniTask DeadCharacter(CharacterBase deadCharacter) {
 		if (deadCharacter.IsPlayer()) {
 			// プレイヤー死亡の処理

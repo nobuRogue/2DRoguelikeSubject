@@ -101,6 +101,7 @@ public class CharacterManager : MonoBehaviour {
 
 			useID = i;
 			_useList[i] = useCharacter;
+			break;
 		}
 		if (useID < 0) {
 			useID = _useList.Count;

@@ -6,8 +6,6 @@
  */
 
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class CharacterBase {
@@ -78,6 +76,10 @@ public abstract class CharacterBase {
 
 	public virtual void SetHP(int setValue) {
 		HP = Mathf.Clamp(setValue, 0, maxHP);
+	}
+
+	public void AddHP(int addValue) {
+		SetHP(HP + addValue);
 	}
 
 	public void RemoveHP(int removeValue) {

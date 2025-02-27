@@ -99,11 +99,13 @@ public class PlayerCharacter : CharacterBase {
 		if (_stamina <= 0) {
 			// HP‚ªŒ¸‚é
 			RemoveHP(1);
-			//if (IsDead())
+			if (IsDead()) await CharacterUtility.DeadCharacter(this);
 
 		} else {
 			// –ž• “x‚ªŒ¸‚é
 			RemoveStamina(_TURN_DECREASE_STAMINA);
+			if (!IsDead()) AddHP(1);
+
 		}
 	}
 
