@@ -5,11 +5,6 @@
  * @date 2025/1/14
  */
 
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
 public static class ExpansionMethod {
 
 	/// <summary>
@@ -90,6 +85,15 @@ public static class ExpansionMethod {
 		while (index >= maxIndex) index -= maxIndex;
 
 		return (eDirectionEight)index;
+	}
+
+	/// <summary>
+	/// 整数をマスターメッセージに変換
+	/// </summary>
+	/// <param name="messageID"></param>
+	/// <returns></returns>
+	public static string ToMessage(this int messageID) {
+		return MessageMasterUtility.GetMessage(messageID);
 	}
 
 }

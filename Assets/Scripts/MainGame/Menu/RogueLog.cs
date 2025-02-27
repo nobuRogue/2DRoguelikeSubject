@@ -35,7 +35,7 @@ public class RogueLog : MonoBehaviour {
 		float flowValue = rectTransForm.sizeDelta.y;
 		Vector3 startPos = transform.position;
 		Vector3 goalPos = startPos;
-		goalPos.y -= flowValue;
+		goalPos.y += flowValue;
 		// ‹K’è‚Ì•b”‚ğ‚©‚¯‚ÄˆÚ“®
 		float elapsedTime = 0.0f;
 		while (elapsedTime < _FLOW_DURATION) {

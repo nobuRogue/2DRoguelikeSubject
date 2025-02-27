@@ -42,6 +42,8 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		// ダメージ計算
 		int defense = targetCharacter.defense;
 		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
+		// ログ表示
+		MenuRogueLog.instance.AddLog(string.Format(0.ToMessage(), damage));
 		// HPを減らす
 		targetCharacter.RemoveHP(damage);
 		// アニメーションの終了待ち

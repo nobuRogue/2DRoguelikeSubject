@@ -33,6 +33,7 @@ public class PartMainGame : PartBase {
 
 		await MenuManager.instance.Get<MenuPlayerStatus>("Prefabs/Menu/CanvasPlayerStatus").Initialize();
 		await MenuManager.instance.Get<MenuGameOver>("Prefabs/Menu/CanvasGameOver").Initialize();
+		await MenuManager.instance.Get<MenuRogueLog>("Prefabs/Menu/CanvasRogueLog").Initialize();
 
 		ActionRangeManager.Initialize();
 		ActionManager.Initialize();
@@ -52,9 +53,13 @@ public class PartMainGame : PartBase {
 		// メインUI表示
 		var menuPlayerStatus = MenuManager.instance.Get<MenuPlayerStatus>();
 		await menuPlayerStatus.Open();
+		// ログUI表示
+		var menuLog = MenuManager.instance.Get<MenuRogueLog>();
+		await menuLog.Open();
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
 		await menuPlayerStatus.Close();
+		await menuLog.Close();
 		// BGM止める
 		SoundManager.instance.StopBGM();
 		// ダンジョン終了結果の処理
