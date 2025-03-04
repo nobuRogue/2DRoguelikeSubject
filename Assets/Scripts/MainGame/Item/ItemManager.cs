@@ -158,6 +158,10 @@ public class ItemManager : MonoBehaviour {
 		_useObjectList[useID] = useObject;
 	}
 
+	/// <summary>
+	/// アイテムの未使用化
+	/// </summary>
+	/// <param name="ID"></param>
 	public void UnuseItemData(int ID) {
 		if (!IsEnableIndex(_useList, ID) || _useList[ID] == null) return;
 		// データの未使用化
@@ -166,9 +170,13 @@ public class ItemManager : MonoBehaviour {
 		unuseItem.Teardown();
 		_unuseList[(int)unuseItem.GetCategory()].Add(unuseItem);
 		// オブジェクトの未使用化
-
+		UnuseItemObject(ID);
 	}
 
+	/// <summary>
+	/// アイテムオブジェクトの未使用化
+	/// </summary>
+	/// <param name="ID"></param>
 	public void UnuseItemObject(int ID) {
 		if (!IsEnableIndex(_useObjectList, ID) || _useObjectList[ID] == null) return;
 		// オブジェクトの未使用化
@@ -192,6 +200,20 @@ public class ItemManager : MonoBehaviour {
 		ItemBase result = targetList[0];
 		targetList.RemoveAt(0);
 		return result;
+	}
+
+	/// <summary>
+	/// 全ての使用中アイテムに指定の処理を実行
+	/// </summary>
+	/// <param name="action"></param>
+	public void ExecuteAllItem(System.Action<ItemBase> action) {
+		if (action == null || IsEmpty(_useList)) return;
+
+		for (int i = 0, max = _useList.Count; i < max; i++) {
+			if (_useList[i] == null) continue;
+
+			action(_useList[i]);
+		}
 	}
 
 }

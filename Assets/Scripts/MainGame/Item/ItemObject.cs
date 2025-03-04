@@ -30,7 +30,8 @@ public class ItemObject : MonoBehaviour {
 	}
 
 	public void UnuseSelf() {
-		// TODO:自身を未使用状態にする
+		// 自身を未使用状態にする
+		ItemManager.instance.UnuseItemObject(ID);
 	}
 
 }

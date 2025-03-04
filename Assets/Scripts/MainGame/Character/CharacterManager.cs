@@ -175,6 +175,10 @@ public class CharacterManager : MonoBehaviour {
 		return null;
 	}
 
+	/// <summary>
+	/// 全ての使用中キャラクターに指定の処理を実行
+	/// </summary>
+	/// <param name="action"></param>
 	public void ExecuteAll(System.Action<CharacterBase> action) {
 		if (action == null || IsEmpty(_useList)) return;
 
@@ -185,6 +189,11 @@ public class CharacterManager : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// 全ての使用中キャラクターに指定のタスクを実行
+	/// </summary>
+	/// <param name="task"></param>
+	/// <returns></returns>
 	public async UniTask ExecuteAllTask(System.Func<CharacterBase, UniTask> task) {
 		if (task == null || IsEmpty(_useList)) return;
 

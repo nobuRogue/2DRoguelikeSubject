@@ -62,7 +62,6 @@ public abstract class ItemBase {
 			positionY = -1;
 			// オブジェクトの処理
 			_GetObject(ID).UnuseSelf();
-
 		} else if (possessCharacterID >= 0) {
 			// キャラが持っているアイテム
 			// TODO:キャラの手持ちから取り除く

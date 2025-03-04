@@ -17,6 +17,9 @@ public class PartMainGame : PartBase {
 	[SerializeField]
 	private CharacterManager _characterManager = null;
 
+	[SerializeField]
+	private ItemManager _itemManager = null;
+
 	private DungeonProcessor _dungeonProcessor = null;
 
 	private const int _MAIN_BGM_ID = 0;
@@ -30,6 +33,7 @@ public class PartMainGame : PartBase {
 
 		_squareManager.Initialize();
 		_characterManager.Initialize();
+		_itemManager.Initialize();
 
 		await MenuManager.instance.Get<MenuPlayerStatus>("Prefabs/Menu/CanvasPlayerStatus").Initialize();
 		await MenuManager.instance.Get<MenuGameOver>("Prefabs/Menu/CanvasGameOver").Initialize();
