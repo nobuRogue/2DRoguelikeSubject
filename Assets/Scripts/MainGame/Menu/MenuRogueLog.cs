@@ -48,6 +48,10 @@ public class MenuRogueLog : MenuBase {
 		UniTask task = ShowLogTask();
 	}
 
+	/// <summary>
+	/// ログの追加
+	/// </summary>
+	/// <param name="logMessage"></param>
 	public void AddLog(string logMessage) {
 		_standbyLogList.Add(logMessage);
 	}
@@ -100,6 +104,18 @@ public class MenuRogueLog : MenuBase {
 		_useList.Remove(unuseLog);
 		_unuseList.Add(unuseLog);
 		unuseLog.transform.SetParent(_unuseRoot);
+	}
+
+	/// <summary>
+	/// 表示されているログと待機中ログのクリア
+	/// </summary>
+	public void ClearLog() {
+		// 待機中ログのクリア
+		_standbyLogList.Clear();
+		// 表示中ログオブジェクトのクリア
+		for (int i = _useList.Count - 1; i >= 0; i--) {
+			UnuseLogObject(_useList[i]);
+		}
 	}
 
 }

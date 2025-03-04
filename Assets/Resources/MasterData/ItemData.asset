@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ee627b510771840b06ff6b870edf1f, type: 3}
+  m_Name: ItemData
+  m_EditorClassIdentifier: 
+  sheets:
+  - name: ItemData
+    list:
+    - ID: 0
+      nameID: 1000
+      category: 0
+      effectID: 1
+    - ID: 1
+      nameID: 1001
+      category: 0
+      effectID: 0
+    - ID: 2
+      nameID: 1002
+      category: 0
+      effectID: 0
+    - ID: 3
+      nameID: 1003
+      category: 0
+      effectID: 0
+    - ID: 4
+      nameID: 1004
+      category: 0
+      effectID: 0
+    - ID: 5
+      nameID: 1005
+      category: 0
+      effectID: 0
+    - ID: 6
+      nameID: 1006
+      category: 0
+      effectID: 0
+    - ID: 7
+      nameID: 1007
+      category: 0
+      effectID: 0
+    - ID: 8
+      nameID: 1008
+      category: 0
+      effectID: 0
+    - ID: 9
+      nameID: 1009
+      category: 0
+      effectID: 0
+    - ID: 10
+      nameID: 1010
+      category: 0
+      effectID: 0

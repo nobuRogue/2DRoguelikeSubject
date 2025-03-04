@@ -17,38 +17,67 @@ MonoBehaviour:
     list:
     - ID: 0
       Message:
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
-      - 
+      - "{0}\u30C0\u30E1\u30FC\u30B8"
+      - '{0} damage'
+      - "{0}\u635F\u4F24"
       - 
     - ID: 1
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 2
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 3
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 4
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 5
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 6
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 7
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 8
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 9
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 
     - ID: 10
-      Message: []
+      Message:
+      - 
+      - 
+      - 
+      - 

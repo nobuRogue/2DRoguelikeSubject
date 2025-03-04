@@ -5,10 +5,7 @@
  * @date 2025/1/9
  */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MapSquareData {
 	// マスオブジェクトを取得するコールバック
@@ -22,11 +19,18 @@ public class MapSquareData {
 	public int positionY { get; private set; } = -1;
 	public eTerrain terrain { get; private set; } = eTerrain.Invalid;
 	public int roomID { get; private set; } = -1;
+	/// <summary>
+	/// マスにいるキャラクターのID
+	/// </summary>
 	public int characterID { get; private set; } = -1;
 	/// <summary>
 	/// マスにキャラクターが存在するか
 	/// </summary>
 	public bool existCharacter { get { return characterID >= 0; } }
+	/// <summary>
+	/// マスにあるアイテムのID
+	/// </summary>
+	public int itemID { get; private set; } = -1;
 
 	public void Setup(int setID, int setX, int setY) {
 		ID = setID;
@@ -54,6 +58,14 @@ public class MapSquareData {
 
 	public void RemoveCharacter() {
 		characterID = -1;
+	}
+
+	public void SetItem(int setItemID) {
+		itemID = setItemID;
+	}
+
+	public void RemoveItem() {
+		itemID = -1;
 	}
 
 	public void ShowMark(Color color) {

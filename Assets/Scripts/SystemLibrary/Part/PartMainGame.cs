@@ -58,8 +58,10 @@ public class PartMainGame : PartBase {
 		await menuLog.Open();
 		// ダンジョンの実行
 		eDungeonEndReason endReason = await _dungeonProcessor.Execute();
+		// ゲーム終了
 		await menuPlayerStatus.Close();
 		await menuLog.Close();
+		menuLog.ClearLog();
 		// BGM止める
 		SoundManager.instance.StopBGM();
 		// ダンジョン終了結果の処理

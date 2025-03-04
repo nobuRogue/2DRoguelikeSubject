@@ -69,3 +69,10 @@ public enum eCharacterAnimation {
 	Damage,
 	Max,
 }
+
+public enum eItemCategory {
+	Potion, // –ò
+	Food,   // H‚×•¨
+	Wand,   // ñ
+	Max
+}
