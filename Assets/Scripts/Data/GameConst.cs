@@ -23,4 +23,8 @@ public class GameConst {
 
 	// 通常攻撃の行動ID
 	public static readonly int NORMAL_ATTACK_ACTION_ID = 0;
+
+	// アイテム画像ファイル
+	public static string ITEM_SPRITE_FILE_NAME = "Design/Sprites/Item/itemIcons";
+
 }

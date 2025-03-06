@@ -7,8 +7,7 @@
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour {
-	private static string _ITEM_SPRITE_FILE_NAME = "Design/Sprites/Item/itemIcons";
-
+	
 	[SerializeField]
 	private SpriteRenderer _itemSprite = null;
 
@@ -17,7 +16,7 @@ public class ItemObject : MonoBehaviour {
 	public void Setup(int setID, Entity_ItemData.Param itemMaster) {
 		ID = setID;
 		// ƒJƒeƒSƒŠ‚©‚çŒ©‚½–Ú‚ðŽæ“¾
-		_itemSprite.sprite = Resources.LoadAll<Sprite>(_ITEM_SPRITE_FILE_NAME)[itemMaster.category];
+		_itemSprite.sprite = Resources.LoadAll<Sprite>(GameConst.ITEM_SPRITE_FILE_NAME)[itemMaster.category];
 	}
 
 	public void Teardown() {
