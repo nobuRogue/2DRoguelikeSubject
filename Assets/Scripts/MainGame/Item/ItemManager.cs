@@ -66,8 +66,9 @@ public class ItemManager : MonoBehaviour {
 			case eItemCategory.Potion:
 			return new ItemPotion();
 			case eItemCategory.Food:
+			return new ItemFood();
 			case eItemCategory.Wand:
-			return null;
+			return new ItemWand();
 		}
 		return null;
 	}
@@ -141,7 +142,7 @@ public class ItemManager : MonoBehaviour {
 	/// アイテムオブジェクトの使用化
 	/// </summary>
 	/// <param name="useID"></param>
-	private void UseItemObject(int useID) {
+	public void UseItemObject(int useID) {
 		ItemObject useObject = null;
 		if (IsEmpty(_unuseObjectList)) {
 			// 未使用リストが空なので生成

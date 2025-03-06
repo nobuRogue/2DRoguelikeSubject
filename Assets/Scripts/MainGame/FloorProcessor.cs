@@ -110,6 +110,22 @@ public class FloorProcessor {
 			ItemUtility.CreateFloorItem(0, itemSquare);
 			candidateSquareList.Remove(itemSquare);
 		}
+		for (int i = 0; i < createCount; i++) {
+			if (IsEmpty(candidateSquareList)) return;
+			// 候補マスの内ランダムな一つにアイテム生成
+			int randomIndex = Random.Range(0, candidateSquareList.Count);
+			MapSquareData itemSquare = candidateSquareList[randomIndex];
+			ItemUtility.CreateFloorItem(1, itemSquare);
+			candidateSquareList.Remove(itemSquare);
+		}
+		for (int i = 0; i < createCount; i++) {
+			if (IsEmpty(candidateSquareList)) return;
+			// 候補マスの内ランダムな一つにアイテム生成
+			int randomIndex = Random.Range(0, candidateSquareList.Count);
+			MapSquareData itemSquare = candidateSquareList[randomIndex];
+			ItemUtility.CreateFloorItem(2, itemSquare);
+			candidateSquareList.Remove(itemSquare);
+		}
 	}
 
 	private async UniTask TeardownFloor() {

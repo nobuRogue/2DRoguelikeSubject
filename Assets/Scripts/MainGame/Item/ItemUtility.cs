@@ -32,4 +32,13 @@ public class ItemUtility {
 		ItemManager.instance.UnuseItemData(ID);
 	}
 
+	/// <summary>
+	/// アイテムデータ取得
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
+	public static ItemBase GetItemData(int ID) {
+		return ItemManager.instance.GetItemData(ID);
+	}
+
 }

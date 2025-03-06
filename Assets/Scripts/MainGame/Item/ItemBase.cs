@@ -16,8 +16,12 @@ public abstract class ItemBase {
 		_GetObject = setProcess;
 	}
 
+	// ユニークID
 	public int ID { get; private set; } = -1;
+	// マスターデータID
 	private int _masterID = -1;
+	// アイテム名ID
+	private int _nameID = -1;
 	public int positionX { get; private set; } = -1;
 	public int positionY { get; private set; } = -1;
 	public int possessCharacterID { get; private set; } = -1;
@@ -27,13 +31,17 @@ public abstract class ItemBase {
 		ID = setID;
 		_masterID = setMasterID;
 		SetSquare(square);
-		_GetObject(ID).Setup(ID, ItemMasterUtility.GetItemMaster(_masterID));
+		// マスターデータ取得
+		var itemMaster = ItemMasterUtility.GetItemMaster(_masterID);
+		_nameID = itemMaster.nameID;
+		_GetObject(ID).Setup(ID, itemMaster);
 	}
 
 	public void Teardown() {
 		RemoveCurrentPlace();
 		ID = -1;
 		_masterID = -1;
+		_nameID = -1;
 	}
 
 	/// <summary>
@@ -48,7 +56,24 @@ public abstract class ItemBase {
 		positionY = square.positionY;
 		square.SetItem(ID);
 		// オブジェクトの処理
-		_GetObject(ID).SetSquare(square);
+		ItemObject itemObject = _GetObject(ID);
+		if (itemObject == null) {
+			ItemManager.instance.UseItemObject(ID);
+		} else {
+			_GetObject(ID).SetSquare(square);
+		}
+	}
+
+	/// <summary>
+	/// キャラクターの手持ちに追加
+	/// </summary>
+	/// <param name="character"></param>
+	public void AddCharcter(CharacterBase character) {
+		if (character == null) return;
+		// 現在の場所から取り除く
+		RemoveCurrentPlace();
+		character.AddItem(ID);
+		possessCharacterID = character.ID;
 	}
 
 	/// <summary>
@@ -63,10 +88,18 @@ public abstract class ItemBase {
 			// オブジェクトの処理
 			_GetObject(ID).UnuseSelf();
 		} else if (possessCharacterID >= 0) {
-			// キャラが持っているアイテム
-			// TODO:キャラの手持ちから取り除く
+			// キャラの手持ちから取り除く
+			CharacterUtility.GetCharacter(possessCharacterID).RemoveIDItem(ID);
 			possessCharacterID = -1;
 		}
+	}
+
+	/// <summary>
+	/// アイテム名取得
+	/// </summary>
+	/// <returns></returns>
+	public string GetItemName() {
+		return _nameID.ToMessage();
 	}
 
 }

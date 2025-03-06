@@ -8,6 +8,8 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
+using static CommonModule;
+
 public abstract class CharacterBase {
 	protected static System.Func<int, CharacterObject> _GetObject = null;
 
@@ -28,13 +30,25 @@ public abstract class CharacterBase {
 	public int attack { get; private set; } = -1;
 	public int defense { get; private set; } = -1;
 
+	private static readonly int _POSSESS_ITEM_MAX = 10;
+	/// <summary>
+	/// 所持アイテムのIDリスト
+	/// </summary>
+	public int[] possessItemList { get; private set; } = null;
+
 	public virtual void Setup(int setID, MapSquareData squareData, int masterID) {
 		ID = setID;
 		SetSquare(squareData);
 		_masterID = masterID;
+		// ステータス数値の初期化
 		ResetStatus();
 		_GetObject(ID).Setup(CharacterMasterUtility.GetCharacterMaster(_masterID));
 		SetDirection(eDirectionEight.Down);
+		// 所持アイテムの初期化
+		possessItemList = new int[_POSSESS_ITEM_MAX];
+		for (int i = 0; i < _POSSESS_ITEM_MAX; i++) {
+			possessItemList[i] = -1;
+		}
 	}
 
 	/// <summary>
@@ -173,6 +187,67 @@ public abstract class CharacterBase {
 
 	public eCharacterAnimation GetCurrentAnimation() {
 		return _GetObject(ID).currentAnim;
+	}
+
+	/// <summary>
+	/// アイテムを追加出来るか否か
+	/// </summary>
+	/// <returns></returns>
+	public bool CanAddItem() {
+		for (int i = 0, max = possessItemList.Length; i < max; i++) {
+			if (possessItemList[i] < 0) return true;
+
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// アイテムの追加
+	/// </summary>
+	/// <param name="addItemID"></param>
+	public void AddItem(int addItemID) {
+		for (int i = 0, max = possessItemList.Length; i < max; i++) {
+			if (possessItemList[i] >= 0) continue;
+
+			possessItemList[i] = addItemID;
+			break;
+		}
+	}
+
+	/// <summary>
+	/// ID指定の所持アイテム除去
+	/// </summary>
+	/// <param name="removeItemID"></param>
+	public void RemoveIDItem(int removeItemID) {
+		bool doneRemove = false;
+		for (int i = 0, max = possessItemList.Length; i < max; i++) {
+			if (!doneRemove) doneRemove = possessItemList[i] == removeItemID;
+
+			if (!doneRemove) continue;
+			// インデクスを一つずつずらす
+			if (IsEnableIndex(possessItemList, i + 1)) {
+				possessItemList[i] = possessItemList[i + 1];
+			} else {
+				possessItemList[i] = -1;
+			}
+		}
+	}
+
+	/// <summary>
+	/// インデクス指定の所持アイテム除去
+	/// </summary>
+	/// <param name="removeIndex"></param>
+	public void RemoveIndexItem(int removeIndex) {
+		if (!IsEnableIndex(possessItemList, removeIndex)) return;
+
+		for (int i = removeIndex, max = possessItemList.Length; i < max; i++) {
+			// インデクスを一つずつずらす
+			if (IsEnableIndex(possessItemList, i + 1)) {
+				possessItemList[i] = possessItemList[i + 1];
+			} else {
+				possessItemList[i] = -1;
+			}
+		}
 	}
 
 }

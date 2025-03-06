@@ -7,13 +7,15 @@
 
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveAction {
+	private static readonly int _CANNOT_ADD_ITEM_LOG_ID = 1000;
+	private static readonly int _ADD_ITEM_LOG_ID = 1001;
+
 	private static Action<eFloorEndReason> _EndFloor = null;
 	private static Action<eDungeonEndReason> _EndDungeon = null;
+
 
 	public static void SetEndCallback(Action<eFloorEndReason> setFloorProcess, Action<eDungeonEndReason> setDungeonProcess) {
 		_EndFloor = setFloorProcess;
@@ -70,7 +72,40 @@ public class MoveAction {
 	private void AfterMoveProcess(CharacterBase moveCharacter, MapSquareData goalSquare) {
 		// プレイヤーなら階段によるフロア終了判定
 		if (!moveCharacter.IsPlayer()) return;
+		// マスにアイテムがあるなら拾得処理
+		ProcessAddItem(moveCharacter, goalSquare);
+		// 階段処理
+		ProcessStair(goalSquare);
+	}
 
+	/// <summary>
+	/// 移動先のアイテム拾得処理
+	/// </summary>
+	/// <param name="moveCharacter"></param>
+	/// <param name="goalSquare"></param>
+	private void ProcessAddItem(CharacterBase moveCharacter, MapSquareData goalSquare) {
+		// 移動先にアイテムが無ければ終了
+		if (goalSquare.itemID < 0) return;
+		// キャラクターが拾えなければ終了
+		ItemBase addItem = ItemUtility.GetItemData(goalSquare.itemID);
+		if (!moveCharacter.CanAddItem()) {
+			// 拾えないログを表示
+			string cannotLogMessage = string.Format(_CANNOT_ADD_ITEM_LOG_ID.ToMessage(), addItem.GetItemName());
+			MenuRogueLog.instance.AddLog(cannotLogMessage);
+			return;
+		}
+		// キャラクターのアイテムに追加
+		addItem.AddCharcter(moveCharacter);
+		// 拾ったログを表示
+		string logMessage = string.Format(_ADD_ITEM_LOG_ID.ToMessage(), addItem.GetItemName());
+		MenuRogueLog.instance.AddLog(logMessage);
+	}
+
+	/// <summary>
+	/// 移動先が階段だった時のフロア移動処理
+	/// </summary>
+	/// <param name="goalSquare"></param>
+	private void ProcessStair(MapSquareData goalSquare) {
 		if (goalSquare.terrain != eTerrain.Stair) return;
 		// 次のフロアがあるならフロア移動
 		var floorMaster = FloorMasterUtility.GetFloorMaster(UserDataHolder.currentData.floorCount + 1);

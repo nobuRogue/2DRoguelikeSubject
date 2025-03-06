@@ -81,3 +81,33 @@ MonoBehaviour:
       - 
       - 
       - 
+    - ID: 1000
+      Message:
+      - "{0}\u3092\u62FE\u3048\u306A\u304B\u3063\u305F"
+      - 
+      - 
+      - 
+    - ID: 1001
+      Message:
+      - "{0}\u3092\u62FE\u3063\u305F"
+      - 
+      - 
+      - 
+    - ID: 2000
+      Message:
+      - "\u30DD\u30FC\u30B7\u30E7\u30F3A"
+      - 
+      - 
+      - 
+    - ID: 2001
+      Message:
+      - "\u98DF\u3079\u7269B"
+      - 
+      - 
+      - 
+    - ID: 2002
+      Message:
+      - "\u6756C"
+      - 
+      - 
+      - 

@@ -7,7 +7,7 @@
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour {
-	private static string _ITEM_SPRITE_FILE_NAME = "Design/Sprites/Character/rogue_sand_enemy2_attack";
+	private static string _ITEM_SPRITE_FILE_NAME = "Design/Sprites/Item/itemIcons";
 
 	[SerializeField]
 	private SpriteRenderer _itemSprite = null;
