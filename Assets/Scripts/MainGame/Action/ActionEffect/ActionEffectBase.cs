@@ -15,7 +15,10 @@ public abstract class ActionEffectBase {
 		_EndDungeon = setDungeonProcess;
 	}
 
-	public abstract UniTask Execute(CharacterBase sourceCharacter, ActionRangeBase range);
+	public abstract UniTask Execute(
+		CharacterBase sourceCharacter,
+		Entity_ActionEffectData.Param effectMaster,
+		ActionRangeBase range);
 
 	public virtual void TearDown() {
 

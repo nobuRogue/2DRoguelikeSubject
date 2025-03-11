@@ -10,6 +10,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActionMasterUtility {
+	/// <summary>
+	/// 行動のマスターデータ取得
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
 	public static Entity_ActionData.Param GetActionMaster(int ID) {
 		List<Entity_ActionData.Param> actionMasterList = MasterDataManager.actionData[0];
 		for (int i = 0, max = actionMasterList.Count; i < max; i++) {
@@ -20,4 +25,18 @@ public class ActionMasterUtility {
 		return null;
 	}
 
+	/// <summary>
+	/// 効果のマスターデータ取得
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
+	public static Entity_ActionEffectData.Param GetActionEffectMaster(int ID) {
+		List<Entity_ActionEffectData.Param> effectMasterList = MasterDataManager.actionEffectData[0];
+		for (int i = 0, max = effectMasterList.Count; i < max; i++) {
+			if (effectMasterList[i].ID != ID) continue;
+
+			return effectMasterList[i];
+		}
+		return null;
+	}
 }

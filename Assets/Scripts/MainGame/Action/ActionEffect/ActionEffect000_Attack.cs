@@ -12,13 +12,20 @@ using UnityEngine;
 using static CommonModule;
 
 public class ActionEffect000_Attack : ActionEffectBase {
+	private enum eParamIndex {
+		DamagePercentage,   // 威力％
+	}
 
 	private const int _ATTACK_HIT_SE_ID = 0;
 
-	public override async UniTask Execute(CharacterBase sourceCharacter, ActionRangeBase range) {
+	public override async UniTask Execute(
+		CharacterBase sourceCharacter,
+		Entity_ActionEffectData.Param effectMaster,
+		ActionRangeBase range) {
 		// 行動者の攻撃アニメーション再生
 		sourceCharacter.SetAnimation(eCharacterAnimation.Attack);
-		int sourceAttack = sourceCharacter.attack;
+		int sourceAttack = sourceCharacter.attack * effectMaster.param[(int)eParamIndex.DamagePercentage];
+		sourceAttack /= 100;
 		List<int> targetList = range.targetList;
 		int targetCount = targetList.Count;
 		List<UniTask> taskList = new List<UniTask>(targetCount);

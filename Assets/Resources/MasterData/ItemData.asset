@@ -18,7 +18,7 @@ MonoBehaviour:
     - ID: 0
       nameID: 2000
       category: 0
-      actionID: 0
+      actionID: 1
     - ID: 1
       nameID: 2001
       category: 1
@@ -26,7 +26,7 @@ MonoBehaviour:
     - ID: 2
       nameID: 2002
       category: 2
-      actionID: 0
+      actionID: 2
     - ID: 3
       nameID: 2003
       category: 0

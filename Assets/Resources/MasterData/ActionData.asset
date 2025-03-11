@@ -16,5 +16,11 @@ MonoBehaviour:
   - name: ActionData
     list:
     - ID: 0
-      effectType: 0
+      effectID: 0
+      rangeType: 0
+    - ID: 1
+      effectID: 1
+      rangeType: 1
+    - ID: 2
+      effectID: 4
       rangeType: 0
