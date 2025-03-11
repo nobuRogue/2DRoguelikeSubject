@@ -19,7 +19,7 @@ public abstract class ItemBase {
 	// ユニークID
 	public int ID { get; private set; } = -1;
 	// マスターデータID
-	private int _masterID = -1;
+	public int masterID { get; private set; } = -1;
 	// アイテム名ID
 	private int _nameID = -1;
 	public int positionX { get; private set; } = -1;
@@ -29,10 +29,10 @@ public abstract class ItemBase {
 
 	public void Setup(int setID, int setMasterID, MapSquareData square) {
 		ID = setID;
-		_masterID = setMasterID;
+		masterID = setMasterID;
 		SetSquare(square);
 		// マスターデータ取得
-		var itemMaster = ItemMasterUtility.GetItemMaster(_masterID);
+		var itemMaster = ItemMasterUtility.GetItemMaster(masterID);
 		_nameID = itemMaster.nameID;
 		_GetObject(ID).Setup(ID, itemMaster);
 	}
@@ -40,7 +40,7 @@ public abstract class ItemBase {
 	public void Teardown() {
 		RemoveCurrentPlace();
 		ID = -1;
-		_masterID = -1;
+		masterID = -1;
 		_nameID = -1;
 	}
 

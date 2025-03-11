@@ -41,4 +41,16 @@ public class ItemUtility {
 		return ItemManager.instance.GetItemData(ID);
 	}
 
+	/// <summary>
+	/// アイテムのユニークなIDからマスターデータ取得
+	/// </summary>
+	/// <param name="ID"></param>
+	/// <returns></returns>
+	public static Entity_ItemData.Param GetItemMasterFromID(int ID) {
+		ItemBase itemData = GetItemData(ID);
+		if (itemData == null) return null;
+
+		return ItemMasterUtility.GetItemMaster(itemData.masterID);
+	}
+
 }

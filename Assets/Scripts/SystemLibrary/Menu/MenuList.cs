@@ -6,6 +6,7 @@
  */
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using static CommonModule;
@@ -30,18 +31,19 @@ public class MenuList : MenuBase {
 	/// <summary>
 	/// リストメニューのコールバック集クラス
 	/// </summary>
-	protected class MenuListCallbackFortmat {
+	public class MenuListCallbackFortmat {
 		// 決定された際の処理
 		public System.Func<MenuListItem, UniTask<bool>> OnDecide = null;
 		// キャンセルされた際の処理
 		public System.Func<MenuListItem, UniTask<bool>> OnCancel = null;
 		// カーソルが移動した際の処理
 		public System.Func<MenuListItem, MenuListItem, UniTask<bool>> OnMoveCursor = null;
+		// 自由な受付処理
+		public System.Func<MenuListItem, UniTask<bool>> FreeAccept = null;
 	}
 	private MenuListCallbackFortmat _currentFormat = null;
 
 	private int _currentIndex = -1;
-	private bool _isContinue = false;
 
 	private List<MenuListItem> _useList = null;
 	private List<MenuListItem> _unuseList = null;
@@ -108,17 +110,15 @@ public class MenuList : MenuBase {
 	/// </summary>
 	/// <returns></returns>
 	public async UniTask AcceptInput() {
-		_isContinue = true;
-		while (_isContinue) {
+		while (true) {
 			// カーソルの移動受付
-			await AcceptMoveCursor();
-			if (!_isContinue) break;
+			if (await AcceptMoveCursor()) break;
 			// 決定の入力受付
-			await AcceptDecide();
-			if (!_isContinue) break;
+			if (await AcceptDecide()) break;
 			// キャンセルの入力受付
-			await AcceptCancel();
-			if (!_isContinue) break;
+			if (await AcceptCancel()) break;
+			// 自由な受付処理
+			if (await AcceptFree()) break;
 
 			await UniTask.DelayFrame(1);
 		}
@@ -128,10 +128,10 @@ public class MenuList : MenuBase {
 	/// カーソル移動入力の受付処理
 	/// </summary>
 	/// <returns></returns>
-	private async UniTask AcceptMoveCursor() {
+	private async UniTask<bool> AcceptMoveCursor() {
 		// 四方向の入力受付
 		eDirectionFour inputDir = GetDirInput();
-		if (inputDir == eDirectionFour.Invalid) return;
+		if (inputDir == eDirectionFour.Invalid) return false;
 		// 入力に応じたインデクスの変更
 		int moveIndex = _currentIndex;
 		switch (inputDir) {
@@ -151,7 +151,7 @@ public class MenuList : MenuBase {
 
 		if (moveIndex < 0) moveIndex += _useList.Count;
 		// カーソル移動時の処理
-		await SetIndex(moveIndex);
+		return await SetIndex(moveIndex);
 	}
 
 	/// <summary>
@@ -176,8 +176,8 @@ public class MenuList : MenuBase {
 	/// </summary>
 	/// <param name="setIndex"></param>
 	/// <returns></returns>
-	protected async UniTask SetIndex(int setIndex) {
-		if (_currentIndex == setIndex) return;
+	protected async UniTask<bool> SetIndex(int setIndex) {
+		if (_currentIndex == setIndex) return false;
 		// 現在の項目を未選択状態にする
 		MenuListItem prevItem;
 		if (IsEnableIndex(_useList, _currentIndex)) {
@@ -187,43 +187,55 @@ public class MenuList : MenuBase {
 			prevItem = null;
 		}
 		_currentIndex = setIndex;
-		if (!IsEnableIndex(_useList, _currentIndex)) return;
+		if (!IsEnableIndex(_useList, _currentIndex)) return false;
 		// 移動後の項目を選択状態にする
 		MenuListItem currentItem = _useList[_currentIndex];
 		currentItem.Select();
 		// カーソル移動コールバックの実行
 		if (_currentFormat == null ||
-			_currentFormat.OnMoveCursor == null) return;
+			_currentFormat.OnMoveCursor == null) return false;
 
-		_isContinue = await _currentFormat.OnMoveCursor(currentItem, prevItem);
+		return await _currentFormat.OnMoveCursor(currentItem, prevItem);
 	}
 
 	/// <summary>
 	/// 決定入力の受付処理
 	/// </summary>
 	/// <returns></returns>
-	private async UniTask AcceptDecide() {
-		if (!Input.GetKeyDown(KeyCode.Z)) return;
+	private async UniTask<bool> AcceptDecide() {
+		if (!Input.GetKeyDown(KeyCode.Z)) return false;
 
 		if (_currentFormat == null ||
-			_currentFormat.OnDecide == null) return;
+			_currentFormat.OnDecide == null) return false;
 
 		MenuListItem currentItem = IsEnableIndex(_useList, _currentIndex) ? _useList[_currentIndex] : null;
-		_isContinue = await _currentFormat.OnDecide(currentItem);
+		return await _currentFormat.OnDecide(currentItem);
 	}
 
 	/// <summary>
 	/// キャンセル入力の受付処理
 	/// </summary>
 	/// <returns></returns>
-	private async UniTask AcceptCancel() {
-		if (!Input.GetKeyDown(KeyCode.X)) return;
+	private async UniTask<bool> AcceptCancel() {
+		if (!Input.GetKeyDown(KeyCode.X)) return false;
 
 		if (_currentFormat == null ||
-			_currentFormat.OnCancel == null) return;
+			_currentFormat.OnCancel == null) return false;
 
 		MenuListItem currentItem = IsEnableIndex(_useList, _currentIndex) ? _useList[_currentIndex] : null;
-		_isContinue = await _currentFormat.OnCancel(currentItem);
+		return await _currentFormat.OnCancel(currentItem);
+	}
+
+	/// <summary>
+	/// 自由な受付
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask<bool> AcceptFree() {
+		if (_currentFormat == null ||
+			_currentFormat.FreeAccept == null) return false;
+
+		MenuListItem currentItem = IsEnableIndex(_useList, _currentIndex) ? _useList[_currentIndex] : null;
+		return await _currentFormat.FreeAccept(currentItem);
 	}
 
 }

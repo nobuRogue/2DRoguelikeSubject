@@ -21,7 +21,10 @@ public class MenuItemListItem : MenuListItem {
 	[SerializeField]
 	private TextMeshProUGUI _itemNameText = null;
 
-	public void Setup(int itemID) {
+	public int itemID { get; private set; } = -1;
+
+	public void Setup(int setItemID) {
+		itemID = setItemID;
 		var itemData = ItemUtility.GetItemData(itemID);
 		// ƒAƒCƒRƒ“‰æ‘œ‚Ìİ’è
 		Sprite[] itemSpriteList = Resources.LoadAll<Sprite>(GameConst.ITEM_SPRITE_FILE_NAME);

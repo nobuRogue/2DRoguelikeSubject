@@ -38,6 +38,7 @@ public class PartMainGame : PartBase {
 		await MenuManager.instance.Get<MenuPlayerStatus>("Prefabs/Menu/CanvasPlayerStatus").Initialize();
 		await MenuManager.instance.Get<MenuGameOver>("Prefabs/Menu/CanvasGameOver").Initialize();
 		await MenuManager.instance.Get<MenuRogueLog>("Prefabs/Menu/CanvasRogueLog").Initialize();
+		await MenuManager.instance.Get<MenuItemList>("Prefabs/Menu/CanvasItemList").Initialize();
 
 		ActionRangeManager.Initialize();
 		ActionManager.Initialize();

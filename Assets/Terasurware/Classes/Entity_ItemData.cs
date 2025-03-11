@@ -20,7 +20,7 @@ public class Entity_ItemData : ScriptableObject
 		public int ID;
 		public int nameID;
 		public int category;
-		public int effectID;
+		public int actionID;
 	}
 }
 

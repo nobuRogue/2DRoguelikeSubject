@@ -8,16 +8,26 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
+using static MenuList;
 using static MapSquareUtility;
 using static CharacterUtility;
 using static UnityEngine.Input;
-using UnityEngine.UIElements;
 
 public class AcceptPlayerInput {
 	private System.Action<MoveAction> _AddMove = null;
 
-	public void SetAddMoveActionCallback(System.Action<MoveAction> setProcess) {
+	// アイテムリストのコールバック集
+	private MenuListCallbackFortmat _itemListFormat = null;
+	// アイテムリストで選択されたアイテムID
+	private int _selectItemID = -1;
+
+	public void Initialize(System.Action<MoveAction> setProcess) {
 		_AddMove = setProcess;
+		// アイテムリストのコールバック生成
+		_itemListFormat = new MenuListCallbackFortmat();
+		_itemListFormat.OnDecide = DecideItemList;// 決定時の処理
+		_itemListFormat.OnCancel = CloseItemList;// キャンセル時の処理
+		_itemListFormat.FreeAccept = AcceptSortPlayerItem;//ソートの受付
 	}
 
 	/// <summary>
@@ -26,9 +36,12 @@ public class AcceptPlayerInput {
 	/// <returns></returns>
 	public async UniTask AcceptInput() {
 		while (true) {
+			// 移動の受付
 			if (AcceptMove()) break;
-
+			// 攻撃の受付
 			if (await AcceptAttack()) break;
+			// アイテムリストの受付
+			if (await AcceptItemList()) break;
 
 			await AcceptDirChange();
 			await UniTask.DelayFrame(1);
@@ -161,4 +174,70 @@ public class AcceptPlayerInput {
 		forwardSquare = playerDirSquare;
 	}
 
+	/// <summary>
+	/// アイテムリストの受付
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask<bool> AcceptItemList() {
+		if (!GetKeyDown(KeyCode.C)) return false;
+
+		var itemList = MenuManager.instance.Get<MenuItemList>();
+		await itemList.Setup(GetPlayer().possessItemList, _itemListFormat);
+		await itemList.Open();
+		await itemList.AcceptInput();
+		await itemList.Close();
+		if (_selectItemID < 0) return false;
+		// 使用したアイテム効果処理
+		var itemMaster = ItemUtility.GetItemMasterFromID(_selectItemID);
+		await ActionManager.ExecuteAction(GetPlayer(), itemMaster.actionID);
+		// 使用したアイテムの消費
+
+		_selectItemID = -1;
+		return true;
+	}
+
+	/// <summary>
+	/// アイテムリスト決定時処理
+	/// </summary>
+	/// <param name="currentItem"></param>
+	/// <returns></returns>
+	private async UniTask<bool> DecideItemList(MenuListItem currentItem) {
+		// 決定したアイテム項目のアイテムIDを取得しておく
+		var itemListItem = currentItem as MenuItemListItem;
+		_selectItemID = itemListItem.itemID;
+		await UniTask.CompletedTask;
+		return true;
+	}
+
+	/// <summary>
+	/// アイテムリストの入力受付を終了する
+	/// </summary>
+	/// <param name="currentItem"></param>
+	/// <returns></returns>
+	private async UniTask<bool> CloseItemList(MenuListItem currentItem) {
+		await UniTask.CompletedTask;
+		return true;
+	}
+
+	private async UniTask<bool> AcceptSortPlayerItem(MenuListItem currentItem) {
+		if (!GetKeyDown(KeyCode.V)) return false;
+		// プレイヤーの所持アイテムをソートする
+		PlayerCharacter player = GetPlayer();
+		player.possessItemList.Sort(ItemSortMethod);
+		var itemList = MenuManager.instance.Get<MenuItemList>();
+		await itemList.Setup(player.possessItemList, _itemListFormat);
+		return false;
+	}
+
+	/// <summary>
+	/// アイテムリストのソート関数
+	/// </summary>
+	/// <param name="itemID_A"></param>
+	/// <param name="itemID_B"></param>
+	/// <returns></returns>
+	private int ItemSortMethod(int itemID_A, int itemID_B) {
+		var itemAMaster = ItemUtility.GetItemMasterFromID(itemID_A);
+		var itemBMaster = ItemUtility.GetItemMasterFromID(itemID_B);
+		return itemAMaster.ID - itemBMaster.ID;
+	}
 }
