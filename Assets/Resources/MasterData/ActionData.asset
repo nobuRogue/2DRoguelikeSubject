@@ -24,3 +24,6 @@ MonoBehaviour:
     - ID: 2
       effectID: 4
       rangeType: 1
+    - ID: 3
+      effectID: 5
+      rangeType: 2

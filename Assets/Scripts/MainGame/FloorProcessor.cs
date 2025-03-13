@@ -59,9 +59,9 @@ public class FloorProcessor {
 			roomSquareList.Add(square);
 		});
 		// エネミーの配置
-		SpawnEnemy(3, roomSquareList);
+		SpawnEnemy(20, roomSquareList);
 		// アイテムの配置
-		CreateFloorItem(4, roomSquareList);
+		CreateFloorItem(10, roomSquareList);
 		_endReason = eFloorEndReason.Invalid;
 		await FadeManager.instance.FadeIn();
 	}

@@ -9,24 +9,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using static CharacterUtility;
 using static MapSquareUtility;
 using static CommonModule;
 
 public class ActionRange02_DirForward10 : ActionRangeBase {
+	// 射程のマス数
+	private readonly int _RANGE_COUNT = 10;
+
 	public override void Setup(CharacterBase sourceCharacter) {
+		// 対象リストを初期化
 		InitializeList(ref targetList);
-		// 前方1マスを取得
-		int sourceX = sourceCharacter.positionX, sourceY = sourceCharacter.positionY;
-		MapSquareData sourceSquare = GetCharacterSquare(sourceCharacter);
-		MapSquareData targetSquare = GetToDirSquare(sourceX, sourceY, sourceCharacter.direction);
-		// 攻撃するマスにキャラが居るか判定
-		if (!targetSquare.existCharacter) return;
-		// 攻撃可能なマスか判定
-		if (!CanAttack(sourceX, sourceY, targetSquare, sourceCharacter.direction)) return;
-
-		CharacterBase targetCharacter = CharacterManager.instance.Get(targetSquare.characterID);
-		if (IsRelativeEnemy(sourceCharacter, targetCharacter)) targetList.Add(targetCharacter.ID);
-
+		MapSquareData targetSquare = GetCharacterSquare(sourceCharacter);
+		eDirectionEight sourceDir = sourceCharacter.direction;
+		for (int i = 0; i < _RANGE_COUNT; i++) {
+			// 前方1マスを取得
+			targetSquare = GetToDirSquare(targetSquare, sourceDir);
+			// 壁であれば終了
+			if (targetSquare == null ||
+				targetSquare.terrain == eTerrain.Wall) break;
+			// 対象マスにキャラが居なければ継続
+			if (!targetSquare.existCharacter) continue;
+			// 対象に追加して終了
+			targetList.Add(targetSquare.characterID);
+			break;
+		}
 	}
 }

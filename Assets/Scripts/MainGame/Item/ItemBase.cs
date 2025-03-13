@@ -4,7 +4,7 @@
  * @author yao
  * @date 2025/3/4
  */
-
+using System.Text;
 
 public abstract class ItemBase {
 	/// <summary>
@@ -22,12 +22,13 @@ public abstract class ItemBase {
 	public int masterID { get; private set; } = -1;
 	// アイテム名ID
 	private int _nameID = -1;
+	protected StringBuilder _itemNameStringBuilder = null;
 	public int positionX { get; private set; } = -1;
 	public int positionY { get; private set; } = -1;
 	public int possessCharacterID { get; private set; } = -1;
 	public abstract eItemCategory GetCategory();
 
-	public void Setup(int setID, int setMasterID, MapSquareData square) {
+	public virtual void Setup(int setID, int setMasterID, MapSquareData square) {
 		ID = setID;
 		masterID = setMasterID;
 		SetSquare(square);
@@ -35,6 +36,7 @@ public abstract class ItemBase {
 		var itemMaster = ItemMasterUtility.GetItemMaster(masterID);
 		_nameID = itemMaster.nameID;
 		_GetObject(ID).Setup(ID, itemMaster);
+		_itemNameStringBuilder = new StringBuilder();
 	}
 
 	public void Teardown() {
@@ -98,8 +100,15 @@ public abstract class ItemBase {
 	/// アイテム名取得
 	/// </summary>
 	/// <returns></returns>
-	public string GetItemName() {
+	public virtual string GetItemName() {
 		return _nameID.ToMessage();
+	}
+
+	/// <summary>
+	/// 消費処理
+	/// </summary>
+	public virtual void Consume() {
+		ItemUtility.RemoveItem(ID);
 	}
 
 }

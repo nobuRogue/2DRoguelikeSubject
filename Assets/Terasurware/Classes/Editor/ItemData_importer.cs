@@ -54,6 +54,10 @@ public class ItemData_importer : AssetPostprocessor {
 					cell = row.GetCell(1); p.nameID = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(2); p.category = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(4); p.actionID = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(5); p.minCount = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(6); p.maxCount = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(7); p.burnID = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(8); p.rotID = (int)(cell == null ? 0 : cell.NumericCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

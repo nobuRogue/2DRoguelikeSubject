@@ -25,6 +25,7 @@ public class EnemyAI00_Normal : EnemyAIBase {
 	/// 行動を思考させる
 	/// </summary>
 	public override void ThinkAction() {
+		return;
 		// 視界とプレイヤー有無の取得
 		CharacterBase sourceCharacter = _GetSourceCharacter();
 		MapSquareData sourceSquare = MapSquareManager.instance.Get(sourceCharacter.positionX, sourceCharacter.positionY);

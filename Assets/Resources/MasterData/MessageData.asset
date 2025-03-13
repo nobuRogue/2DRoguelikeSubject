@@ -99,13 +99,31 @@ MonoBehaviour:
       - 
       - 
       - 
-    - ID: 2001
+    - ID: 2100
       Message:
-      - "\u98DF\u3079\u7269B"
+      - "\u8089"
       - 
       - 
       - 
-    - ID: 2002
+    - ID: 2101
+      Message:
+      - "\u713C\u3051\u305F\u8089"
+      - 
+      - 
+      - 
+    - ID: 2102
+      Message:
+      - "\u8150\u3063\u305F\u8089"
+      - 
+      - 
+      - 
+    - ID: 2103
+      Message:
+      - "\u9ED2\u7126\u3052\u8089"
+      - 
+      - 
+      - 
+    - ID: 2200
       Message:
       - "\u6756C"
       - 

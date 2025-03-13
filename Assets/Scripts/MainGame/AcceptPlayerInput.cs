@@ -193,7 +193,7 @@ public class AcceptPlayerInput {
 		var itemMaster = ItemUtility.GetItemMasterFromID(_selectItemID);
 		await ActionManager.ExecuteAction(GetPlayer(), itemMaster.actionID);
 		// 使用したアイテムの消費
-		ItemUtility.RemoveItem(_selectItemID);
+		ItemUtility.GetItemData(_selectItemID)?.Consume();
 		_selectItemID = -1;
 		return true;
 	}

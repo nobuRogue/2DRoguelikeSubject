@@ -18,6 +18,7 @@ public class ActionRangeManager {
 		_actionRangeList = new List<ActionRangeBase>();
 		_actionRangeList.Add(new ActionRange00_DirForward());
 		_actionRangeList.Add(new ActionRange01_Self());
+		_actionRangeList.Add(new ActionRange02_DirForward10());
 	}
 
 	/// <summary>
