@@ -140,7 +140,7 @@ public class FloorProcessor {
 		ItemUtility.ExecuteAllItem(itemData => {
 			if (itemData.positionX < 0 || itemData.positionY < 0) return;
 
-			ItemUtility.UnuseItem(itemData.ID);
+			ItemUtility.RemoveItem(itemData.ID);
 		});
 		// キャラクターのフロア終了時処理
 		CharacterUtility.ExecuteAllCharacter(character => character.OnEndFloor());

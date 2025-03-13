@@ -1,19 +1,17 @@
 /**
- * @file ActionEffect000_Attack.cs
- * @brief 通常攻撃の効果処理
+ * @file ActionEffect003_FixDamage.cs
+ * @brief 固定ダメージの効果処理
  * @author yao
  * @date 2025/2/18
  */
-
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEngine;
 
 using static CommonModule;
 
-public class ActionEffect000_Attack : ActionEffectBase {
+public class ActionEffect003_FixDamage : ActionEffectBase {
 	private enum eParamIndex {
-		DamagePercentage,   // 威力％
+		DamageValue,   // ダメージ量
 	}
 	// SEのID
 	private const int _ATTACK_HIT_SE_ID = 0;
@@ -24,8 +22,8 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		ActionRangeBase range) {
 		// 行動者の攻撃アニメーション再生
 		sourceCharacter.SetAnimation(eCharacterAnimation.Attack);
-		int sourceAttack = sourceCharacter.attack * effectMaster.param[(int)eParamIndex.DamagePercentage];
-		sourceAttack /= 100;
+
+		int damageValue = effectMaster.param[(int)eParamIndex.DamageValue];
 		List<int> targetList = range.targetList;
 		int targetCount = targetList.Count;
 		List<UniTask> taskList = new List<UniTask>(targetCount);
@@ -35,7 +33,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 			if (target == null) continue;
 			// SEの再生
 			UniTask task = SoundManager.instance.PlaySE(_ATTACK_HIT_SE_ID);
-			taskList.Add(ExecuteAttack(sourceAttack, target));
+			taskList.Add(ExecuteFixDamage(damageValue, target));
 		}
 		// 攻撃アニメーションの終了待ち
 		while (sourceCharacter.GetCurrentAnimation() == eCharacterAnimation.Attack) await UniTask.DelayFrame(1);
@@ -43,16 +41,13 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		await WaitTask(taskList);
 	}
 
-	private async UniTask ExecuteAttack(int sourceAttack, CharacterBase targetCharacter) {
+	private async UniTask ExecuteFixDamage(int damageValue, CharacterBase targetCharacter) {
 		// 対象の被ダメージアニメーション
 		targetCharacter.SetAnimation(eCharacterAnimation.Damage);
-		// ダメージ計算
-		int defense = targetCharacter.defense;
-		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
 		// ログ表示
-		MenuRogueLog.instance.AddLog(string.Format(0.ToMessage(), damage));
+		MenuRogueLog.instance.AddLog(string.Format(0.ToMessage(), damageValue));
 		// HPを減らす
-		targetCharacter.RemoveHP(damage);
+		targetCharacter.RemoveHP(damageValue);
 		// アニメーションの終了待ち
 		while (targetCharacter.GetCurrentAnimation() == eCharacterAnimation.Damage) await UniTask.DelayFrame(1);
 		// 死亡判定、処理
@@ -60,5 +55,6 @@ public class ActionEffect000_Attack : ActionEffectBase {
 
 		await CharacterUtility.DeadCharacter(targetCharacter);
 	}
+
 
 }

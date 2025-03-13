@@ -16,7 +16,7 @@ using static CommonModule;
 public class ActionRange00_DirForward : ActionRangeBase {
 	public override void Setup(CharacterBase sourceCharacter) {
 		InitializeList(ref targetList);
-		// とりあえず前方1マスで実装
+		// 前方1マスを取得
 		int sourceX = sourceCharacter.positionX, sourceY = sourceCharacter.positionY;
 		MapSquareData sourceSquare = GetCharacterSquare(sourceCharacter);
 		MapSquareData targetSquare = GetToDirSquare(sourceX, sourceY, sourceCharacter.direction);
@@ -55,16 +55,6 @@ public class ActionRange00_DirForward : ActionRangeBase {
 			return true;
 		}
 		return false;
-	}
-
-	/// <summary>
-	/// 相対的な敵か否か
-	/// </summary>
-	/// <param name="source"></param>
-	/// <param name="target"></param>
-	/// <returns></returns>
-	private bool IsRelativeEnemy(CharacterBase source, CharacterBase target) {
-		return source.IsPlayer() != target.IsPlayer();
 	}
 
 }

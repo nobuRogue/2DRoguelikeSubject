@@ -19,6 +19,8 @@ public class ActionManager {
 		_actionEffectList = new List<ActionEffectBase>();
 		_actionEffectList.Add(new ActionEffect000_Attack());
 		_actionEffectList.Add(new ActionEffect001_RecoveryHP());
+		_actionEffectList.Add(new ActionEffect002_RecoveryStamina());
+		_actionEffectList.Add(new ActionEffect003_FixDamage());
 	}
 
 	/// <summary>

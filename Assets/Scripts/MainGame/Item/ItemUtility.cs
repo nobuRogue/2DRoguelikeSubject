@@ -28,7 +28,7 @@ public class ItemUtility {
 	/// アイテムを未使用状態にする
 	/// </summary>
 	/// <param name="ID"></param>
-	public static void UnuseItem(int ID) {
+	public static void RemoveItem(int ID) {
 		ItemManager.instance.UnuseItemData(ID);
 	}
 

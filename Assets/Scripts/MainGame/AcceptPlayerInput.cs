@@ -126,6 +126,8 @@ public class AcceptPlayerInput {
 			eDirectionEight inputDir = AcceptDirInput();
 			// 向きを変える
 			ChangePlayerDir(inputDir, ref forwardSquare);
+			if (inputDir.IsSlant()) await UniTask.Delay(500);
+
 			await UniTask.DelayFrame(1);
 		}
 		// 今向いている方のマスの色消す
@@ -191,7 +193,7 @@ public class AcceptPlayerInput {
 		var itemMaster = ItemUtility.GetItemMasterFromID(_selectItemID);
 		await ActionManager.ExecuteAction(GetPlayer(), itemMaster.actionID);
 		// 使用したアイテムの消費
-
+		ItemUtility.RemoveItem(_selectItemID);
 		_selectItemID = -1;
 		return true;
 	}

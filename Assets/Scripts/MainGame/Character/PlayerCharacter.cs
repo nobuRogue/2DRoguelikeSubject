@@ -19,7 +19,7 @@ public class PlayerCharacter : CharacterBase {
 	private readonly int PLAYER_MOVE_TRAIL_COUNT = 3;
 
 	// èâä˙ñûï†ìx
-	private const int _DEFAULT_STAMINA = 10000;
+	private const int _MAX_STAMINA = 10000;
 	private const int _SHOW_STAMINA_RATIO = 100;
 	private const int _TURN_DECREASE_STAMINA = 10;
 	// åªç›ÇÃñûï†ìx
@@ -32,7 +32,7 @@ public class PlayerCharacter : CharacterBase {
 
 	public override void ResetStatus() {
 		base.ResetStatus();
-		SetStamina(_DEFAULT_STAMINA);
+		SetStamina(_MAX_STAMINA);
 	}
 
 	public override void SetMaxHP(int setValue) {
@@ -56,9 +56,14 @@ public class PlayerCharacter : CharacterBase {
 	}
 
 	public void SetStamina(int setValue) {
-		_stamina = Mathf.Max(0, setValue);
+		// 0Å`10000Ç≈ä€ÇﬂÇÈ
+		_stamina = Mathf.Clamp(setValue, 0, _MAX_STAMINA);
 		// UIÇ÷ÇÃîΩâf
 		MenuPlayerStatus.instance.SetStamina(GetShowStamina());
+	}
+
+	public void AddStamina(int addValue) {
+		SetStamina(_stamina + addValue);
 	}
 
 	public void RemoveStamina(int removeValue) {

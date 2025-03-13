@@ -26,4 +26,14 @@ public abstract class ActionRangeBase {
 		return true;
 	}
 
+	/// <summary>
+	/// ‘Š‘Î“I‚È“G‚©”Û‚©
+	/// </summary>
+	/// <param name="source"></param>
+	/// <param name="target"></param>
+	/// <returns></returns>
+	protected bool IsRelativeEnemy(CharacterBase source, CharacterBase target) {
+		return source.IsPlayer() != target.IsPlayer();
+	}
+
 }

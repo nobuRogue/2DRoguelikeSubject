@@ -28,5 +28,5 @@ MonoBehaviour:
       effectType: 1
       param: 6400000000000000
     - ID: 4
-      effectType: 0
-      param: e803000000000000
+      effectType: 2
+      param: 8813000000000000
