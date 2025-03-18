@@ -34,7 +34,7 @@ MonoBehaviour:
     - ID: 101
       nameID: 2101
       category: 1
-      actionID: 2
+      actionID: 6
       minCount: -1
       maxCount: -1
       burnID: 103
@@ -42,7 +42,7 @@ MonoBehaviour:
     - ID: 102
       nameID: 2102
       category: 1
-      actionID: 2
+      actionID: 6
       minCount: -1
       maxCount: -1
       burnID: 101
@@ -50,7 +50,7 @@ MonoBehaviour:
     - ID: 103
       nameID: 2103
       category: 1
-      actionID: 2
+      actionID: 7
       minCount: -1
       maxCount: -1
       burnID: -1

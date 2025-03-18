@@ -23,6 +23,7 @@ public class ActionManager {
 		_actionEffectList.Add(new ActionEffect001_RecoveryHP());
 		_actionEffectList.Add(new ActionEffect002_RecoveryStamina());
 		_actionEffectList.Add(new ActionEffect003_FixDamage());
+		_actionEffectList.Add(new ActionEffect004_BurnItem());
 	}
 
 	/// <summary>

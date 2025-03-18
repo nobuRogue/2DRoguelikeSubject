@@ -31,3 +31,19 @@ MonoBehaviour:
       nameID: 15003
       rangeType: 2
       effectID: 05000000ffffffffffffffffffffffff
+    - ID: 4
+      nameID: 15004
+      rangeType: 0
+      effectID: 0700000006000000ffffffffffffffff
+    - ID: 5
+      nameID: 15005
+      rangeType: 0
+      effectID: 080000000a000000ffffffffffffffff
+    - ID: 6
+      nameID: 15006
+      rangeType: 1
+      effectID: 080000000a000000ffffffffffffffff
+    - ID: 7
+      nameID: 15007
+      rangeType: 1
+      effectID: 0800000009000000ffffffffffffffff

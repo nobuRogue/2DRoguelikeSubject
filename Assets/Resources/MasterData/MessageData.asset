@@ -41,13 +41,13 @@ MonoBehaviour:
       - 
     - ID: 4
       Message:
-      - 
+      - "{0} \u306F\u713C\u3051\u3066\u3057\u307E\u3063\u305F"
       - 
       - 
       - 
     - ID: 5
       Message:
-      - 
+      - "{0} \u306F\u8150\u3063\u3066\u3057\u307E\u3063\u305F"
       - 
       - 
       - 
@@ -203,7 +203,13 @@ MonoBehaviour:
       - 
     - ID: 15006
       Message:
+      - "\u713C\u3051\u305F\u8089"
       - 
+      - 
+      - 
+    - ID: 15007
+      Message:
+      - "\u9ED2\u7126\u3052\u8089"
       - 
       - 
       - 

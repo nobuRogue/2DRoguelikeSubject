@@ -47,6 +47,16 @@ public abstract class ItemBase {
 	}
 
 	/// <summary>
+	/// マスターID変更
+	/// </summary>
+	/// <param name="changeMasterID"></param>
+	public void ChangeMasterID(int changeMasterID) {
+		masterID = changeMasterID;
+		var itemMaster = ItemMasterUtility.GetItemMaster(masterID);
+		_nameID = itemMaster.nameID;
+	}
+
+	/// <summary>
 	/// マスにアイテムを置く
 	/// </summary>
 	/// <param name="square"></param>
