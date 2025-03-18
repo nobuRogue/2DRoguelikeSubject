@@ -87,11 +87,23 @@ public class FloorProcessor {
 	/// </summary>
 	/// <param name="spawnCount"></param>
 	private void SpawnEnemy(int spawnCount, List<MapSquareData> candidateSquareList) {
+		// 現在のフロアの出現エネミーテーブルを取得
+		var enemyTable = FloorMasterUtility.GetCurrentEnemyTable();
+		int tableCount = enemyTable.enemyID.Length;
+		List<int> useTable = new List<int>(tableCount);
+		for (int i = 0; i < tableCount; i++) {
+			if (enemyTable.enemyID[i] < 0) continue;
+
+			useTable.Add(enemyTable.enemyID[i]);
+		}
+		if (IsEmpty(useTable)) return;
+
+		// テーブルから指定数ランダムに出現
 		for (int i = 0; i < spawnCount; i++) {
 			if (IsEmpty(candidateSquareList)) return;
 
 			MapSquareData enemySquare = candidateSquareList[Random.Range(0, candidateSquareList.Count)];
-			CharacterManager.instance.UseEnemy(enemySquare, 1);
+			CharacterManager.instance.UseEnemy(enemySquare, useTable[Random.Range(0, useTable.Count)]);
 			candidateSquareList.Remove(enemySquare);
 		}
 	}
@@ -115,7 +127,7 @@ public class FloorProcessor {
 			// 候補マスの内ランダムな一つにアイテム生成
 			int randomIndex = Random.Range(0, candidateSquareList.Count);
 			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(1, itemSquare);
+			ItemUtility.CreateFloorItem(100, itemSquare);
 			candidateSquareList.Remove(itemSquare);
 		}
 		for (int i = 0; i < createCount; i++) {
@@ -123,7 +135,7 @@ public class FloorProcessor {
 			// 候補マスの内ランダムな一つにアイテム生成
 			int randomIndex = Random.Range(0, candidateSquareList.Count);
 			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(2, itemSquare);
+			ItemUtility.CreateFloorItem(200, itemSquare);
 			candidateSquareList.Remove(itemSquare);
 		}
 	}

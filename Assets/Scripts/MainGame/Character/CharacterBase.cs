@@ -19,7 +19,9 @@ public abstract class CharacterBase {
 	}
 
 	public int ID { get; protected set; } = -1;
-	private int _masterID = -1;
+	public int masterID { get; protected set; } = -1;
+	// 名前メッセージID
+	private int _nameID = -1;
 	public int positionX { get; protected set; } = -1;
 	public int positionY { get; protected set; } = -1;
 	/// <summary>
@@ -37,13 +39,15 @@ public abstract class CharacterBase {
 	/// </summary>
 	public List<int> possessItemList { get; private set; } = null;
 
-	public virtual void Setup(int setID, MapSquareData squareData, int masterID) {
+	public virtual void Setup(int setID, MapSquareData squareData, int setMasterID) {
 		ID = setID;
 		SetSquare(squareData);
-		_masterID = masterID;
+		masterID = setMasterID;
 		// ステータス数値の初期化
 		ResetStatus();
-		_GetObject(ID).Setup(CharacterMasterUtility.GetCharacterMaster(_masterID));
+		var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
+		_nameID = characterMaster.nameID;
+		_GetObject(ID).Setup(characterMaster);
 		SetDirection(eDirectionEight.Down);
 		// 所持アイテムの初期化
 		possessItemList = new List<int>(_POSSESS_ITEM_MAX);
@@ -53,7 +57,7 @@ public abstract class CharacterBase {
 	/// ステータス初期化
 	/// </summary>
 	public virtual void ResetStatus() {
-		var characterMaster = CharacterMasterUtility.GetCharacterMaster(_masterID);
+		var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
 		if (characterMaster == null) return;
 
 		SetMaxHP(characterMaster.HP);
@@ -65,6 +69,8 @@ public abstract class CharacterBase {
 	public void Teardown() {
 		_GetObject(ID).Teardown();
 		ID = -1;
+		masterID = -1;
+		_nameID = -1;
 	}
 
 	/// <summary>
@@ -76,6 +82,14 @@ public abstract class CharacterBase {
 
 		direction = dir;
 		_GetObject(ID).SetDirection(direction);
+	}
+
+	/// <summary>
+	/// キャラクター名取得
+	/// </summary>
+	/// <returns></returns>
+	public string GetName() {
+		return _nameID.ToMessage();
 	}
 
 	public virtual void SetMaxHP(int setValue) {

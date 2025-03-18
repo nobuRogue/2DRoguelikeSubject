@@ -17,25 +17,25 @@ MonoBehaviour:
     list:
     - ID: 0
       Message:
-      - "{0}\u30C0\u30E1\u30FC\u30B8"
+      - "{0} \u306B {1} \u30C0\u30E1\u30FC\u30B8"
       - '{0} damage'
       - "{0}\u635F\u4F24"
       - 
     - ID: 1
       Message:
-      - "HP\u304C{0}\u56DE\u5FA9\u3057\u305F"
+      - "{0} \u306EHP\u304C {1} \u56DE\u5FA9\u3057\u305F"
       - 
       - 
       - 
     - ID: 2
       Message:
-      - "\u6E80\u8179\u5EA6\u304C{0}\u56DE\u5FA9\u3057\u305F"
+      - "{0} \u306E\u6E80\u8179\u5EA6\u304C {1} \u56DE\u5FA9\u3057\u305F"
       - 
       - 
       - 
     - ID: 3
       Message:
-      - 
+      - "{0} \u306E {1}"
       - 
       - 
       - 
@@ -126,6 +126,84 @@ MonoBehaviour:
     - ID: 2200
       Message:
       - "\u6756C"
+      - 
+      - 
+      - 
+    - ID: 10000
+      Message:
+      - "\u30D7\u30EC\u30A4\u30E4\u30FC"
+      - 
+      - 
+      - 
+    - ID: 10001
+      Message:
+      - "\u30B0\u30FC\u30EB"
+      - 
+      - 
+      - 
+    - ID: 10002
+      Message:
+      - "\u30CF\u30A8"
+      - 
+      - 
+      - 
+    - ID: 10003
+      Message:
+      - "\u30B9\u30E9\u30A4\u30E0"
+      - 
+      - 
+      - 
+    - ID: 10004
+      Message:
+      - "\u30BE\u30F3\u30D3A"
+      - 
+      - 
+      - 
+    - ID: 10005
+      Message:
+      - "\u30BE\u30F3\u30D3B"
+      - 
+      - 
+      - 
+    - ID: 15000
+      Message:
+      - "\u653B\u6483"
+      - 
+      - 
+      - 
+    - ID: 15001
+      Message:
+      - "\u30DD\u30FC\u30B7\u30E7\u30F3A"
+      - 
+      - 
+      - 
+    - ID: 15002
+      Message:
+      - "\u8089"
+      - 
+      - 
+      - 
+    - ID: 15003
+      Message:
+      - "\u6756C"
+      - 
+      - 
+      - 
+    - ID: 15004
+      Message:
+      - "\u708E"
+      - 
+      - 
+      - 
+    - ID: 15005
+      Message:
+      - "\u8150\u308A\u653B\u6483"
+      - 
+      - 
+      - 
+    - ID: 15006
+      Message:
+      - 
       - 
       - 
       - 

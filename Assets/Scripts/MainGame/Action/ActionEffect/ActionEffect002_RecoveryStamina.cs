@@ -30,7 +30,8 @@ public class ActionEffect002_RecoveryStamina : ActionEffectBase {
 			// プレイヤーでなければ処理しない
 			if (!target.IsPlayer()) continue;
 			// ログ表示
-			MenuRogueLog.instance.AddLog(string.Format(_RECOVERY_STAMINA_MESSAGE_ID.ToMessage(), recoveryValue / 100));
+			string logMessage = string.Format(_RECOVERY_STAMINA_MESSAGE_ID.ToMessage(), target.GetName(), recoveryValue / 100);
+			MenuRogueLog.instance.AddLog(logMessage);
 			// 満腹度回復処理
 			(target as PlayerCharacter).AddStamina(recoveryValue);
 		}

@@ -14,6 +14,8 @@ using static CommonModule;
 
 public class ActionManager {
 	private static List<ActionEffectBase> _actionEffectList = null;
+	// アクションを使用したときのログメッセージID
+	private static readonly int _USE_ACTION_LOG_ID = 3;
 
 	public static void Initialize() {
 		_actionEffectList = new List<ActionEffectBase>();
@@ -35,9 +37,20 @@ public class ActionManager {
 
 		ActionRangeBase range = ActionRangeManager.GetRange(actionMaster.rangeType);
 		if (range == null) return;
-
+		// ログ表示
+		string sourceName = sourceCharacter.GetName();
+		string actionName = actionMaster.nameID.ToMessage();
+		string logMessage = string.Format(_USE_ACTION_LOG_ID.ToMessage(), sourceName, actionName);
+		MenuRogueLog.instance.AddLog(logMessage);
+		// 射程設定
 		range.Setup(sourceCharacter);
-		await ExecuteActionEffect(actionMaster.effectID, sourceCharacter, range);
+		// アクションの効果処理
+		int[] effectIDList = actionMaster.effectID;
+		for (int i = 0, max = effectIDList.Length; i < max; i++) {
+			if (effectIDList[i] < 0) continue;
+
+			await ExecuteActionEffect(effectIDList[i], sourceCharacter, range);
+		}
 	}
 
 	/// <summary>

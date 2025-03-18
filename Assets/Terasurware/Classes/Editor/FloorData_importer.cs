@@ -52,6 +52,7 @@ public class FloorData_importer : AssetPostprocessor {
 						
 					cell = row.GetCell(0); p.floorCount = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(1); p.spriteIndex = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(2); p.enemyTableID = (int)(cell == null ? 0 : cell.NumericCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

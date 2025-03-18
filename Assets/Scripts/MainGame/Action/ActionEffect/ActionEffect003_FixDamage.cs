@@ -44,17 +44,7 @@ public class ActionEffect003_FixDamage : ActionEffectBase {
 	private async UniTask ExecuteFixDamage(int damageValue, CharacterBase targetCharacter) {
 		// 対象の被ダメージアニメーション
 		targetCharacter.SetAnimation(eCharacterAnimation.Damage);
-		// ログ表示
-		MenuRogueLog.instance.AddLog(string.Format(0.ToMessage(), damageValue));
-		// HPを減らす
-		targetCharacter.RemoveHP(damageValue);
-		// アニメーションの終了待ち
-		while (targetCharacter.GetCurrentAnimation() == eCharacterAnimation.Damage) await UniTask.DelayFrame(1);
-		// 死亡判定、処理
-		if (!targetCharacter.IsDead()) return;
-
-		await CharacterUtility.DeadCharacter(targetCharacter);
+		await ExecuteDamage(damageValue, targetCharacter);
 	}
-
 
 }

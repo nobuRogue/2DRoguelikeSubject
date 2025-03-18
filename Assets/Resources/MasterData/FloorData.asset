@@ -17,7 +17,10 @@ MonoBehaviour:
     list:
     - floorCount: 1
       spriteIndex: 0
+      enemyTableID: 0
     - floorCount: 2
       spriteIndex: 1
+      enemyTableID: 1
     - floorCount: 3
       spriteIndex: 2
+      enemyTableID: 2

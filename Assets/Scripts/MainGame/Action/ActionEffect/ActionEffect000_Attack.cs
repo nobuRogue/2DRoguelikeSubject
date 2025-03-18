@@ -49,16 +49,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		// ダメージ計算
 		int defense = targetCharacter.defense;
 		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
-		// ログ表示
-		MenuRogueLog.instance.AddLog(string.Format(0.ToMessage(), damage));
-		// HPを減らす
-		targetCharacter.RemoveHP(damage);
-		// アニメーションの終了待ち
-		while (targetCharacter.GetCurrentAnimation() == eCharacterAnimation.Damage) await UniTask.DelayFrame(1);
-		// 死亡判定、処理
-		if (!targetCharacter.IsDead()) return;
-
-		await CharacterUtility.DeadCharacter(targetCharacter);
+		await ExecuteDamage(damage, targetCharacter);
 	}
 
 }

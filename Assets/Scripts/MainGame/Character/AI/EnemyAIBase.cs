@@ -17,6 +17,8 @@ public abstract class EnemyAIBase {
 	protected static System.Action<MoveAction> _AddMove = null;
 
 	protected System.Func<CharacterBase> _GetSourceCharacter = null;
+	// 行動のリスト
+	protected List<int> _actionList = null;
 
 	/// <summary>
 	/// 予定行動ID
@@ -29,6 +31,17 @@ public abstract class EnemyAIBase {
 
 	public EnemyAIBase(System.Func<CharacterBase> SetGetSourceProcess) {
 		_GetSourceCharacter = SetGetSourceProcess;
+		// 行動のリストを取得
+		CharacterBase sourceCharacter = _GetSourceCharacter();
+		var characterMaster = CharacterMasterUtility.GetCharacterMaster(sourceCharacter.masterID);
+		var actionList = characterMaster.actionID;
+		int actionCount = actionList.Length;
+		_actionList = new List<int>(actionCount);
+		for (int i = 0; i < actionCount; i++) {
+			if (actionList[i] < 0) continue;
+
+			_actionList.Add(actionList[i]);
+		}
 	}
 
 	public abstract void ThinkAction();

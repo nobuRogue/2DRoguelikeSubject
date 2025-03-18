@@ -16,20 +16,51 @@ MonoBehaviour:
   - name: CharacterData
     list:
     - ID: 0
-      nameID: 0
+      nameID: 10000
       spriteName: rogue_player_
-      HP: 15
+      HP: 100
       Attack: 5
       Defense: 0
+      actionID: ffffffffffffffff
     - ID: 1
-      nameID: 1
+      nameID: 10001
       spriteName: rogue_sand_enemy1_
       HP: 5
       Attack: 3
       Defense: 1
+      actionID: 00000000ffffffff
     - ID: 2
-      nameID: 2
+      nameID: 10002
       spriteName: rogue_sand_enemy2_
       HP: 8
       Attack: 2
       Defense: 2
+      actionID: 0000000001000000
+    - ID: 3
+      nameID: 10003
+      spriteName: rogue_snow_enemy1_
+      HP: 11
+      Attack: 3
+      Defense: 3
+      actionID: 00000000ffffffff
+    - ID: 4
+      nameID: 10004
+      spriteName: rogue_urban_enemy1_
+      HP: 14
+      Attack: 4
+      Defense: 4
+      actionID: 00000000ffffffff
+    - ID: 5
+      nameID: 10005
+      spriteName: rogue_urban_enemy2_
+      HP: 17
+      Attack: 5
+      Defense: 6
+      actionID: 00000000ffffffff
+    - ID: 0
+      nameID: 0
+      spriteName: 
+      HP: 0
+      Attack: 0
+      Defense: 0
+      actionID: 0000000000000000

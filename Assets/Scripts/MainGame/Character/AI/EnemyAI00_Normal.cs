@@ -25,7 +25,6 @@ public class EnemyAI00_Normal : EnemyAIBase {
 	/// 行動を思考させる
 	/// </summary>
 	public override void ThinkAction() {
-		return;
 		// 視界とプレイヤー有無の取得
 		CharacterBase sourceCharacter = _GetSourceCharacter();
 		MapSquareData sourceSquare = MapSquareManager.instance.Get(sourceCharacter.positionX, sourceCharacter.positionY);
@@ -38,7 +37,6 @@ public class EnemyAI00_Normal : EnemyAIBase {
 			// プレイヤーが見えているので可能な行動があれば予定する
 			CheckCanUseAction();
 			if (_scheduleActionID >= 0) return;
-
 			// 可能な行動が無ければプレイヤーに近づく
 			MapSquareData playerSquare = MapSquareManager.instance.Get(player.positionX, player.positionY);
 			List<ChebyshevMoveData> toPlayerRoute = RouteSearcher.RouteSearch(sourceSquare.ID, playerSquare.ID, CanPassCharacter);
@@ -60,15 +58,19 @@ public class EnemyAI00_Normal : EnemyAIBase {
 	/// 使用可能な行動があれば予定する
 	/// </summary>
 	private void CheckCanUseAction() {
-		// 通常攻撃の使用可否判定
-		var actionMaster = GetActionMaster(NORMAL_ATTACK_ACTION_ID);
+		if (IsEmpty(_actionList)) return;
+
+		int actionIndex = UnityEngine.Random.Range(0, _actionList.Count);
+		int actionID = _actionList[actionIndex];
+		// 行動の使用可否判定
+		var actionMaster = GetActionMaster(actionID);
 		if (actionMaster == null) return;
 
 		ActionRangeBase range = GetRange(actionMaster.rangeType);
 		eDirectionEight dir = eDirectionEight.Invalid;
 		if (!range.CanUse(_GetSourceCharacter(), ref dir)) return;
 		// 使用可能なので予定する
-		SetScheduleAction(NORMAL_ATTACK_ACTION_ID);
+		SetScheduleAction(actionID);
 	}
 
 	/// <summary>

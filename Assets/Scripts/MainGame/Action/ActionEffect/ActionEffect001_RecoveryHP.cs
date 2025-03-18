@@ -29,7 +29,8 @@ public class ActionEffect001_RecoveryHP : ActionEffectBase {
 			CharacterBase target = CharacterUtility.GetCharacter(targetList[i]);
 			if (target == null) continue;
 			// ƒƒO•\¦
-			MenuRogueLog.instance.AddLog(string.Format(_RECOVERY_HP_MESSAGE_ID.ToMessage(), recoveryValue));
+			string logMessage = string.Format(_RECOVERY_HP_MESSAGE_ID.ToMessage(), target.GetName(), recoveryValue);
+			MenuRogueLog.instance.AddLog(logMessage);
 			// HP‰ñ•œˆ—
 			target.AddHP(recoveryValue);
 		}

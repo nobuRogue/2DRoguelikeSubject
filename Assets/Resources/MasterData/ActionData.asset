@@ -16,14 +16,18 @@ MonoBehaviour:
   - name: ActionData
     list:
     - ID: 0
-      effectID: 0
+      nameID: 15000
       rangeType: 0
+      effectID: 00000000ffffffffffffffffffffffff
     - ID: 1
-      effectID: 1
+      nameID: 15001
       rangeType: 1
+      effectID: 01000000ffffffffffffffffffffffff
     - ID: 2
-      effectID: 4
+      nameID: 15002
       rangeType: 1
+      effectID: 04000000ffffffffffffffffffffffff
     - ID: 3
-      effectID: 5
+      nameID: 15003
       rangeType: 2
+      effectID: 05000000ffffffffffffffffffffffff
