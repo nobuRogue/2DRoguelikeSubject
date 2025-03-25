@@ -71,9 +71,9 @@ public abstract class ItemBase {
 		ItemObject itemObject = _GetObject(ID);
 		if (itemObject == null) {
 			ItemManager.instance.UseItemObject(ID);
-		} else {
-			_GetObject(ID).SetSquare(square);
+			_GetObject(ID).Setup(ID, ItemMasterUtility.GetItemMaster(masterID));
 		}
+		_GetObject(ID).SetSquare(square);
 	}
 
 	/// <summary>

@@ -32,6 +32,8 @@ public class MapSquareData {
 	/// </summary>
 	public int itemID { get; private set; } = -1;
 
+	public bool existItem { get { return itemID >= 0; } }
+
 	public void Setup(int setID, int setX, int setY) {
 		ID = setID;
 		positionX = setX;

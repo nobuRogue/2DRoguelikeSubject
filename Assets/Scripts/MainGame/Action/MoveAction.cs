@@ -85,7 +85,7 @@ public class MoveAction {
 	/// <param name="goalSquare"></param>
 	private void ProcessAddItem(CharacterBase moveCharacter, MapSquareData goalSquare) {
 		// 移動先にアイテムが無ければ終了
-		if (goalSquare.itemID < 0) return;
+		if (!goalSquare.existItem) return;
 		// キャラクターが拾えなければ終了
 		ItemBase addItem = ItemUtility.GetItemData(goalSquare.itemID);
 		if (!moveCharacter.CanAddItem()) {

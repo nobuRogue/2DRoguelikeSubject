@@ -20,6 +20,8 @@ public class MenuItemCommandList : MenuList {
 		// アイテムに応じたコマンドリスト設定
 		var addItem = AddListItem() as MenuItemCommandListItem;
 		addItem.Setup(eItemCommand.Use);
+		addItem = AddListItem() as MenuItemCommandListItem;
+		addItem.Setup(eItemCommand.Puton);
 
 		await SetIndex(0);
 	}

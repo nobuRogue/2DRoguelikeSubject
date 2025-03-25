@@ -53,13 +53,13 @@ MonoBehaviour:
       - 
     - ID: 6
       Message:
-      - 
+      - "{0} \u3092\u7F6E\u3044\u305F"
       - 
       - 
       - 
     - ID: 7
       Message:
-      - 
+      - "{0} \u3092\u7F6E\u3051\u306A\u304B\u3063\u305F"
       - 
       - 
       - 
@@ -221,7 +221,7 @@ MonoBehaviour:
       - 
     - ID: 20001
       Message:
-      - 
+      - "\u7F6E\u304F"
       - 
       - 
       - 
