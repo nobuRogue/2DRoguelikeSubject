@@ -80,4 +80,6 @@ public enum eItemCategory {
 public enum eItemCommand {
 	Invalid = -1,
 	Use,            // Žg‚¤
+
+
 }
