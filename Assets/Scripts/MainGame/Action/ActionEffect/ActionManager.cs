@@ -24,6 +24,7 @@ public class ActionManager {
 		_actionEffectList.Add(new ActionEffect002_RecoveryStamina());
 		_actionEffectList.Add(new ActionEffect003_FixDamage());
 		_actionEffectList.Add(new ActionEffect004_BurnItem());
+		_actionEffectList.Add(new ActionEffect005_RotItem());
 	}
 
 	/// <summary>

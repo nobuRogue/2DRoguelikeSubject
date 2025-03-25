@@ -38,7 +38,7 @@ MonoBehaviour:
     - ID: 5
       nameID: 15005
       rangeType: 0
-      effectID: 080000000a000000ffffffffffffffff
+      effectID: 070000000b000000ffffffffffffffff
     - ID: 6
       nameID: 15006
       rangeType: 1

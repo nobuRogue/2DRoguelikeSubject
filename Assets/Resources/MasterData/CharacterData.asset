@@ -28,7 +28,7 @@ MonoBehaviour:
       HP: 5
       Attack: 3
       Defense: 1
-      actionID: 04000000ffffffff
+      actionID: 05000000ffffffff
     - ID: 2
       nameID: 10002
       spriteName: rogue_sand_enemy2_

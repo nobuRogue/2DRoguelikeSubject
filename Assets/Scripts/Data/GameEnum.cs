@@ -76,3 +76,8 @@ public enum eItemCategory {
 	Wand,   // ñ
 	Max
 }
+
+public enum eItemCommand {
+	Invalid = -1,
+	Use,            // g‚¤
+}
