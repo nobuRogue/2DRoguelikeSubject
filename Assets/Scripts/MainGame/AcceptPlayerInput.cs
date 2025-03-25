@@ -18,6 +18,7 @@ public class AcceptPlayerInput {
 
 	// アイテムリストのコールバック集
 	private MenuListCallbackFortmat _itemListFormat = null;
+	private MenuListCallbackFortmat _itemCommandListFormat = null;
 	// アイテムリストで選択されたアイテムID
 	private int _selectItemID = -1;
 
@@ -25,9 +26,12 @@ public class AcceptPlayerInput {
 		_AddMove = setProcess;
 		// アイテムリストのコールバック生成
 		_itemListFormat = new MenuListCallbackFortmat();
-		_itemListFormat.OnDecide = DecideItemList;// 決定時の処理
 		_itemListFormat.OnCancel = CloseItemList;// キャンセル時の処理
 		_itemListFormat.FreeAccept = AcceptSortPlayerItem;//ソートの受付
+
+		_itemCommandListFormat = new MenuListCallbackFortmat();
+		_itemCommandListFormat.OnDecide = DecideItemCommand;
+		_itemCommandListFormat.OnCancel = CancelItemCommand;
 	}
 
 	/// <summary>
@@ -184,7 +188,7 @@ public class AcceptPlayerInput {
 		if (!GetKeyDown(KeyCode.C)) return false;
 
 		var itemList = MenuManager.instance.Get<MenuItemList>();
-		await itemList.Setup(GetPlayer().possessItemList, _itemListFormat);
+		await itemList.Setup(GetPlayer().possessItemList, _itemListFormat, DecideItemList, _itemCommandListFormat);
 		await itemList.Open();
 		await itemList.AcceptInput();
 		await itemList.Close();
@@ -221,13 +225,34 @@ public class AcceptPlayerInput {
 		return true;
 	}
 
+	/// <summary>
+	/// アイテムコマンドリストで決定が押されたとき
+	/// </summary>
+	/// <param name="currentItem"></param>
+	/// <returns></returns>
+	private async UniTask<bool> DecideItemCommand(MenuListItem currentItem) {
+		await UniTask.CompletedTask;
+		return true;
+	}
+
+	/// <summary>
+	/// アイテムコマンドリストでキャンセルが押されたとき
+	/// </summary>
+	/// <param name="currentItem"></param>
+	/// <returns></returns>
+	private async UniTask<bool> CancelItemCommand(MenuListItem currentItem) {
+		_selectItemID = -1;
+		await UniTask.CompletedTask;
+		return true;
+	}
+
 	private async UniTask<bool> AcceptSortPlayerItem(MenuListItem currentItem) {
 		if (!GetKeyDown(KeyCode.V)) return false;
 		// プレイヤーの所持アイテムをソートする
 		PlayerCharacter player = GetPlayer();
 		player.possessItemList.Sort(ItemSortMethod);
 		var itemList = MenuManager.instance.Get<MenuItemList>();
-		await itemList.Setup(player.possessItemList, _itemListFormat);
+		await itemList.Setup(player.possessItemList, _itemListFormat, DecideItemList, _itemCommandListFormat);
 		return false;
 	}
 

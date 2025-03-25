@@ -11,4 +11,17 @@ using UnityEngine;
 
 public class MenuItemCommandList : MenuList {
 
+	public async void Setup(int itemID, MenuListCallbackFortmat callbackFortmat) {
+		// コールバックの設定
+		SetCallbackFortmat(callbackFortmat);
+		await SetIndex(-1);
+		// 項目をすべて消す
+		RemoveAllItem();
+		// アイテムに応じたコマンドリスト設定
+		var addItem = AddListItem() as MenuItemCommandListItem;
+		addItem.Setup(eItemCommand.Use);
+
+		await SetIndex(0);
+	}
+
 }

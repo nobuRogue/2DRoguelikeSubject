@@ -15,9 +15,11 @@ public class MenuItemCommandListItem : MenuListItem {
 
 	public eItemCommand command { get; private set; } = eItemCommand.Invalid;
 
+	private readonly int _COMMAND_NAME_ID_OFFESET = 20000;
+
 	public void Setup(eItemCommand setCommand) {
 		command = setCommand;
-
+		_commandNameText.text = (_COMMAND_NAME_ID_OFFESET + (int)command).ToMessage();
 	}
 
 }
