@@ -5,8 +5,16 @@
  * @date 2025/3/6
  */
 public class ItemWeapon : ItemBase {
+	/// <summary>
+	/// •Ší‚ÌUŒ‚—Í
+	/// </summary>
+	private int _attack = 0;
 
-
+	public override void Setup(int setID, int setMasterID, MapSquareData square) {
+		base.Setup(setID, setMasterID, square);
+		var itemMaster = ItemMasterUtility.GetItemMaster(masterID);
+		_attack = itemMaster.equipValue;
+	}
 
 	/// <summary>
 	/// ƒJƒeƒSƒŠæ“¾
@@ -14,5 +22,13 @@ public class ItemWeapon : ItemBase {
 	/// <returns></returns>
 	public override eItemCategory GetCategory() {
 		return eItemCategory.Weapon;
+	}
+
+	/// <summary>
+	/// UŒ‚—Í‚ğæ“¾
+	/// </summary>
+	/// <returns></returns>
+	public override int GetAttack() {
+		return _attack;
 	}
 }

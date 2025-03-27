@@ -97,7 +97,6 @@ public class FloorProcessor {
 			useTable.Add(enemyTable.enemyID[i]);
 		}
 		if (IsEmpty(useTable)) return;
-
 		// テーブルから指定数ランダムに出現
 		for (int i = 0; i < spawnCount; i++) {
 			if (IsEmpty(candidateSquareList)) return;
@@ -114,28 +113,25 @@ public class FloorProcessor {
 	/// <param name="createCount"></param>
 	/// <param name="candidateSquareList"></param>
 	private void CreateFloorItem(int createCount, List<MapSquareData> candidateSquareList) {
-		for (int i = 0; i < createCount; i++) {
-			if (IsEmpty(candidateSquareList)) return;
-			// 候補マスの内ランダムな一つにアイテム生成
-			int randomIndex = Random.Range(0, candidateSquareList.Count);
-			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(0, itemSquare);
-			candidateSquareList.Remove(itemSquare);
+		// 現在のフロアのアイテムドロップテーブルを取得
+		var itemTable = FloorMasterUtility.GetCurrentItemDropTable();
+		int tableCount = itemTable.itemID.Length;
+		List<int> useTable = new List<int>(tableCount);
+		for (int i = 0; i < tableCount; i++) {
+			if (itemTable.itemID[i] < 0) continue;
+
+			useTable.Add(itemTable.itemID[i]);
 		}
+		if (IsEmpty(useTable)) return;
+		// テーブルから指定個数アイテム生成
 		for (int i = 0; i < createCount; i++) {
 			if (IsEmpty(candidateSquareList)) return;
-			// 候補マスの内ランダムな一つにアイテム生成
+			// 候補マスの内ランダムな一つ取得
 			int randomIndex = Random.Range(0, candidateSquareList.Count);
 			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(600, itemSquare);
-			candidateSquareList.Remove(itemSquare);
-		}
-		for (int i = 0; i < createCount; i++) {
-			if (IsEmpty(candidateSquareList)) return;
-			// 候補マスの内ランダムな一つにアイテム生成
-			int randomIndex = Random.Range(0, candidateSquareList.Count);
-			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(700, itemSquare);
+			// アイテムテーブルから生成するアイテムID取得
+			int createItemMasterID = useTable[Random.Range(0, useTable.Count)];
+			ItemUtility.CreateFloorItem(createItemMasterID, itemSquare);
 			candidateSquareList.Remove(itemSquare);
 		}
 	}

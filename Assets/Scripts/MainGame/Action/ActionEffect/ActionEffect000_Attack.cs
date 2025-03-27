@@ -24,7 +24,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		ActionRangeBase range) {
 		// 行動者の攻撃アニメーション再生
 		sourceCharacter.SetAnimation(eCharacterAnimation.Attack);
-		int sourceAttack = sourceCharacter.attack * effectMaster.param[(int)eParamIndex.DamagePercentage];
+		int sourceAttack = sourceCharacter.GetAttack() * effectMaster.param[(int)eParamIndex.DamagePercentage];
 		sourceAttack /= 100;
 		List<int> targetList = range.targetList;
 		int targetCount = targetList.Count;
@@ -47,7 +47,7 @@ public class ActionEffect000_Attack : ActionEffectBase {
 		// 対象の被ダメージアニメーション
 		targetCharacter.SetAnimation(eCharacterAnimation.Damage);
 		// ダメージ計算
-		int defense = targetCharacter.defense;
+		int defense = targetCharacter.GetDefense();
 		int damage = (int)(sourceAttack * Mathf.Pow(15.0f / 16.0f, defense));
 		await ExecuteDamage(damage, targetCharacter);
 	}

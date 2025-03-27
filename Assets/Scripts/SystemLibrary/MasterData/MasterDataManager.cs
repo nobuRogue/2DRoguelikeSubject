@@ -16,6 +16,7 @@ public class MasterDataManager {
 	public static List<List<Entity_EnemySpawnTableData.Param>> enemyTableData = null;
 	public static List<List<Entity_CharacterData.Param>> characterData = null;
 	public static List<List<Entity_ItemData.Param>> itemData = null;
+	public static List<List<Entity_ItemDropTableData.Param>> itemTableData = null;
 	public static List<List<Entity_ActionData.Param>> actionData = null;
 	public static List<List<Entity_ActionEffectData.Param>> actionEffectData = null;
 	public static List<List<Entity_MessageData.Param>> messageData = null;
@@ -25,6 +26,7 @@ public class MasterDataManager {
 		enemyTableData = Load<Entity_EnemySpawnTableData, Entity_EnemySpawnTableData.Sheet, Entity_EnemySpawnTableData.Param>("EnemySpawnTableData");
 		characterData = Load<Entity_CharacterData, Entity_CharacterData.Sheet, Entity_CharacterData.Param>("CharacterData");
 		itemData = Load<Entity_ItemData, Entity_ItemData.Sheet, Entity_ItemData.Param>("ItemData");
+		itemTableData = Load<Entity_ItemDropTableData, Entity_ItemDropTableData.Sheet, Entity_ItemDropTableData.Param>("ItemDropTableData");
 		actionData = Load<Entity_ActionData, Entity_ActionData.Sheet, Entity_ActionData.Param>("ActionData");
 		actionEffectData = Load<Entity_ActionEffectData, Entity_ActionEffectData.Sheet, Entity_ActionEffectData.Param>("ActionEffectData");
 		messageData = Load<Entity_MessageData, Entity_MessageData.Sheet, Entity_MessageData.Param>("MessageData");

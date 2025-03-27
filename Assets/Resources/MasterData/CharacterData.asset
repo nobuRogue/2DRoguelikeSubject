@@ -19,7 +19,7 @@ MonoBehaviour:
       nameID: 10000
       spriteName: rogue_player_
       HP: 100
-      Attack: 100
+      Attack: 10
       Defense: 0
       actionID: ffffffffffffffff
     - ID: 1

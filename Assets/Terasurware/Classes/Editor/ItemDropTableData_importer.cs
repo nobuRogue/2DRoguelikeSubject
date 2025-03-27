@@ -7,10 +7,10 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
-public class ItemData_importer : AssetPostprocessor {
-	private static readonly string filePath = "Assets/Resources/MasterData/ItemData.xlsx";
-	private static readonly string exportPath = "Assets/Resources/MasterData/ItemData.asset";
-	private static readonly string[] sheetNames = { "ItemData", };
+public class ItemDropTableData_importer : AssetPostprocessor {
+	private static readonly string filePath = "Assets/Resources/MasterData/ItemDropTableData.xlsx";
+	private static readonly string exportPath = "Assets/Resources/MasterData/ItemDropTableData.asset";
+	private static readonly string[] sheetNames = { "ItemDropTableData", };
 	
 	static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
 	{
@@ -18,9 +18,9 @@ public class ItemData_importer : AssetPostprocessor {
 			if (!filePath.Equals (asset))
 				continue;
 				
-			Entity_ItemData data = (Entity_ItemData)AssetDatabase.LoadAssetAtPath (exportPath, typeof(Entity_ItemData));
+			Entity_ItemDropTableData data = (Entity_ItemDropTableData)AssetDatabase.LoadAssetAtPath (exportPath, typeof(Entity_ItemDropTableData));
 			if (data == null) {
-				data = ScriptableObject.CreateInstance<Entity_ItemData> ();
+				data = ScriptableObject.CreateInstance<Entity_ItemDropTableData> ();
 				AssetDatabase.CreateAsset ((ScriptableObject)data, exportPath);
 				data.hideFlags = HideFlags.NotEditable;
 			}
@@ -41,24 +41,21 @@ public class ItemData_importer : AssetPostprocessor {
 						continue;
 					}
 
-					Entity_ItemData.Sheet s = new Entity_ItemData.Sheet ();
+					Entity_ItemDropTableData.Sheet s = new Entity_ItemDropTableData.Sheet ();
 					s.name = sheetName;
 				
 					for (int i=1; i<= sheet.LastRowNum; i++) {
 						IRow row = sheet.GetRow (i);
 						ICell cell = null;
 						
-						Entity_ItemData.Param p = new Entity_ItemData.Param ();
+						Entity_ItemDropTableData.Param p = new Entity_ItemDropTableData.Param ();
 						
 					cell = row.GetCell(0); p.ID = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(1); p.nameID = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(3); p.category = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(5); p.actionID = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(6); p.minCount = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(7); p.maxCount = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(8); p.burnID = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(9); p.rotID = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(10); p.equipValue = (int)(cell == null ? 0 : cell.NumericCellValue);
+					p.itemID = new int[4];
+					cell = row.GetCell(1); p.itemID[0] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(2); p.itemID[1] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(3); p.itemID[2] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(4); p.itemID[3] = (int)(cell == null ? 0 : cell.NumericCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

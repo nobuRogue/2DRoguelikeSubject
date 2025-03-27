@@ -121,4 +121,20 @@ public abstract class ItemBase {
 		ItemUtility.RemoveItem(ID);
 	}
 
+	/// <summary>
+	/// アイテムの攻撃力を取得
+	/// </summary>
+	/// <returns></returns>
+	public virtual int GetAttack() {
+		return 0;
+	}
+
+	/// <summary>
+	/// アイテムの防御力を取得
+	/// </summary>
+	/// <returns></returns>
+	public virtual int GetDefense() {
+		return 0;
+	}
+
 }

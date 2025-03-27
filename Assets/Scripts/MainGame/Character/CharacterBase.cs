@@ -28,8 +28,8 @@ public abstract class CharacterBase {
 	public eDirectionEight direction { get; protected set; } = eDirectionEight.Invalid;
 	public int maxHP { get; protected set; } = -1;
 	public int HP { get; private set; } = -1;
-	public int attack { get; private set; } = -1;
-	public int defense { get; private set; } = -1;
+	public int rawAttack { get; private set; } = -1;
+	public int rawDefense { get; private set; } = -1;
 
 	private static readonly int _POSSESS_ITEM_MAX = 10;
 	/// <summary>
@@ -60,8 +60,8 @@ public abstract class CharacterBase {
 
 		SetMaxHP(characterMaster.HP);
 		SetHP(characterMaster.HP);
-		SetAttack(characterMaster.Attack);
-		SetDefense(characterMaster.Defense);
+		SetRawAttack(characterMaster.Attack);
+		SetRawDefense(characterMaster.Defense);
 	}
 
 	public void Teardown() {
@@ -110,12 +110,28 @@ public abstract class CharacterBase {
 		SetHP(HP - removeValue);
 	}
 
-	public virtual void SetAttack(int setValue) {
-		attack = setValue;
+	public virtual void SetRawAttack(int setValue) {
+		rawAttack = setValue;
 	}
 
-	public virtual void SetDefense(int setValue) {
-		defense = setValue;
+	public virtual void SetRawDefense(int setValue) {
+		rawDefense = setValue;
+	}
+
+	/// <summary>
+	/// UŒ‚—Í‚Ìæ“¾
+	/// </summary>
+	/// <returns></returns>
+	public virtual int GetAttack() {
+		return rawAttack;
+	}
+
+	/// <summary>
+	/// –hŒä—Í‚Ìæ“¾
+	/// </summary>
+	/// <returns></returns>
+	public virtual int GetDefense() {
+		return rawDefense;
 	}
 
 	/// <summary>

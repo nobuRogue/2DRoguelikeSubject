@@ -25,8 +25,8 @@ public class PlayerCharacter : CharacterBase {
 	// Œ»İ‚Ì–• “x
 	private int _stamina = 0;
 	// ‘•”õ‚Ìî•ñ
-	public int equipWeapon { get; private set; } = -1;
-	public int equipArmor { get; private set; } = -1;
+	public int equipWeaponID { get; private set; } = -1;
+	public int equipArmorID { get; private set; } = -1;
 
 	public override void Setup(int setID, MapSquareData squareData, int masterID) {
 		_moveTrailSquareList = new List<int>(PLAYER_MOVE_TRAIL_COUNT);
@@ -48,14 +48,40 @@ public class PlayerCharacter : CharacterBase {
 		MenuPlayerStatus.instance.SetHP(HP, maxHP);
 	}
 
-	public override void SetAttack(int setValue) {
-		base.SetAttack(setValue);
-		MenuPlayerStatus.instance.SetAttack(attack);
+	public override void SetRawAttack(int setValue) {
+		base.SetRawAttack(setValue);
+		MenuPlayerStatus.instance.SetAttack(rawAttack);
 	}
 
-	public override void SetDefense(int setValue) {
-		base.SetDefense(setValue);
-		MenuPlayerStatus.instance.SetDefense(defense);
+	public override void SetRawDefense(int setValue) {
+		base.SetRawDefense(setValue);
+		MenuPlayerStatus.instance.SetDefense(rawDefense);
+	}
+
+	/// <summary>
+	/// UŒ‚—Í‚Ìæ“¾
+	/// </summary>
+	/// <returns></returns>
+	public override int GetAttack() {
+		// •Ší‚ÌUŒ‚—Í‚ğæ“¾
+		int weaponAttack = 0;
+		ItemBase weapon = ItemUtility.GetItemData(equipWeaponID);
+		if (weapon != null) weaponAttack = weapon.GetAttack();
+
+		return base.GetAttack() + weaponAttack;
+	}
+
+	/// <summary>
+	/// –hŒä—Í‚Ìæ“¾
+	/// </summary>
+	/// <returns></returns>
+	public override int GetDefense() {
+		// –h‹ï‚Ì–hŒä—Í‚ğæ“¾
+		int armorDefense = 0;
+		ItemBase armor = ItemUtility.GetItemData(equipArmorID);
+		if (armor != null) armorDefense = armor.GetDefense();
+
+		return base.GetDefense() + armorDefense;
 	}
 
 	public void SetStamina(int setValue) {
@@ -180,9 +206,9 @@ public class PlayerCharacter : CharacterBase {
 	/// <param name="removeItemID"></param>
 	public override void RemoveIDItem(int removeItemID) {
 		// ‘•”õ‚È‚çŠO‚ê‚é
-		if (equipWeapon == removeItemID) {
+		if (equipWeaponID == removeItemID) {
 			RemoveWeapon();
-		} else if (equipArmor == removeItemID) {
+		} else if (equipArmorID == removeItemID) {
 			RemoveArmor();
 		}
 		base.RemoveIDItem(removeItemID);
@@ -194,16 +220,16 @@ public class PlayerCharacter : CharacterBase {
 	/// <param name="itemID"></param>
 	public void SetWeapon(int itemID) {
 		// •Ší‚ğ’…‚¯‚Ä‚¢‚é‚È‚çŠO‚·
-		if (equipWeapon >= 0) RemoveWeapon();
+		if (equipWeaponID >= 0) RemoveWeapon();
 
-		equipWeapon = itemID;
+		equipWeaponID = itemID;
 	}
 
 	/// <summary>
 	/// •Ší‚ğŠO‚³‚¹‚é
 	/// </summary>
 	public void RemoveWeapon() {
-		equipWeapon = -1;
+		equipWeaponID = -1;
 	}
 
 	/// <summary>
@@ -212,21 +238,21 @@ public class PlayerCharacter : CharacterBase {
 	/// <param name="itemID"></param>
 	public void SetArmor(int itemID) {
 		// –h‹ï‚ğ’…‚¯‚Ä‚¢‚é‚È‚çŠO‚·
-		if (equipArmor >= 0) RemoveArmor();
+		if (equipArmorID >= 0) RemoveArmor();
 
-		equipArmor = itemID;
+		equipArmorID = itemID;
 	}
 
 	/// <summary>
 	/// –h‹ï‚ğŠO‚³‚¹‚é
 	/// </summary>
 	public void RemoveArmor() {
-		equipArmor = -1;
+		equipArmorID = -1;
 	}
 
 	public bool IsEquip(int itemID) {
 		if (itemID < 0) return false;
 
-		return equipWeapon == itemID || equipArmor == itemID;
+		return equipWeaponID == itemID || equipArmorID == itemID;
 	}
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Entity_FloorData : ScriptableObject
+public class Entity_ItemDropTableData : ScriptableObject
 {	
 	public List<Sheet> sheets = new List<Sheet> ();
 
@@ -17,10 +17,8 @@ public class Entity_FloorData : ScriptableObject
 	public class Param
 	{
 		
-		public int floorCount;
-		public int spriteIndex;
-		public int enemyTableID;
-		public int itemTableID;
+		public int ID;
+		public int[] itemID;
 	}
 }
 

@@ -77,7 +77,7 @@ MonoBehaviour:
       maxCount: -1
       burnID: -1
       rotID: -1
-      equipValue: 3
+      equipValue: 100
     - ID: 700
       nameID: 2700
       category: 7
@@ -86,4 +86,4 @@ MonoBehaviour:
       maxCount: -1
       burnID: -1
       rotID: -1
-      equipValue: 2
+      equipValue: 100

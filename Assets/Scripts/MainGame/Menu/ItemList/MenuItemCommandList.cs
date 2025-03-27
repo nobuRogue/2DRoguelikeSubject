@@ -42,7 +42,7 @@ public class MenuItemCommandList : MenuList {
 			break;
 			case eItemCategory.Weapon:
 			addItem = AddListItem() as MenuItemCommandListItem;
-			if (player.equipWeapon == itemID) {
+			if (player.equipWeaponID == itemID) {
 				// 装備中の武器なので外すコマンド追加
 				addItem.Setup(eItemCommand.RemoveEquip);
 			} else {
@@ -52,7 +52,7 @@ public class MenuItemCommandList : MenuList {
 			break;
 			case eItemCategory.Armor:
 			addItem = AddListItem() as MenuItemCommandListItem;
-			if (player.equipArmor == itemID) {
+			if (player.equipArmorID == itemID) {
 				// 装備中の武器なので外すコマンド追加
 				addItem.Setup(eItemCommand.RemoveEquip);
 			} else {
