@@ -7,7 +7,7 @@
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour {
-	
+
 	[SerializeField]
 	private SpriteRenderer _itemSprite = null;
 
@@ -25,7 +25,7 @@ public class ItemObject : MonoBehaviour {
 	}
 
 	public void SetSquare(MapSquareData square) {
-		transform.position = square.GetCharacterRoot().position;
+		transform.position = square.GetObjectRoot().position;
 	}
 
 	public void UnuseSelf() {

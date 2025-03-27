@@ -6,7 +6,6 @@
  */
 using Cysharp.Threading.Tasks;
 
-using static MapSquareUtility;
 using static ItemUtility;
 
 public class PutonAction {

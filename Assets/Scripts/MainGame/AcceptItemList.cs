@@ -28,16 +28,26 @@ public class AcceptItemList {
 
 		_itemCommandListFormat = new MenuListCallbackFortmat();
 		_itemCommandListFormat.OnDecide = DecideItemCommand;
-		_itemCommandListFormat.OnCancel = CancelItemCommand;
 	}
 
 	public async UniTask<bool> Accept() {
 		// アイテムリストの選択受付
 		var itemList = MenuManager.instance.Get<MenuItemList>();
-		await itemList.Setup(GetPlayer().possessItemList, _itemListFormat, DecideItemList, _itemCommandListFormat);
+		await itemList.Setup(GetPlayer().possessItemList,
+			_itemListFormat, DecideItemList,
+			_itemCommandListFormat, CancelItemCommand);
 		await itemList.Open();
 		await itemList.AcceptInput();
 		await itemList.Close();
+
+		return await ProcessItemListResult();
+	}
+
+	/// <summary>
+	/// アイテムリストの結果処理
+	/// </summary>
+	/// <returns></returns>
+	private async UniTask<bool> ProcessItemListResult() {
 		// アイテムが選択されてなければ終了
 		if (_selectItemID < 0 ||
 			_selectItemCommand == eItemCommand.Invalid) return false;
@@ -54,6 +64,14 @@ public class AcceptItemList {
 			// アイテムを地面に置く処理
 			MapSquareData playerSquare = MapSquareUtility.GetCharacterSquare(GetPlayer());
 			await PutonAction.ExecutePuton(playerSquare, _selectItemID);
+			break;
+			case eItemCommand.SetEquip:
+			// 装備アクション実行
+			await EquipAction.ExecuteSetEquip(_selectItemID);
+			break;
+			case eItemCommand.RemoveEquip:
+			// 装備外しアクション実行
+			await EquipAction.ExecuteRemoveEquip(_selectItemID);
 			break;
 		}
 		_selectItemID = -1;
@@ -117,7 +135,9 @@ public class AcceptItemList {
 		PlayerCharacter player = GetPlayer();
 		player.possessItemList.Sort(ItemSortMethod);
 		var itemList = MenuManager.instance.Get<MenuItemList>();
-		await itemList.Setup(player.possessItemList, _itemListFormat, DecideItemList, _itemCommandListFormat);
+		await itemList.Setup(player.possessItemList,
+			_itemListFormat, DecideItemList,
+			_itemCommandListFormat, CancelItemCommand);
 		return false;
 	}
 

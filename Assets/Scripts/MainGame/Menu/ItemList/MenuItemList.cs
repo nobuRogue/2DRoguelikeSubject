@@ -20,8 +20,11 @@ public class MenuItemList : MenuList {
 		await base.Initialize();
 		await commandList.Initialize();
 	}
-
+	// アイテムリストで決定が押されたとき呼び出すコールバック
 	private System.Func<MenuListItem, UniTask<bool>> _OnDecide = null;
+	// コマンドリストでキャンセルが押されたとき呼び出すコールバック
+	private System.Func<MenuListItem, UniTask<bool>> _OnCommandCancel = null;
+	private bool _isCommandCancel = false;
 	private MenuListCallbackFortmat _commandFormat = null;
 
 	/// <summary>
@@ -32,27 +35,33 @@ public class MenuItemList : MenuList {
 	public async UniTask Setup(List<int> itemList,
 		MenuListCallbackFortmat itemListCallbackFortmat,
 		System.Func<MenuListItem, UniTask<bool>> SetOnItemListDecide,
-		MenuListCallbackFortmat itemCommandListCallbackFortmat) {
+		MenuListCallbackFortmat commandListCallbackFortmat,
+		System.Func<MenuListItem, UniTask<bool>> SetOnCommandCancel) {
 
 		// アイテムリスト決定時の処理だけはここで設定
 		itemListCallbackFortmat.OnDecide = OnItemListDecide;
 		SetCallbackFortmat(itemListCallbackFortmat);
 		_OnDecide = SetOnItemListDecide;
 
-		_commandFormat = itemCommandListCallbackFortmat;
+		// コマンドリストキャンセル時の処理はここで設定
+		commandListCallbackFortmat.OnCancel = OnCommandCancel;
+		_commandFormat = commandListCallbackFortmat;
+		_OnCommandCancel = SetOnCommandCancel;
 
 		await SetIndex(-1);
 		RemoveAllItem();
 		if (IsEmpty(itemList)) return;
 		// 項目の生成
 		bool existItem = false;
+		PlayerCharacter player = CharacterUtility.GetPlayer();
 		for (int i = 0, max = itemList.Count; i < max; i++) {
-			if (itemList[i] < 0) break;
+			var itemID = itemList[i];
+			if (itemID < 0) break;
 			// 項目有無の判定
 			if (!existItem) existItem = true;
 			// 項目の生成
 			var addItem = AddListItem() as MenuItemListItem;
-			addItem.Setup(itemList[i]);
+			addItem.Setup(itemID, player.IsEquip(itemID));
 		}
 		if (existItem) await SetIndex(0);
 
@@ -64,11 +73,19 @@ public class MenuItemList : MenuList {
 		var itemListItem = decideItem as MenuItemListItem;
 		commandList.Setup(itemListItem.itemID, _commandFormat);
 
+		_isCommandCancel = false;
 		await UniTask.DelayFrame(1);
 		await commandList.Open();
 		await commandList.AcceptInput();
 		await commandList.Close();
-		return true;
+		await UniTask.DelayFrame(1);
+		// コマンドリストでキャンセルされていればアイテムリスト選択は継続
+		return _isCommandCancel ? false : true;
 	}
 
+	private async UniTask<bool> OnCommandCancel(MenuListItem currentItem) {
+		_isCommandCancel = true;
+
+		return await _OnCommandCancel(currentItem);
+	}
 }

@@ -65,17 +65,35 @@ MonoBehaviour:
       - 
     - ID: 8
       Message:
-      - 
+      - "{0} \u3092\u88C5\u5099\u3057\u305F"
       - 
       - 
       - 
     - ID: 9
       Message:
-      - 
+      - "{0} \u3092\u5916\u3057\u305F"
       - 
       - 
       - 
     - ID: 10
+      Message:
+      - 
+      - 
+      - 
+      - 
+    - ID: 11
+      Message:
+      - 
+      - 
+      - 
+      - 
+    - ID: 12
+      Message:
+      - 
+      - 
+      - 
+      - 
+    - ID: 13
       Message:
       - 
       - 
@@ -126,6 +144,18 @@ MonoBehaviour:
     - ID: 2200
       Message:
       - "\u6756C"
+      - 
+      - 
+      - 
+    - ID: 2600
+      Message:
+      - "\u30C6\u30B9\u30C8\u6B66\u5668"
+      - 
+      - 
+      - 
+    - ID: 2700
+      Message:
+      - "\u3066\u3059\u3068\u9632\u5177"
       - 
       - 
       - 
@@ -227,13 +257,13 @@ MonoBehaviour:
       - 
     - ID: 20002
       Message:
-      - 
+      - "\u88C5\u5099"
       - 
       - 
       - 
     - ID: 20003
       Message:
-      - 
+      - "\u5916\u3059"
       - 
       - 
       - 

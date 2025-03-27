@@ -71,9 +71,14 @@ public enum eCharacterAnimation {
 }
 
 public enum eItemCategory {
-	Potion, // 薬
-	Food,   // 食べ物
-	Wand,   // 杖
+	Potion,     // 薬
+	Food,       // 食べ物
+	Wand,       // 杖
+	Scroll,     // 巻物
+	Bag,        // バッグ
+	Throwing,   // 投げ物
+	Weapon,     // 武器
+	Armor,      // 防具
 	Max
 }
 
@@ -81,4 +86,6 @@ public enum eItemCommand {
 	Invalid = -1,
 	Use,            // 使う
 	Puton,          // 置く
+	SetEquip,       // 装備
+	RemoveEquip,    // 外す
 }

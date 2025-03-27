@@ -16,6 +16,12 @@ public class MenuItemListItem : MenuListItem {
 	[SerializeField]
 	private Image _itemIconImage = null;
 	/// <summary>
+	/// 装備アイコン
+	/// </summary>
+	[SerializeField]
+	private GameObject _equipIcon = null;
+
+	/// <summary>
 	/// アイテム名テキスト
 	/// </summary>
 	[SerializeField]
@@ -23,7 +29,7 @@ public class MenuItemListItem : MenuListItem {
 
 	public int itemID { get; private set; } = -1;
 
-	public void Setup(int setItemID) {
+	public void Setup(int setItemID, bool isEquip) {
 		itemID = setItemID;
 		var itemData = ItemUtility.GetItemData(itemID);
 		// アイコン画像の設定
@@ -31,6 +37,7 @@ public class MenuItemListItem : MenuListItem {
 		_itemIconImage.sprite = itemSpriteList[(int)itemData.GetCategory()];
 		// アイテム名の設定
 		_itemNameText.text = itemData.GetItemName();
+		_equipIcon.SetActive(isEquip);
 	}
 
 }

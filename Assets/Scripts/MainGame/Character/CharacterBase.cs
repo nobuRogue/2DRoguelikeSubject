@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-using static CommonModule;
-
 public abstract class CharacterBase {
 	protected static System.Func<int, CharacterObject> _GetObject = null;
 
@@ -221,16 +219,8 @@ public abstract class CharacterBase {
 	/// ID指定の所持アイテム除去
 	/// </summary>
 	/// <param name="removeItemID"></param>
-	public void RemoveIDItem(int removeItemID) {
+	public virtual void RemoveIDItem(int removeItemID) {
 		possessItemList.Remove(removeItemID);
-	}
-
-	/// <summary>
-	/// インデクス指定の所持アイテム除去
-	/// </summary>
-	/// <param name="removeIndex"></param>
-	public void RemoveIndexItem(int removeIndex) {
-		possessItemList.RemoveAt(removeIndex);
 	}
 
 }

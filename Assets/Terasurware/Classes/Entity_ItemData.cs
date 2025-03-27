@@ -25,6 +25,7 @@ public class Entity_ItemData : ScriptableObject
 		public int maxCount;
 		public int burnID;
 		public int rotID;
+		public int equipValue;
 	}
 }
 

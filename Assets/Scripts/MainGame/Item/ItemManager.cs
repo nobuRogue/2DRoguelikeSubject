@@ -69,6 +69,16 @@ public class ItemManager : MonoBehaviour {
 			return new ItemFood();
 			case eItemCategory.Wand:
 			return new ItemWand();
+			case eItemCategory.Scroll:
+			return new ItemScroll();
+			case eItemCategory.Bag:
+			return new ItemBag();
+			case eItemCategory.Throwing:
+			return new ItemThrowing();
+			case eItemCategory.Weapon:
+			return new ItemWeapon();
+			case eItemCategory.Armor:
+			return new ItemArmor();
 		}
 		return null;
 	}

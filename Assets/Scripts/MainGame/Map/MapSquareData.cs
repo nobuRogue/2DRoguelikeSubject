@@ -54,6 +54,10 @@ public class MapSquareData {
 		return _GetObject(ID)?.GetCharacterRoot();
 	}
 
+	public Transform GetObjectRoot() {
+		return _GetObject(ID).GetObjectRoot();
+	}
+
 	public void SetCharacter(int setCharacterID) {
 		characterID = setCharacterID;
 	}

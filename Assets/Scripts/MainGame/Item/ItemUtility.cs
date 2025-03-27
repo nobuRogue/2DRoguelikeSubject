@@ -47,7 +47,10 @@ public class ItemUtility {
 	/// <param name="ID"></param>
 	/// <returns></returns>
 	public static Entity_ItemData.Param GetItemMasterFromID(int ID) {
-		ItemBase itemData = GetItemData(ID);
+		return GetItemMaster(GetItemData(ID));
+	}
+
+	public static Entity_ItemData.Param GetItemMaster(ItemBase itemData) {
 		if (itemData == null) return null;
 
 		return ItemMasterUtility.GetItemMaster(itemData.masterID);

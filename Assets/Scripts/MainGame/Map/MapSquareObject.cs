@@ -20,6 +20,9 @@ public class MapSquareObject : MonoBehaviour {
 	private Transform _characterRoot = null;
 
 	[SerializeField]
+	private Transform _objectRoot = null;
+
+	[SerializeField]
 	private SpriteRenderer _mark = null;
 
 	public void Setup(int setX, int setY) {
@@ -38,6 +41,10 @@ public class MapSquareObject : MonoBehaviour {
 
 	public Transform GetCharacterRoot() {
 		return _characterRoot;
+	}
+
+	public Transform GetObjectRoot() {
+		return _objectRoot;
 	}
 
 	public void ShowMark(Color color) {

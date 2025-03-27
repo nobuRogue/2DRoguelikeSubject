@@ -127,7 +127,7 @@ public class FloorProcessor {
 			// 候補マスの内ランダムな一つにアイテム生成
 			int randomIndex = Random.Range(0, candidateSquareList.Count);
 			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(100, itemSquare);
+			ItemUtility.CreateFloorItem(600, itemSquare);
 			candidateSquareList.Remove(itemSquare);
 		}
 		for (int i = 0; i < createCount; i++) {
@@ -135,7 +135,7 @@ public class FloorProcessor {
 			// 候補マスの内ランダムな一つにアイテム生成
 			int randomIndex = Random.Range(0, candidateSquareList.Count);
 			MapSquareData itemSquare = candidateSquareList[randomIndex];
-			ItemUtility.CreateFloorItem(200, itemSquare);
+			ItemUtility.CreateFloorItem(700, itemSquare);
 			candidateSquareList.Remove(itemSquare);
 		}
 	}

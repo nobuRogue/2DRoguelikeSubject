@@ -24,6 +24,9 @@ public class PlayerCharacter : CharacterBase {
 	private const int _TURN_DECREASE_STAMINA = 10;
 	// 現在の満腹度
 	private int _stamina = 0;
+	// 装備の情報
+	public int equipWeapon { get; private set; } = -1;
+	public int equipArmor { get; private set; } = -1;
 
 	public override void Setup(int setID, MapSquareData squareData, int masterID) {
 		_moveTrailSquareList = new List<int>(PLAYER_MOVE_TRAIL_COUNT);
@@ -171,5 +174,59 @@ public class PlayerCharacter : CharacterBase {
 
 	}
 
+	/// <summary>
+	/// ID指定の所持アイテム除去
+	/// </summary>
+	/// <param name="removeItemID"></param>
+	public override void RemoveIDItem(int removeItemID) {
+		// 装備なら外れる
+		if (equipWeapon == removeItemID) {
+			RemoveWeapon();
+		} else if (equipArmor == removeItemID) {
+			RemoveArmor();
+		}
+		base.RemoveIDItem(removeItemID);
+	}
 
+	/// <summary>
+	/// 武器を装備させる
+	/// </summary>
+	/// <param name="itemID"></param>
+	public void SetWeapon(int itemID) {
+		// 武器を着けているなら外す
+		if (equipWeapon >= 0) RemoveWeapon();
+
+		equipWeapon = itemID;
+	}
+
+	/// <summary>
+	/// 武器を外させる
+	/// </summary>
+	public void RemoveWeapon() {
+		equipWeapon = -1;
+	}
+
+	/// <summary>
+	/// 防具を装備させる
+	/// </summary>
+	/// <param name="itemID"></param>
+	public void SetArmor(int itemID) {
+		// 防具を着けているなら外す
+		if (equipArmor >= 0) RemoveArmor();
+
+		equipArmor = itemID;
+	}
+
+	/// <summary>
+	/// 防具を外させる
+	/// </summary>
+	public void RemoveArmor() {
+		equipArmor = -1;
+	}
+
+	public bool IsEquip(int itemID) {
+		if (itemID < 0) return false;
+
+		return equipWeapon == itemID || equipArmor == itemID;
+	}
 }

@@ -23,6 +23,7 @@ MonoBehaviour:
       maxCount: -1
       burnID: -1
       rotID: -1
+      equipValue: 0
     - ID: 100
       nameID: 2100
       category: 1
@@ -31,6 +32,7 @@ MonoBehaviour:
       maxCount: -1
       burnID: 101
       rotID: 102
+      equipValue: 0
     - ID: 101
       nameID: 2101
       category: 1
@@ -39,6 +41,7 @@ MonoBehaviour:
       maxCount: -1
       burnID: 103
       rotID: 102
+      equipValue: 0
     - ID: 102
       nameID: 2102
       category: 1
@@ -47,6 +50,7 @@ MonoBehaviour:
       maxCount: -1
       burnID: 101
       rotID: -1
+      equipValue: 0
     - ID: 103
       nameID: 2103
       category: 1
@@ -55,6 +59,7 @@ MonoBehaviour:
       maxCount: -1
       burnID: -1
       rotID: 102
+      equipValue: 0
     - ID: 200
       nameID: 2200
       category: 2
@@ -63,3 +68,22 @@ MonoBehaviour:
       maxCount: 7
       burnID: -1
       rotID: -1
+      equipValue: 0
+    - ID: 600
+      nameID: 2600
+      category: 6
+      actionID: -1
+      minCount: -1
+      maxCount: -1
+      burnID: -1
+      rotID: -1
+      equipValue: 3
+    - ID: 700
+      nameID: 2700
+      category: 7
+      actionID: -1
+      minCount: -1
+      maxCount: -1
+      burnID: -1
+      rotID: -1
+      equipValue: 2
